@@ -31,5 +31,11 @@ templates_path = ['_templates']
 
 html_theme = 'classic'
 
+html_logo = '_images/Skiylia_Logo_text.svg'
+
+html_favicon = '_images/Skiylia_Logo.ico'
+
+html_static_path = ['_images','_static']
+
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
