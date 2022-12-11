@@ -29,7 +29,7 @@ templates_path = ['_templates']
 
 # -- Options for HTML output
 
-html_theme = 'classic'
+html_theme = 'sphinx_rtd_theme'
 
 html_logo = '_images/Skiylia_Logo_text.svg'
 
