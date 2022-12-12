@@ -29,7 +29,36 @@ templates_path = ['_templates']
 
 # -- Options for HTML output
 
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'classic'
+
+skiylia_light_grey="#eeebee"
+skiylia_grey="#cfd3d7"
+skiylia_light_blue="#a2ddef"
+skiylia_dark_blue="#a2ceef"
+
+skiylia_text="#5C5962"
+skiylia_bg="#ffffff"
+skiylia_link = skiylia_light_blue
+
+html_theme_options = {
+    "bgcolor": skiylia_bg,
+    "textcolor": skiylia_text,
+    "linkcolor": skiylia_light_blue,
+    "visitedlinkcolor": skiylia_dark_blue,
+
+    "sidebarbgcolor": skiylia_light_grey,
+    "sidebarbtncolor": skiylia_dark_blue,
+    "sidebartextcolor": skiylia_text,
+    "sidebarlinkcolor": skiylia_light_blue,
+
+    "relbarbgcolor": skiylia_dark_blue,
+    "relbartextcolor": skiylia_text,
+    "relbarlinkcolor": skiylia_link,
+    "headtextcolor": skiylia_text,
+    "headlinkcolor": skiylia_light_blue,
+    "codebgcolor": skiylia_light_grey,
+    "codetextcolor": skiylia_text,
+}
 
 html_logo = '_images/Skiylia_Logo_text.svg'
 
