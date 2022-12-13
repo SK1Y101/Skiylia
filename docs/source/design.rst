@@ -27,14 +27,14 @@ Comments
 Skiylia defines both inline and multiline comments, both of which can follow other language structures
 Inline comments are preceded by a `//` double slash and two spaces, and terminate at the end of the line.
 
-.. code-block:: skiylia
+.. code-block::
     //  This is an inline comment
 
 Multiline comments are preceded- and followed- by a `///` tripple slash and seperated from the content of a comment by a space.
 Each newline should begin with an indent, such that all multiline comments begin in the same column. They can also contain single
 line comments, though this can break up readability, and is not reccomended.
 
-.. code-block:: skiylia
+.. code-block::
     /// This is a multi-
         line comment ///
 
@@ -57,10 +57,10 @@ Skiyia implements the following datatypes
     * Cplx  - `3+9j`    - Will not appear in v1.0
     * Sci   - `5E+10`   - Will not appear in v1.0
     * Radix
-        *Bin- `0b1010`  - Will not appear in v1.0
-        *Ter- `0t1T10`  - Will not appear in v1.0
-        *Oct- `0o1743`  - Will not appear in v1.0
-        *hHx- `0x7FE3`  - Will not appear in v1.0
+        * Bin- `0b1010`  - Will not appear in v1.0
+        * Ter- `0t1T10`  - Will not appear in v1.0
+        * Oct- `0o1743`  - Will not appear in v1.0
+        * hHx- `0x7FE3`  - Will not appear in v1.0
 
 Expressions
 ===========
