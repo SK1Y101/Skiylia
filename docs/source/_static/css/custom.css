@@ -5,3 +5,9 @@ sphinxsidebar {
 input {
     border-radius: 10px !important;
 }
+
+code {
+    padding: 0.2em !important;
+    border: 1px solid #959396 !important;
+    border-radius: 4px !important;
+}

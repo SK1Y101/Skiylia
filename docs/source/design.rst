@@ -108,3 +108,6 @@ Comparative
    Fuzzy Inequality      ``a !~ b``              as above, inverted                                                                           Not in v0.1
    Three way compare     ``a <=> b``             a>b: 1, a==b, 0, a<b, -1                                                                     Not in v0.1
    ====================  ======================  =========================================================================================    ============
+
+
+Many of these operations will be included in later versions of Skiylia.
