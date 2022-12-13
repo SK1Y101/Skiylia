@@ -14,7 +14,7 @@ class SkiyliaLexer(RegexLexer):
    
     name = 'Skiylia'
     aliases = ['skiylia']
-    filenames = ['*.ks']
+    filenames = ['*.skiy']
 
     # We lean very heavily on https://github.com/KSP-KOS/KOS/blob/master/doc/KerboscriptLexer.py for help here
  

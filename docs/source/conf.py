@@ -24,7 +24,7 @@ extensions = [
 ]
 
 pygments_style = 'sphinx'
-highlight_language = 'kerboscript'
+highlight_language = 'skiylia'
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
