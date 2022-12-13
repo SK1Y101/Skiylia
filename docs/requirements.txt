@@ -1,0 +1,3 @@
+sphinx-panels
+sphinx-tabs
+sphinx-copybutton
