@@ -16,13 +16,13 @@ Comments
 
 Skiylia defines both inline and multiline comments, both of which can follow other language structures
 Inline comments are preceded by a `//` double slash and two spaces, and terminate at the end of the line.
-.. code-block::
+.. code-block:: skiylia
     //  This is an inline comment
 
 Multiline comments are preceded- and followed- by a `///` tripple slash and seperated from the content of a comment by a space.
 Each newline should begin with an indent, such that all multiline comments begin in the same column. They can also contain single
 line comments, though this can break up readability, and is not reccomended.
-.. code-block::
+.. code-block:: skiylia
     /// This is a multi-
         line comment ///
 
