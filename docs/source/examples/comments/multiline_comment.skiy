@@ -1,0 +1,7 @@
+/// This is an example of a
+    multiline comment ///
+
+
+/// This is also
+    a completely // valid
+    multiline comment ///
