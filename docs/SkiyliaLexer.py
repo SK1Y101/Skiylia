@@ -18,7 +18,7 @@ class SkiyliaLexer(RegexLexer):
 
     # Drawing heavy inspiration from https://github.com/KSP-KOS/KOS/blob/master/doc/KerboscriptLexer.py btw
  
-    # flags = re.MULTILINE | re.DOTALL | re.IGNORECASE
+    flags = re.MULTILINE | re.DOTALL | re.IGNORECASE
 
     __all__ = ['SkiyliaLexer']
 
