@@ -1,7 +1,7 @@
 # Configuration file for the Sphinx documentation builder.
 
 import os, sys
-
+sys.path.insert(0, os.path.abspath('..'))
 # -- Project information
 
 project = 'Skiylia'
@@ -11,8 +11,6 @@ author = 'Jack Lloyd-Walters'
 release = '0.0'
 version = '0.0.0'
 
-
-sys.path.insert(0, os.path.abspath('..'))
 
 # -- General configuration
 
