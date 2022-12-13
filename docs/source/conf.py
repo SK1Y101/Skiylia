@@ -71,5 +71,9 @@ html_favicon = '_images/Skiylia_Logo.ico'
 
 html_static_path = ['_images','_static']
 
+html_css_files = [
+    'css/custom.css',
+]
+
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
