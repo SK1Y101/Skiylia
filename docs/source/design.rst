@@ -27,56 +27,25 @@ Comments
 Skiylia defines both inline and multiline comments, both of which can follow other language structures
 Inline comments are preceded by a ``//`` double slash and two spaces, and terminate at the end of the line.
 
-.. tabs::
 
-    .. code-tab:: skiylia
+.. code-block:: skiylia
+   :caption: Inline comment
 
-        //  This is an inline comment
-
-   .. code-tab:: python
-
-        #  This is an inline comment
-
-
-.. .. code-block:: skiylia
-..    :caption: Inline comment
-
-..     //  This is an inline comment
+    //  This is an inline comment
 
 
 Multiline comments are preceded- and followed- by a ``///`` tripple slash and seperated from the content of a comment by a space.
 Each newline should begin with an indent, such that all multiline comments begin in the same column. They can also contain single
 line comments, though this can break up readability, and is not reccomended.
 
-.. tabs::
+.. code-block:: none
+    :caption: Multi-line comment
 
-    .. code-tab:: skiylia
+    /// This is a multi-
+        line comment ///
 
-        /// This is a multi-
-            line comment ///
-
-        /// This is also
-            a completely // valid
-            multiline comment ///
-
-   .. code-tab:: python
-
-        ''' This is a multi-
-            line comment '''
-
-        ''' This is also
-            a completely # valid
-            multiline comment '''
-
-
-.. .. code-block:: none
-..     :caption: Multi-line comment
-
-..     /// This is a multi-
-..         line comment ///
-
-..     /// This is also
-..         a completely // valid
+    /// This is also
+        a completely // valid
         multiline comment ///
 
 
@@ -135,7 +104,7 @@ Comparative
    Equality              ``a == b``              a and b must have the same value, ie: 3.0 == 3 (True)
    Strict Equality       ``a === b``             a and b must have the same value and datatype, ie: 3.0 === 3 (False), int(3.0) === 3 (True)      Not in v0.1
    Fuzzy Equality        ``a ~~ b``              a and b must have the same datatype, ie: 4 ~~ 5 (True), "4" ~~ 4 (False)                         Not in v0.1
-   Inequality            ``a != b``, ``a <> b``  as above, inverted
+   Inequality            ``a != b``              as above, inverted
    Strict Inequality     ``a !== b``             as above, inverted                                                                               Not in v0.1
    Fuzzy Inequality      ``a !~ b``              as above, inverted                                                                               Not in v0.1
    Three way compare     ``a <=> b``             a>b: 1, a==b, 0, a<b, -1                                                                         Not in v0.1
