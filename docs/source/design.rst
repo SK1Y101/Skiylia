@@ -27,14 +27,14 @@ Comments
 Skiylia defines both inline and multiline comments, both of which can follow other language structures
 Inline comments are preceded by a `//` double slash and two spaces, and terminate at the end of the line.
 
-.. code-block::
+.. code-block:: none
     //  This is an inline comment
 
 Multiline comments are preceded- and followed- by a `///` tripple slash and seperated from the content of a comment by a space.
 Each newline should begin with an indent, such that all multiline comments begin in the same column. They can also contain single
 line comments, though this can break up readability, and is not reccomended.
 
-.. code-block::
+.. code-block:: none
     /// This is a multi-
         line comment ///
 
@@ -78,8 +78,22 @@ Arithmatic
     * Negation      - `--a`     - Will not appear in v1.0
     * Addition      - `++a`     - Will not appear in v1.0
 * Postfix
-    * Negation      - `a--`     - Will not appear in v1.0
-    * Addition      - `a++`     - Will not appear in v1.0
+    * Negation      - `a--`     - Will not appear in v0.1
+    * Addition      - `a++`     - Will not appear in v0.1
 
 Comparative
 ~~~~~~~~~~~
+
+| Function              | Example Syntax        | Explanation | Status |
+| --------------------- | --------------------- | ----------- | ------ |
+| Less than             | `a < b`               |             |             |
+| Less or equal         | `a <= b`              |             | Not in v0.1 |
+| Greater than          | `a > b`               |             |             |
+| Greater or equal      | `a >= b`              |             | Not in v0.1 |
+| Equality              | `a == b`              | a and b must have the same value, ie: 3.0 == 3 (True) | |
+| Strict Equality       | `a === b`             | a and b must have the same value and datatype, ie: 3.0 === 3 (False), int(3.0) === 3 (True) | Not in v0.1 |
+| Fuzzy Equality        | `a ~~ b`              | a and b must have the same datatype, ie: 4 ~~ 5 (True), "4" ~~ 4 (False) | Not in v0.1 |
+| Inequality            | `a != b`, `a <> b`    | as above, inverted | |
+| Strict Inequality     | `a !== b`             | as above, inverted | Not in v0.1 |
+| Fuzzy Inequality      | `a !~ b`              | as above, inverted | Not in v0.1 |
+| Three way compare     | `a <=> b`             | a>b: 1, a==b, 0, a<b, -1 | Not in v0.1 |
