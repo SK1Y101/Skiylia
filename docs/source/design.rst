@@ -27,24 +27,56 @@ Comments
 Skiylia defines both inline and multiline comments, both of which can follow other language structures
 Inline comments are preceded by a ``//`` double slash and two spaces, and terminate at the end of the line.
 
-.. code-block:: none
-   :caption: Inline comment
+.. tabs::
 
-    //  This is an inline comment
+    .. code-tab:: skiylia
+
+        //  This is an inline comment
+
+   .. code-tab:: python
+
+        #  This is an inline comment
+
+
+.. .. code-block:: skiylia
+..    :caption: Inline comment
+
+..     //  This is an inline comment
 
 
 Multiline comments are preceded- and followed- by a ``///`` tripple slash and seperated from the content of a comment by a space.
 Each newline should begin with an indent, such that all multiline comments begin in the same column. They can also contain single
 line comments, though this can break up readability, and is not reccomended.
 
-.. code-block:: none
-    :caption: Multi-line comment
+.. tabs::
 
-    /// This is a multi-
-        line comment ///
+    .. code-tab:: skiylia
 
-    /// This is also
-        a completely // valid
+        /// This is a multi-
+            line comment ///
+
+        /// This is also
+            a completely // valid
+            multiline comment ///
+
+   .. code-tab:: python
+
+        ''' This is a multi-
+            line comment '''
+
+        ''' This is also
+            a completely # valid
+            multiline comment '''
+
+
+.. .. code-block:: none
+..     :caption: Multi-line comment
+
+..     /// This is a multi-
+..         line comment ///
+
+..     /// This is also
+..         a completely // valid
         multiline comment ///
 
 
