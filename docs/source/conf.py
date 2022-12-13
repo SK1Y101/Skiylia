@@ -1,5 +1,7 @@
 # Configuration file for the Sphinx documentation builder.
 
+import os, sys
+
 # -- Project information
 
 project = 'Skiylia'
@@ -8,6 +10,9 @@ author = 'Jack Lloyd-Walters'
 
 release = '0.0'
 version = '0.0.0'
+
+
+sys.path.insert(0, os.path.abspath('..'))
 
 # -- General configuration
 
@@ -20,7 +25,11 @@ extensions = [
     "sphinx_copybutton",
     "sphinx_panels",
     'sphinx_tabs.tabs',
+    'SkiyliaLexer',
 ]
+
+pygments_style = 'sphinx'
+highlight_language = 'skiylia'
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
@@ -32,7 +41,9 @@ templates_path = ['_templates']
 
 # -- Options for HTML output
 
-html_theme = 'classic'
+classic = "classic"
+rtd = "sphinx_rtd_theme"
+html_theme = rtd
 
 skiylia_light_grey="#eeebee"
 skiylia_grey="#cfd3d7"
