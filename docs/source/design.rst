@@ -94,21 +94,33 @@ Comparative
 .. table:: Comparison syntax
    :widths: auto
 
-   ====================  ======================  =============================================================================================    ============
-   Function              Example Syntax          Explanation                                                                                      Status
-   ====================  ======================  =============================================================================================    ============
-   Less than             ``a < b``
-   Less or equal         ``a <= b``                                                                                                               Not in v0.1
-   Greater than          ``a > b``
-   Greater or equal      ``a >= b``                                                                                                               Not in v0.1
-   Equality              ``a == b``              a and b must have the same value, ie: 3.0 == 3 (True)
-   Strict Equality       ``a === b``             a and b must have the same value and datatype, ie: 3.0 === 3 (False), int(3.0) === 3 (True)      Not in v0.1
-   Fuzzy Equality        ``a ~~ b``              a and b must have the same datatype, ie: 4 ~~ 5 (True), "4" ~~ 4 (False)                         Not in v0.1
-   Inequality            ``a != b``              as above, inverted
-   Strict Inequality     ``a !== b``             as above, inverted                                                                               Not in v0.1
-   Fuzzy Inequality      ``a !~ b``              as above, inverted                                                                               Not in v0.1
-   Three way compare     ``a <=> b``             a>b: 1, a==b, 0, a<b, -1                                                                         Not in v0.1
-   ====================  ======================  =============================================================================================    ============
+   ===============  ================  =============================================================================================    ============
+   Function         Example Syntax    Explanation                                                                                      Status
+   ===============  ================  =============================================================================================    ============
+   Less             ``a < b``
+   Less/equal       ``a <= b``                                                                                                         Not in v0.1
+   Greater          ``a > b``
+   Greater/equal    ``a >= b``                                                                                                         Not in v0.1
+   Equal            ``a == b``        a and b must have the same value, ie: 3.0 == 3 (True)
+   Strict Equal     ``a === b``       a and b must have the same value and datatype, ie: 3.0 === 3 (False), int(3.0) === 3 (True)      Not in v0.1
+   Fuzzy Equal      ``a ~~ b``        a and b must have the same datatype, ie: 4 ~~ 5 (True), "4" ~~ 4 (False)                         Not in v0.1
+   Inequal          ``a != b``        as above, inverted
+   Strict Inequal   ``a !== b``       as above, inverted                                                                               Not in v0.1
+   Fuzzy Inequal    ``a !~ b``        as above, inverted                                                                               Not in v0.1
+   Three way comp   ``a <=> b``       a>b: 1, a==b, 0, a<b, -1                                                                         Not in v0.1
+   ===============  ================  =============================================================================================    ============
 
 
 Many of these operations will be included in later versions of Skiylia.
+
+Test
+~~~~
+
+.. code-block:: skiylia
+
+    // This is a Test
+
+    a = 5
+    b = 7
+
+    print(a++, a>=b, a!~b)
