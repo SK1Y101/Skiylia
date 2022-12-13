@@ -4,7 +4,7 @@ import os, sys
 sys.path.insert(0, os.path.abspath('..'))
 # -- Project information
 
-project = 'Skiylia'
+project = 'Skiylia Lang'
 copyright = '2022, Jack Lloyd-Walters'
 author = 'Jack Lloyd-Walters'
 
@@ -20,11 +20,11 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
-    'SkiyliaLexer',
+    'KerboscriptLexer',
 ]
 
 pygments_style = 'sphinx'
-highlight_language = 'skiylia'
+highlight_language = 'kerboscript'
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
