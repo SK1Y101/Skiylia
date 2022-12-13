@@ -28,25 +28,15 @@ Skiylia defines both inline and multiline comments, both of which can follow oth
 Inline comments are preceded by a ``//`` double slash and two spaces, and terminate at the end of the line.
 
 
-.. code-block:: skiylia
-   :caption: Inline comment
-
-    //  This is an inline comment
+.. literalinclude:: examples/comments/single_comment.skiy
 
 
 Multiline comments are preceded- and followed- by a ``///`` tripple slash and seperated from the content of a comment by a space.
 Each newline should begin with an indent, such that all multiline comments begin in the same column. They can also contain single
 line comments, though this can break up readability, and is not reccomended.
 
-.. code-block:: none
-    :caption: Multi-line comment
 
-    /// This is a multi-
-        line comment ///
-
-    /// This is also
-        a completely // valid
-        multiline comment ///
+.. literalinclude:: examples/comments/multiline_comment.skiy
 
 
 Data Types
@@ -112,15 +102,3 @@ Comparative
 
 
 Many of these operations will be included in later versions of Skiylia.
-
-Test
-~~~~
-
-.. code-block:: skiylia
-
-    // This is a Test
-
-    a = 5
-    b = 7
-
-    print(a++, a>=b, a!~b)
