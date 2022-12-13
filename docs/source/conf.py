@@ -60,7 +60,7 @@ html_theme_options = {
     "relbartextcolor": skiylia_text,
     "relbarlinkcolor": skiylia_text,
 
-    # "codebgcolor": skiylia_light_grey,
+    "codebgcolor": skiylia_light_grey,
     "codetextcolor": skiylia_text,
 }
 
