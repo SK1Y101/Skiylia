@@ -17,6 +17,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
+    'sphinx_copybutton'
 ]
 
 intersphinx_mapping = {
@@ -38,7 +39,6 @@ skiylia_dark_blue="#a2ceef"
 
 skiylia_text="#5C5962"
 skiylia_bg="#ffffff"
-skiylia_link = skiylia_light_blue
 
 html_theme_options = {
     "bgcolor": skiylia_bg,
@@ -46,16 +46,21 @@ html_theme_options = {
     "linkcolor": skiylia_light_blue,
     "visitedlinkcolor": skiylia_dark_blue,
 
-    "sidebarbgcolor": skiylia_light_grey,
+    "headtextcolor": skiylia_text,
+    "headlinkcolor": skiylia_light_blue,
+
+    "footerbgcolor": skiylia_dark_blue,
+    "footertextcolor": skiylia_text,
+
+    "sidebarbgcolor": "#f2f2f2",
     "sidebarbtncolor": skiylia_dark_blue,
     "sidebartextcolor": skiylia_text,
     "sidebarlinkcolor": skiylia_light_blue,
 
-    "relbarbgcolor": skiylia_dark_blue,
+    "relbarbgcolor": skiylia_light_blue,
     "relbartextcolor": skiylia_text,
-    "relbarlinkcolor": skiylia_link,
-    "headtextcolor": skiylia_text,
-    "headlinkcolor": skiylia_light_blue,
+    "relbarlinkcolor": skiylia_text,
+
     "codebgcolor": skiylia_light_grey,
     "codetextcolor": skiylia_text,
 }
