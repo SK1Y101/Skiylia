@@ -70,7 +70,7 @@ html_theme_options = {
     "relbarlinkcolor": skiylia_text,
 
     "codebgcolor": skiylia_light_grey,
-    "codetextcolor": skiylia_text,
+    # "codetextcolor": skiylia_text,
 }
 
 html_logo = '_images/Skiylia_Logo_text.svg'
