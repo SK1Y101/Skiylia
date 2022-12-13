@@ -4,11 +4,8 @@
 
 import re
 
-from pygments.lexer import RegexLexer, include, bygroups, using, \
-    this, inherit, default, words
-from pygments.util import get_bool_opt
-from pygments.token import Text, Comment, Operator, Keyword, Name, String, \
-    Number, Punctuation, Error
+from pygments.lexer import RegexLexer, words
+from pygments.token import Text, Comment, Operator, Keyword, Name, String, Number, Punctuation
 
 class SkiyliaLexer(RegexLexer):
    
@@ -26,6 +23,19 @@ class SkiyliaLexer(RegexLexer):
         'root': [
             (r"//  [^\r\n]*[\r\n]", Comment.Single),
             (r"/// [^\r\n]*(\n\t.+)+ ///", Comment.Multiline),
+
+            (r'"[^"]*"', String),
+            (r"'[^']*'", String),
+
+            (r'[+\-*/><=~]', Operator),
+            (r'[(),]', Punctuation),
+
+            (words(("print"), suffix=r'\b'), Keyword),
+
+            (r'\b[a-z_][a-z_\d]*\b', Name.Variable),
+
+            (r'[\t\s\r\n]+', Text),
+            (r'\b(\d+)+\b', Number),
         ]
     }
 
