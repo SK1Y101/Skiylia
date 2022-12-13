@@ -29,26 +29,24 @@ Inline comments are preceded by a ``//`` double slash and two spaces, and termin
 
 .. code-block:: none
    :caption: Inline comment
+
     //  This is an inline comment
 
-.. code-block:: sh
-   :caption: CaptionHere
-
-   Line 1
-   Line 2
-   ...
 
 Multiline comments are preceded- and followed- by a ``///`` tripple slash and seperated from the content of a comment by a space.
 Each newline should begin with an indent, such that all multiline comments begin in the same column. They can also contain single
 line comments, though this can break up readability, and is not reccomended.
 
 .. code-block:: none
+    :caption: Multi-line comment
+
     /// This is a multi-
         line comment ///
 
     /// This is also
         a completely // valid
         multiline comment ///
+
 
 Data Types
 ~~~~~~~~~~
