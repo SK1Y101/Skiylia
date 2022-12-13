@@ -22,10 +22,6 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
-    'myst_parser',
-    "sphinx_copybutton",
-    "sphinx_panels",
-    'sphinx_tabs.tabs',
     'SkiyliaLexer',
 ]
 
