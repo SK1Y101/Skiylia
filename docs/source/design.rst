@@ -125,21 +125,21 @@ Comparative
 .. table:: Comparison syntax
    :widths: auto
 
-   ====================  ======================  =========================================================================================    ============
-   Function              Example Syntax          Explanation                                                                                  Status
-   ====================  ======================  =========================================================================================    ============
+   ====================  ======================  =============================================================================================    ============
+   Function              Example Syntax          Explanation                                                                                      Status
+   ====================  ======================  =============================================================================================    ============
    Less than             ``a < b``
-   Less or equal         ``a <= b``                                                                                                           Not in v0.1
+   Less or equal         ``a <= b``                                                                                                               Not in v0.1
    Greater than          ``a > b``
-   Greater or equal      ``a >= b``                                                                                                           Not in v0.1
+   Greater or equal      ``a >= b``                                                                                                               Not in v0.1
    Equality              ``a == b``              a and b must have the same value, ie: 3.0 == 3 (True)
-   Strict Equality       ``a === b``             a and b must have the same value and datatype, ie: 3.0 === 3 (False), int(3.0) === 3 (True)  Not in v0.1
-   Fuzzy Equality        ``a ~~ b``              a and b must have the same datatype, ie: 4 ~~ 5 (True), "4" ~~ 4 (False)                     Not in v0.1
+   Strict Equality       ``a === b``             a and b must have the same value and datatype, ie: 3.0 === 3 (False), int(3.0) === 3 (True)      Not in v0.1
+   Fuzzy Equality        ``a ~~ b``              a and b must have the same datatype, ie: 4 ~~ 5 (True), "4" ~~ 4 (False)                         Not in v0.1
    Inequality            ``a != b``, ``a <> b``  as above, inverted
-   Strict Inequality     ``a !== b``             as above, inverted                                                                           Not in v0.1
-   Fuzzy Inequality      ``a !~ b``              as above, inverted                                                                           Not in v0.1
-   Three way compare     ``a <=> b``             a>b: 1, a==b, 0, a<b, -1                                                                     Not in v0.1
-   ====================  ======================  =========================================================================================    ============
+   Strict Inequality     ``a !== b``             as above, inverted                                                                               Not in v0.1
+   Fuzzy Inequality      ``a !~ b``              as above, inverted                                                                               Not in v0.1
+   Three way compare     ``a <=> b``             a>b: 1, a==b, 0, a<b, -1                                                                         Not in v0.1
+   ====================  ======================  =============================================================================================    ============
 
 
 Many of these operations will be included in later versions of Skiylia.

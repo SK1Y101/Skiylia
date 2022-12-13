@@ -44,7 +44,7 @@ templates_path = ['_templates']
 
 classic = "classic"
 rtd = "sphinx_rtd_theme"
-html_theme = rtd
+html_theme = classic
 
 skiylia_light_grey="#eeebee"
 skiylia_grey="#cfd3d7"
