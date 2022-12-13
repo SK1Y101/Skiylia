@@ -1,0 +1,7 @@
+sphinx>=1.8.3     
+docutils>=0.16.0
+
+# Tab UI elements
+sphinx-panels
+sphinx-tabs
+sphinx-copybutton
