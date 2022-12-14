@@ -9,15 +9,15 @@ Boolean
     false
 
 Numbers
-    1           Integer
-    1.2         Float
-    3/2         Fractional
-    3+2j        Complex
-    3.2E+10     Standard
-    0b101011    Binary
-    0t1T0T11    Ternary (Balanced)
-    0o613130    Octal
-    0x73BE8A    Hexadecimal
+    1                                               Integer
+    1.2                                             Float
+    3/2                                             Fractional
+    3+2j                                            Complex
+    3.2E+10                                         Standard
+    0b101011                                        Binary
+    0t1T0T11                                        Ternary (Balanced)
+    0o613130                                        Octal
+    0x73BE8A                                        Hexadecimal
 
 Strings
     "hi there"
@@ -29,44 +29,95 @@ Expressions
 
 Arithmetic
 Infix
-    a + b       Addition
-    a - b       Subtraction
-    a * b       Multiplication
-    a / b       Division
-    a ** b      Exponentiation
-    a % b       Modulo
+    a + b                                           Addition
+    a - b                                           Subtraction
+    a * b                                           Multiplication
+    a / b                                           Division
+    a ** b                                          Exponentiation
+    a % b                                           Modulo
 Prefix
-    -a          Negation
-    --a         Decrement before evaluation
-    ++a         Increment before evaluation
+    -a                                              Negation
+    --a                                             Decrement before evaluation
+    ++a                                             Increment before evaluation
 Postfix
-    a--         Decrement after evaluation
-    a++         Increment after evaluation
+    a--                                             Decrement after evaluation
+    a++                                             Increment after evaluation
 
 Comparison 
-    a < b       Less than
-    a <= b      Less or equal
-    a > b       Greater than
-    a >= b      Greater or equal
-    a == b      Equal
-    a != b      Inequal
-    a ~~ b      Fuzzy equal
-    a !~ b      Fuzzy ineqal
-    a === b     Stric equal
-    a !== b     Stric inequal
+    a < b                                           Less than
+    a <= b                                          Less or equal
+    a > b                                           Greater than
+    a >= b                                          Greater or equal
+    a == b                                          Equal
+    a != b                                          Inequal
+    a ~~ b                                          Fuzzy equal
+    a !~ b                                          Fuzzy ineqal
+    a === b                                         Stric equal
+    a !== b                                         Stric inequal
 
 Logical
-    !a          Not
-    a & b       And
+    !a                                              Not
+    a & b                                           And
     a and b
-    a | b       Or
+    a | b                                           Or
     a or b
-    a ^ b       Xor
+    a ^ b                                           Xor
     a xor b
-    a ? b : c   Ternary
-    a ?: b      Elvis
-    a ?? b      Null coallescence
+    a ? b : c                                       Ternary
+    a ?: b                                          Elvis
+    a ?? b                                          Null coallescence
 
 
 Variables
 =========
+
+Variables in Skiylia can be both dynamically and statically typed, as well as implicitly or explicitly defined
+
+Declaration
+~~~~~~~~~~~
+Implicit Dynamic
+    a = 5                                           Implicitly define a as 5
+Explicit Dynamic
+    var a = "hi"                                    Explicitly define a as "hi"
+    var a                                           Explicitly define a as None
+    (Technically this defines a as having the static "variable" type, which can hold any type.)
+Explicit Static
+    str a = "hi"                                    Explicitly define a as "hi", and unable to hold any type except str.
+    int a = 5                                       Explicitly define a as 5, and unable to hold any type except int.
+    float a = 4.5                                   Explicitly define a as 4.5, and unable to hold any type except float.
+    frac a = 3/2                                    Explicitly define a as 3/2, and unable to hold any type except fractional.
+    cplx a = 3+2j                                   Explicitly define a as 3+2j, and unable to hold any type except complex.
+    stnd a = 3E+20                                  Explicitly define a as 3E+20, and unable to hold any type except standard notation.
+    bin a = 0b10101                                 Explicitly define a as 0b10101, and unable to hold any type except bin.
+    trn a = 0t0T1T0                                 Explicitly define a as 0t0T1T0, and unable to hold any type except ternary.
+    oct a = 0o21457                                 Explicitly define a as 0o21457, and unable to hold any type except octal.
+    hex a = 0x3E56B                                 Explicitly define a as 0x3E56B, and unable to hold any type except hexadecimal.
+
+    Variables whose type is static are converted at declaration, raising an error if it's not possible to do so.
+    ie:
+    bin a = 56  -> 0b111000
+    frac a = 3.8 -> 19/5
+    int a = "3.0" -> 3
+
+Type Promotion
+~~~~~~~~~~~~~~
+    a -> var                                        Promote a to a dynamic Variable
+    a -> int                                        Promote a to a static integer. If the conversion is not possible, raise an error
+    a -> str : "hi"                                 Promote a to a string, if the conversion is not possible, set to "hi"
+    a -> int -> bin                                 Promote a to an integer, and then again to a binary number.
+        ie: a = 5.6      a -> int == 5      a -> bin == 0b101.1001100110      a -> int -> bin == 0b101
+
+
+Control Flow
+============
+
+    if
+    if-else
+    if-elif-else
+    while <condition>
+    until <condition>
+    do while <condition>                            Execute the loop body once before evaluating the condition
+    do until <condition>                            Execute the loop body once before evaluating the condition
+    for <var> in <itte>                             Itterate on the values in an itterable
+    for <var> when <condition> do <inc op>          see: for (a; a <= 4; a=a+2) from JS
+    for <var> until <condition> do <inc op>
