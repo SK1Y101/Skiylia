@@ -29,6 +29,7 @@ Inline comments are preceded by a ``//`` double slash and two spaces, and termin
 
 
 .. literalinclude:: examples/comments/single_comment.skiy
+    :caption: An example of a single-line comment
 
 
 Multiline comments are preceded- and followed- by a ``///`` tripple slash and seperated from the content of a comment by a space.
@@ -37,6 +38,7 @@ line comments, though this can break up readability, and is not reccomended.
 
 
 .. literalinclude:: examples/comments/multiline_comment.skiy
+    :caption: An example of a multi-line comment
 
 
 Data Types
@@ -57,7 +59,7 @@ Skiyia implements the following datatypes
         * Bin- ``0b1010``  - Will not appear in v1.0
         * Ter- ``0t1T10``  - Will not appear in v1.0
         * Oct- ``0o1743``  - Will not appear in v1.0
-        * hHx- ``0x7FE3``  - Will not appear in v1.0
+        * hex- ``0x7FE3``  - Will not appear in v1.0
 
 Expressions
 ===========
