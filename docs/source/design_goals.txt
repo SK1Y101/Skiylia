@@ -1,0 +1,72 @@
+Data Types
+==========
+
+None
+    null
+
+Boolean
+    true
+    false
+
+Numbers
+    1           Integer
+    1.2         Float
+    3/2         Fractional
+    3+2j        Complex
+    3.2E+10     Standard
+    0b101011    Binary
+    0t1T0T11    Ternary (Balanced)
+    0o613130    Octal
+    0x73BE8A    Hexadecimal
+
+Strings
+    "hi there"
+    'hi there'
+
+
+Expressions
+===========
+
+Arithmetic
+Infix
+    a + b       Addition
+    a - b       Subtraction
+    a * b       Multiplication
+    a / b       Division
+    a ** b      Exponentiation
+    a % b       Modulo
+Prefix
+    -a          Negation
+    --a         Decrement before evaluation
+    ++a         Increment before evaluation
+Postfix
+    a--         Decrement after evaluation
+    a++         Increment after evaluation
+
+Comparison 
+    a < b       Less than
+    a <= b      Less or equal
+    a > b       Greater than
+    a >= b      Greater or equal
+    a == b      Equal
+    a != b      Inequal
+    a ~~ b      Fuzzy equal
+    a !~ b      Fuzzy ineqal
+    a === b     Stric equal
+    a !== b     Stric inequal
+
+Logical
+    !a          Not
+    a & b       And
+    a and b
+    a | b       Or
+    a or b
+    a ^ b       Xor
+    a xor b
+    a ? b : c   Ternary
+    a ?: b      Elvis
+    a ?? b      Null coallescence
+
+
+Variables
+=========
