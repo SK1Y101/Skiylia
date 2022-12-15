@@ -21,12 +21,10 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
     'sphinx_tabs.tabs',
-    'ksdomain',
-    'KerboscriptLexer',
 ]
 
 pygments_style = 'sphinx'
-highlight_language = 'kerboscript'
+highlight_language = 'none'
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
