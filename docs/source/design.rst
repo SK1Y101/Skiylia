@@ -29,7 +29,7 @@ Inline comments are preceded by a ``//`` double slash and two spaces, and termin
 
 
 .. literalinclude:: examples/comments/single_comment.skiy
-    :language: skiylia
+    .. :language: skiylia
     :caption: An example of a single-line comment
 
 
@@ -39,7 +39,7 @@ line comments, though this can break up readability, and is not reccomended.
 
 
 .. literalinclude:: examples/comments/multiline_comment.skiy
-    :language: skiylia
+    .. :language: skiylia
     :caption: An example of a multi-line comment
 
 
