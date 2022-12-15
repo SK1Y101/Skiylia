@@ -109,6 +109,3 @@ class SkiyliaLexer(RegexLexer):
             (r'\b(\d+)+\b', Number.Float), # markup ints just like floats
         ]
     }
-
-def setup(app):
-    app.add_lexer("skiylia", SkiyliaLexer())
