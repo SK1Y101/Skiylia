@@ -29,6 +29,7 @@ Inline comments are preceded by a ``//`` double slash and two spaces, and termin
 
 
 .. literalinclude:: examples/comments/single_comment.skiy
+    :language: kerboscript
     :caption: An example of a single-line comment
 
 
