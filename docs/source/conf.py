@@ -21,7 +21,7 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
     'sphinx_tabs.tabs',
-    'SkiyliaLexer',
+    'KerboscriptLexer',
 ]
 
 pygments_style = 'sphinx'

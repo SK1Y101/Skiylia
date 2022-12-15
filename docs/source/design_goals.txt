@@ -110,10 +110,12 @@ Type Promotion
 
 Control Flow
 ============
-
+Branches
     if
     if-else
     if-elif-else
+    match-case                                      
+Loops
     while <condition>
     until <condition>
     do while <condition>                            Execute the loop body once before evaluating the condition
