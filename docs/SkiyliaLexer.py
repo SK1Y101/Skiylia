@@ -59,7 +59,7 @@ class SkiyliaLexer(RegexLexer):
    
     name = 'Skiylia'
     aliases = ['skiylia']
-    filenames = ['*.ks']
+    filenames = ['*.skiy']
     # mimetypes = ['text/somethinghere'] # We don't have a kerboscript mime type (yet?)
  
     flags = re.MULTILINE | re.DOTALL | re.IGNORECASE
