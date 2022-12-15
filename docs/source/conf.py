@@ -21,11 +21,11 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
     'sphinx_tabs.tabs',
-    'Skiylia2Lexer',
+    'SkiyliaLexer',
 ]
 
 pygments_style = 'sphinx'
-highlight_language = 'skiylia2'
+highlight_language = 'skiylia'
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
