@@ -2,7 +2,6 @@
 
 import os, sys
 sys.path.insert(0, os.path.abspath('..'))
-import SkiyliaLexer
 # -- Project information
 
 project = 'Skiylia Lang'
@@ -22,11 +21,11 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
     'sphinx_tabs.tabs',
-    'SkiyliaLexer',
+    'KerboscriptLexer',
 ]
 
 pygments_style = 'sphinx'
-highlight_language = 'skiylia'
+highlight_language = 'kerboscript'
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
