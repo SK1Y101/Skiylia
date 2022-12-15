@@ -1,6 +1,7 @@
 # Configuration file for the Sphinx documentation builder.
 
 import os, sys
+import SkiyliaLexer
 sys.path.insert(0, os.path.abspath('..'))
 # -- Project information
 
@@ -86,3 +87,6 @@ html_css_files = [
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
+
+def setup(app):
+    app.add_lexer("skiylia", SkiyliaLexer.SkiyliaLexer())
