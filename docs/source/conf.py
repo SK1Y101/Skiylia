@@ -86,6 +86,3 @@ html_css_files = [
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
-
-def setup(app):
-    app.add_lexer("skiylia", SkiyliaLexer.SkiyliaLexer())
