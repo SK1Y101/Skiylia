@@ -1,8 +1,8 @@
 # Configuration file for the Sphinx documentation builder.
 
 import os, sys
-import SkiyliaLexer
 sys.path.insert(0, os.path.abspath('..'))
+import SkiyliaLexer
 # -- Project information
 
 project = 'Skiylia Lang'
