@@ -110,11 +110,12 @@ Type Promotion
 
 Control Flow
 ============
+
 Branches
     if
     if-else
     if-elif-else
-    match-case                                      
+    select-when                                     Switch-case / Match-case with different syntax. (Not perfectly settled on this yet)                                      
 Loops
     while <condition>
     until <condition>
@@ -123,3 +124,45 @@ Loops
     for <var> in <itte>                             Itterate on the values in an itterable
     for <var> when <condition> do <inc op>          see: for (a; a <= 4; a=a+2) from JS
     for <var> until <condition> do <inc op>
+
+
+Functions
+=========
+
+Creation
+    def func(a, b=1, int c = 3):                    Functions are declared with `def`. parameters are defined identically to variables
+    partial a(x, y) = func(x, y, 3)                 New functions can be created on the fly using partial, see python partial
+Usage
+    a = func                                        Functions can be stored in dynamic variables.
+    a(a,b)                                          (And are executed when calling that variable)
+    partial a(x,y=4) = func(x,y, 5)                 The partial function provides a default
+    partial a() = func(3, 4, 2)                     Partial function definitions MUST containe at least one used variable (otherwise just set a variable to the return)
+
+
+Classes
+=======
+
+Creation
+    class test:                                     Classes are declared with `class`
+    class test(parent):                             Inheritance is a thing
+Usage
+    class test:                                     declare the class
+        hi_there = 4                                Class fields can be created here
+        init(text):                                 Create an initialiser function
+            self.text = text                        Store fields in the class
+        repr():                                     Define how the class is printed
+            return self.text                        methods return as expected
+    a = test("no u")
+    print(a)    
+Special variables
+    self                                            Used to reference the containing class
+    super                                           Used to reference the parent class
+    a.super = test                                  If a is a class, this will set its parent to test programatically
+Special methods
+    init()                                          Used when a class is initialised
+    kill()                                          Used when a class is destroyed (or the program terminated)
+    repr()                                          Used when a class is printed
+    enter()                                         Used when a class is entered as a generator
+    leave()                                         Used when a class is exited as a generator
+
+
