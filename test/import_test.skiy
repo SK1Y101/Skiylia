@@ -1,0 +1,13 @@
+// This is to be imported
+class Test:
+    msg = "hi there"
+    
+    init(str name):
+        self.name = name
+    
+    @property
+    hello():
+        print("hello there, I'm {self.name}")
+    
+    repr():
+        return "Test class named {self.name}"

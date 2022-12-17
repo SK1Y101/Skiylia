@@ -1,0 +1,35 @@
+from import_test import Test
+
+class child_test:
+    init(name, age):
+        self.name = name
+        self.age = 6
+
+def function_test(int a = 6):
+    b = 0
+    for x in [1..a]:
+        b+=x
+    return b
+
+@timed
+def incrememnt_test(int a=6):
+    b = 0
+    for x=a while x do x--:
+        print(x)
+        wait(1)
+    print("liftoff")
+
+incrememnt_test(10)
+print(elapsed(incrememnt_test))
+test = Test("test_name")
+test.hello
+test.sum = function_test
+print(test.sum(10))
+
+test1 = child_test("child_test_1", 9)
+test2 = child_test
+test2.super = Test
+test2.init("nay", 10)
+print(test2.name, test2.age)
+test2.init("no")
+print(test2.name, test2.age)
