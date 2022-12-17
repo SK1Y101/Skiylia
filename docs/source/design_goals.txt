@@ -24,6 +24,35 @@ Strings
     'hi there'
 
 
+Data Structures
+===============
+
+Lists
+    a = []                                          Empty list init
+    a = list()                                      same as
+    a = [1,2,3,4]                                   init as list with things
+    a = list(1, 2, 3, 4)                            same as above. (technically calls the list method on an empty tuple)
+    list()[0]                                       Return the zeroth index of the list
+
+Iterator
+    a = [1..10]                                     Construct the range from 1 to 10 inclusively
+    a = [2..4..10]                                  Construct the range from 2 to 10 inclusively in steps of two
+    a = iter()                                      Convert a compatable data structure to an iterator
+
+Dictionaries
+    a = {}                                          
+    a = dict()                                      
+    a = {1:1, 2:2, 3:3, 4:4}                        
+    a = dict([1,1], [2,2], [3,3], [4,4])            
+
+Sets
+    a = set()                                       
+    a = set(1, 2, 3, 4)                             
+
+Stacks
+    a = stack()                                     Initialise an empty stack
+    a = stack(1, 2, 3, 4)                           Initialise a new stack
+
 Expressions
 ===========
 
@@ -67,6 +96,15 @@ Logical
     a ?: b                                          Elvis
     a ?? b                                          Null coallescence
 
+Data comparisons
+    a is var                                        Is a a dynamic variable
+    a is b                                          Are two variables pointing at the same object
+    a in b                                          Is a found in the itterable subset of b
+    a parent of b                                   Is a a parent class of class b   -> a is b.super
+    a child of b                                    Is a a child class of class b    -> b is a.super
+    a sibling of b                                  Is a a sibling of class b        -> a.super is b.super
+    a partial of b                                  Is a a partial of the function b -> a.function is b.function
+    a instance of b                                 Is a the same type as b          -> a.type is b.type
 
 Variables
 =========
@@ -82,6 +120,7 @@ Explicit Dynamic
     var a                                           Explicitly define a as None
     (Technically this defines a as having the static "variable" type, which can hold any type.)
 Explicit Static
+    const a = <value>                               Explicitly define a as a constant. This can contain any value, but is immutable.
     str a = "hi"                                    Explicitly define a as "hi", and unable to hold any type except str.
     int a = 5                                       Explicitly define a as 5, and unable to hold any type except int.
     float a = 4.5                                   Explicitly define a as 4.5, and unable to hold any type except float.
@@ -124,45 +163,286 @@ Loops
     for <var> in <itte>                             Itterate on the values in an itterable
     for <var> when <condition> do <inc op>          see: for (a; a <= 4; a=a+2) from JS
     for <var> until <condition> do <inc op>
-
+Loop operations
+    break                                           Stop the loop execution here completely
+    continue                                        stop this iteration of the loop and skip to the next
 
 Functions
 =========
 
 Creation
-    def func(a, b=1, int c = 3):                    Functions are declared with `def`. parameters are defined identically to variables
-    partial a(x, y) = func(x, y, 3)                 New functions can be created on the fly using partial, see python partial
+~~~~~~~~
+    Functions are declared using `def`
+    ```
+    def func():
+        ...
+    ```
+    They can take any number of variables as parameters, which can include defaults
+    ```
+    def func(a, b, c=2):
+        ...
+    ```
+    Functions can also take arbitary numbers of arguments and keyword arguments. Outside the function, this allows the user to
+    pass as many parameters as desired. Inside the function this acts as though a list, or dictionary, were passed respectively.
+    ```
+    def func(a, b, *arg):
+        ...
+    def func(a, b, **kwarg):
+        ...
+    ```
+    New functions can also be created from old using partial
+    ```
+    def func(a,b,c):
+        ...
+    partial a(x,y) = func(x,y,4)
+    ```
+    Partial functions must contain at least one argument used in the function declaration, both of the following are errors
+    ```
+    partial a(x) = func(1,2,3)
+    partial a() = func(3,4,5)
+    ```
+
 Usage
-    a = func                                        Functions can be stored in dynamic variables.
-    a(a,b)                                          (And are executed when calling that variable)
-    partial a(x,y=4) = func(x,y, 5)                 The partial function provides a default
-    partial a() = func(3, 4, 2)                     Partial function definitions MUST containe at least one used variable (otherwise just set a variable to the return)
+~~~~~
+    They are evaluated as expected
+    ```
+    def func(a,b,c):
+        ...
+    a = func()
+    ```
+    They can be passed around like variables and evaluated later
+    ```
+    def func(a,b,c):
+        ...
+    a = func
+    a(1,2,3)
+    ```
+
+Fields
+    .arity()                                        How many arguments does this function take?
+    .params()                                       Return an ordered dictionary of each parameter name, and it's default value if possible.
+    .doc()                                          Return the docstring of this function
+    .name()                                         Return the name of the function
+    .module()                                       Return the name of the module the function is found in
+    .class()                                        Return the class this <method> is from. (identical to .module() for a function rather than method)
 
 
 Classes
 =======
 
-Creation
-    class test:                                     Classes are declared with `class`
-    class test(parent):                             Inheritance is a thing
-Usage
-    class test:                                     declare the class
-        hi_there = 4                                Class fields can be created here
-        init(text):                                 Create an initialiser function
-            self.text = text                        Store fields in the class
-        repr():                                     Define how the class is printed
-            return self.text                        methods return as expected
-    a = test("no u")
-    print(a)    
-Special variables
-    self                                            Used to reference the containing class
-    super                                           Used to reference the parent class
-    a.super = test                                  If a is a class, this will set its parent to test programatically
-Special methods
-    init()                                          Used when a class is initialised
-    kill()                                          Used when a class is destroyed (or the program terminated)
-    repr()                                          Used when a class is printed
-    enter()                                         Used when a class is entered as a generator
-    leave()                                         Used when a class is exited as a generator
+Declaration
+~~~~~~~~~~~
+    Classes are declared using `class`
+    ```
+    class test:
+        ...
+    ```
+    They are created and called as you would expect
+    ```
+    class test:
+        ...
+    a = test()
+    ```
+    They can inherit from one or more parent class
+    ```
+    class test(parent):
+        ...
+    class test(parent1, parent2):
+        ...
+    class test of parent1, parent2:
+        ...
+    ```
+
+fields
+~~~~~~
+    They enclose fields that are created at initialisation
+    ```
+    class test:
+        field_1 = 3
+        field_2 = 56
+    ```
+    Or on the fly. They can be reassigned as variables
+    ```
+    class test:
+        field = 4
+    test.field = 6
+    test.no = 7
+    ```
+    Parent classes can be added on the fly with `super` (see below) (which is technically a field)
+    ```
+    class test:
+        ...
+    test.super = parent
+    ```
+
+methods
+~~~~~~~
+    And any number of methods, which follow the same rules as function
+    class test:
+        method_1():
+            ...
+        method_2(x, y, *a):
+            ...
+    ```
+    New methods can be added on the fly, and old methods can be overwritten
+    ```
+    def func(a):
+        ...
+    class test:
+        method(a):
+            ...
+    test.method = func
+    ```
+    Two methods on the same class can have the same name if they have a different arity. (see overloading)
+    class test:
+        method(a, b, c):
+            ...
+        method(a, b):
+            ...
+    ```
+    This applies to on-the-fly methods too, the following gives identical output
+    def func(a, b):
+        ...
+    class test:
+        method(a, b, c):
+            ...
+    test.method = func
+    ```
+    Method overloading does not allow args/kwargs unless there is no posisble collision
+    class test:
+        method(a, b, *c):
+            ...
+        method(a, b):
+            ...
+    // ^ disallowed
+    class test:
+        method(a, b, *c):
+            ...
+        method(a):
+            ...
+    // ^ allowed
+    ```
+
+special methods and fields
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Classes also define a few `magic` methods that can be overwritten by the user
+        Representation
+            repr()                                      Used when a class is printed
+        Creation
+            init(*a)                                    Used when a class is initialised
+            kill()                                      Used when a class is destroyed (or the program terminated)
+        Generator
+            enter(*a)                                   Used when a class is entered as a generator     <- unsure
+            leave()                                     Used when a class is exited as a generator      <- unsure
+        Iterator
+            iter()                                      return this when doing <for x in <class>>
+    As well as a few `magic` variables
+        self                                            Used to reference the containing class
+        super                                           Used to reference the parent class
+
+Decorators
+~~~~~~~~~~
+    @init                                           This method can be treated like `init`
+    ```
+    class test:
+        init(a, b):
+            print("two")
+        @init
+        other_init(a):
+            print("one")
+    test(1,2)               // two
+    test(1)                 // one
+    ```
+    
+    @private                                        This cannot be accessed from outside of the class, even by getter/setter
+    @iter                                           This method will act like an Iterator
+    @property                                       This method can be called like a field
+    @errorless                                      This methid will quietly raise exceptions, not preventing program flow
+    @errorfull                                      This method will raise a halting exception, completely preventing program flow (even inside a try-except)
+    @timed                                          This method will have it's run-time evaluated and returned after the method is called
+    @repeat(n)                                      This method will be executed <n> times every time it is called.
+    @timed_repeat(n)                                This method will determine how long it took to execute <n> evaluations, and return the average and standard deviation
+
+Standard functions
+==================
+
+Importing
+    import a
+    import a.b
+    from a import b
+
+Error+assertion
+    assert <truthy>
+    raise "messahe"
+
+Data Type conversion
+    int()
+    float()
+    frac()
+    cplx()
+    stnd()
+    bin()
+    trn()
+    oct()
+    hex()
+    str()
+
+Data methods
+    len()
+    round()
+    floor()
+    ceil()
+    abs()
+
+Data structure methods
+    .clear()                                        Remove everything from the datastructure (re-init as empty)
+    Sequences
+        list()                                      Turn this into a list
+        set()                                       Turn this into a set
+        stack()                                     Turn this into a stack
+        size() / len()                              How many elements are contained in this sequence object
+        enumerate()                                 Return an iterable of {index, value}
+        Stacks
+            .push(a)                                Add to the top of the stack
+            .pop()                                  Fetch the top of the stack
+            .peek()                                 Fetch the top of the stack without removing
+        Lists
+            .append(a)                              add an item to the end of a list
+            .extend(*a)                             add any number of items to the end of a list
+            .insert(b, a)                           add a to the list at position b, moving everythig else after this
+            .splice(b, *a)                          add any number of items to the list at position b, moving everything else after this
+            .get(b)                                 Return the value at index b
+            .set(b, a)                              Replace the value at b with a
+            .remove(b)                              Remove the value at index b, returning it
+            .prune(a)                               Remove all occurances of 'a' from the list
+            .count(a)                               Count how many times 'a' appears in the list
+        Sets
+            .add(a)                                 Add a to the set, ignore if a is in the set
+            .remove(a)                              Remove a from the set
+            .union(b)                               Combine this with set <b>, returning the combination                {1,2,3}.union({2,3,4}) = {1,2,3,4}
+            .intersection(b)                        Fetch all the elements shared with set b                            {1,2,3}.intersection({2,3,4}) = {2,3}
+            .difference(b)                          Return the elements not shared with b                               {1,2,3}.difference({2,3,4}) = {1}
+            .unique(b)                              Return the elements that a and b do not share with eachother        {1,2,3}.unique({2,3,4}) = {1,4}
+    Dictionaries
+        .get(a, *b)                                 get the value of the dict of key 'a', returning b if not found
+        dict[a ?? b]                                Same as above
+        .set(a, b)                                  Set the dictionary key 'a' to the value 'b'
+        dict[a] = b                                 same as above
+        .update(a)                                  Update the dictionary with the values of dict a (basically, for k,v in a.items(): dict[k]=v)
+        .remove(b)                                  Remove the value at key b, returning it
+        .keys()                                     Return a list of keys in the dict
+        .values()                                   Return a list of values in the dict
+        .items()                                    Return an enumerable of {key, value}
 
 
+Iterators
+    next()                                          Fetch the next item in an iterator, each time it is called
+    previous()                                      Fetch the previous
+    ie: a = iter([1,2,3,4]); next(a) [1]; next(a) [2];
+
+Misc
+    print(1)                                        show `1` on the display
+    time()                                          The current system time
+    wait()                                          Pause execution for some time
+    elapsed()                                       The current program time
+    quit() / exit()                                 Immediately end the program execution
