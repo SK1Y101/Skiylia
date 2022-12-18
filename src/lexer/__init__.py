@@ -1,6 +1,6 @@
 # Skiylia Lexer, converts source code to recognised tokens
 
-from lexer.token import Token
+from tokens import Token
 
 
 def Lex(program: str) -> list[Token]:
