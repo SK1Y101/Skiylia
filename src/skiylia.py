@@ -3,17 +3,17 @@
 import os
 import sys
 
-import lexer
+from lexer import Lex
 
 
 def run(program_file: str) -> None:
     with open(program_file, "r") as f:
         program_contents = f.read()
-    tokens = lexer.Lex(program_contents)
+    tokens = Lex(program_contents)
     print(tokens)
 
 
-def entry_point(argv: sys.argv) -> int:
+def entry_point(argv: list[str]) -> int:
     if len(argv) == 0:
         print("Error: Must supply a filename.")
         return 1
@@ -24,7 +24,7 @@ def entry_point(argv: sys.argv) -> int:
     return 0
 
 
-def target(*args) -> entry_point:
+def target(*args):
     return entry_point, None
 
 

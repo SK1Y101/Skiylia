@@ -13,7 +13,6 @@ def format(session: nox.session) -> None:
         "isort",
         "--profile",
         "black",
-        "--check-only",
         *format_dirs,
     )
     session.run("black", *format_dirs)
@@ -41,7 +40,7 @@ def mypy(session: nox.session) -> None:
         dirs.extend(["-p", dire])
 
     session.install("mypy")
-    session.run("mypy", *dirs)
+    session.run("mypy", *dirs, "--ignore-missing-imports")
 
 
 @nox.session
