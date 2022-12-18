@@ -5,16 +5,27 @@
 import re
 
 from pygments.lexer import RegexLexer, words
-from pygments.token import Text, Comment, Operator, Keyword, Name, String, Number, Punctuation
+from pygments.token import (
+    Comment,
+    Keyword,
+    Name,
+    Number,
+    Operator,
+    Punctuation,
+    String,
+    Text)
+
 
 class SkiyliaLexer(RegexLexer):
-   
+
     name = 'Skiylia'
     aliases = ['skiylia']
     filenames = ['*.skiy']
 
-    # We lean very heavily on https://github.com/KSP-KOS/KOS/blob/master/doc/KerboscriptLexer.py for help here
- 
+    # We lean very heavily on
+    # https://github.com/KSP-KOS/KOS/blob/master/doc/KerboscriptLexer.py
+    # for help here
+
     flags = re.MULTILINE
 
     __all__ = ['SkiyliaLexer']
@@ -38,6 +49,7 @@ class SkiyliaLexer(RegexLexer):
             (r'\b(\d+)+\b', Number),
         ]
     }
+
 
 def setup(app):
     app.add_lexer("skiylia", SkiyliaLexer())
