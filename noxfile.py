@@ -1,34 +1,32 @@
 import nox
 
-directories = ["src", "tests"]
+directories = ["src"]
 
 format_dirs = ["noxfile.py"] + directories
 
 
 @nox.session
-def format(session: nox.session) -> None:
+def black(session: nox.session) -> None:
     """Reformat python files."""
-    session.install("black", "isort")
+    session.install("black")
+    session.run("black", *format_dirs)
+
+
+@nox.session
+def isort(session: nox.session) -> None:
+    session.install("isort")
     session.run(
         "isort",
         "--profile",
         "black",
         *format_dirs,
     )
-    session.run("black", *format_dirs)
 
 
 @nox.session
 def lint(session: nox.session) -> None:
     """Lint all python files."""
-    session.install("flake8", "isort")
-    session.run(
-        "isort",
-        "--profile",
-        "black",
-        "--check-only",
-        *format_dirs,
-    )
+    session.install("flake8")
     session.run("flake8", *format_dirs, "--max-line-length", "88")
 
 
@@ -47,4 +45,5 @@ def mypy(session: nox.session) -> None:
 def tests(session: nox.session) -> None:
     """Run the test suite."""
     session.install("pytest")
-    session.run("pytest", "tests")
+    session.run("pytest", "--import-mode=importlib")
+    session.notify("coverage")
