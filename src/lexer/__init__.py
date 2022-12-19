@@ -2,9 +2,13 @@
 
 from typing import Any
 
-from skiylia_errors import UnidentifiedCharacter
+from skiylia_errors import (
+    UnidentifiedCharacter,
+    UnterminatedComment,
+    UnterminatedString,
+)
 
-from .grammar_rules import symbols
+from .grammar_rules import string_chars, symbols
 from .tokens import Token
 
 
@@ -33,17 +37,20 @@ class Lexer:
 
     def scanToken(self) -> Token:
         """Fetch the next token in the source."""
+        if self.peekGroup(2) == "//":
+            return self.createCommentToken()
+
         c = self.advance()
 
         symb = symbols.get(c, "")
         if symb:
             return self.createToken(symb, c)
-
         if c.isdigit():
             return self.createNumberToken(c)
-
         elif c.isalpha():
             return self.createIdentifierToken(c)
+        elif c in string_chars:
+            return self.createStringToken(c)
         raise UnidentifiedCharacter(self.column, self.row, c)
 
     def createToken(self, tpe: str, lexeme: str, literal: Any = None) -> Token:
@@ -55,25 +62,69 @@ class Lexer:
     def createNumberToken(self, lexeme: str = "") -> Token:
         while self.peek().isdigit():
             lexeme += self.advance()
-
-        # if self.peek() == ".":
-        #     lexeme += self.advance()
-        #     while self.peek().isdigit():
-        #         lexeme += self.advance()
-        #     return self.createToken("NUMBER", lexeme, float(lexeme))
+        if self.peek() == ".":
+            lexeme += self.advance()
+            while self.peek().isdigit():
+                lexeme += self.advance()
+            return self.createToken("NUMBER", lexeme, float(lexeme))
         return self.createToken("NUMBER", lexeme, int(lexeme))
 
-    def peek(self, offset: int = 0) -> str:
-        if self.pos + offset <= self.sourcelen:
-            return self.source[self.pos + offset]
-        return "\0"
+    def createIdentifierToken(self, lexeme: str = "") -> Token:
+        while self.peek().isalnum():
+            lexeme += self.advance()
+        return self.createToken("IDENTIFIER", lexeme)
 
-    def advance(self) -> str:
-        self.pos += 1
-        self.row += 1
-        if self.atEnd():
+    def createStringToken(self, closure: str) -> Token:
+        lexeme = ""
+        while not self.match(closure):
+            if self.atEnd():
+                self.exception(UnterminatedString, closure)
+            lexeme += self.advance()
+        self.advance()
+        return self.createToken("STRING", lexeme)
+
+    def createCommentToken(self) -> Token:
+        lexeme, closure = "", "\n"
+        self.advance(2)
+        if self.peek() == "/":
+            self.advance()
+            closure = "///"
+        while not self.matchGroup("///"):
+            if self.atEnd():
+                self.exception(UnterminatedComment, closure)
+            lexeme += self.advance()
+        return self.createToken("COMMENT", lexeme)
+
+    def peek(self, offset: int = 0) -> str:
+        if self.pos + offset >= self.sourcelen:
             return "\0"
-        return self.source[self.pos - 1]
+        return self.source[self.pos + offset]
+
+    def peekGroup(self, offset: int = 1) -> str:
+        if self.pos + offset >= self.sourcelen:
+            return "\0"
+        return self.source[self.pos : self.pos + offset]
+
+    def match(self, char: str) -> bool:
+        if self.peek != char:
+            return False
+        self.advance()
+        return True
+
+    def matchGroup(self, chars: str) -> bool:
+        clen = len(chars)
+        if self.peekGroup(clen) != chars:
+            return False
+        self.advance(clen)
+        return True
+
+    def advance(self, offset: int = 1) -> str:
+        self.pos += offset
+        self.row += offset
+        return self.source[self.pos - offset]
 
     def atEnd(self) -> bool:
         return self.pos >= self.sourcelen
+
+    def exception(self, exception, message: str = "", location: str = "") -> None:
+        raise exception(self.column, self.row, message, location)
