@@ -1,5 +1,7 @@
 # Rules to dictate token creation
 
+string_chars = ['"', "'", "`"]
+
 symbols = {
     # Special characters
     "\0": "EOF",

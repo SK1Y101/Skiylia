@@ -16,4 +16,8 @@ class Token:
     def __repr__(self) -> str:
         if self.literal:
             return f"{self.type} '{self.lexeme}': {float(self.literal)}"
+        if self.lexeme == "\n":
+            return f"{self.type} '\\n'"
+        if self.lexeme == "\0":
+            return f"{self.type} '\\0'"
         return f"{self.type} '{self.lexeme}'"
