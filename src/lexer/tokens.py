@@ -14,4 +14,6 @@ class Token:
         self.row = row
 
     def __repr__(self) -> str:
-        return f"{self.type} {self.lexeme} {self.literal}"
+        if self.literal:
+            return f"{self.type} '{self.lexeme}': {float(self.literal)}"
+        return f"{self.type} '{self.lexeme}'"

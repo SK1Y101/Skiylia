@@ -10,7 +10,7 @@ def run(program_file: str) -> None:
     with open(program_file, "r") as f:
         program_contents = f.read()
     tokens = Lex(program_contents)
-    print(tokens)
+    print(*tokens, sep=", ")
 
 
 def entry_point(argv: list[str]) -> int:
@@ -20,13 +20,9 @@ def entry_point(argv: list[str]) -> int:
     if not os.path.exists(argv[0]):
         print("Error: file does not exist.")
         return 2
-    run(argv[-1])
+    run(argv[0])
     return 0
 
 
-def target(*args):
-    return entry_point, None
-
-
 if __name__ == "__main__":
-    entry_point(sys.argv)
+    entry_point(sys.argv[1:])

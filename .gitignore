@@ -1,0 +1,5 @@
+.tox
+.nox
+.pytest_cache
+.mypy_cache
+*pycache*
