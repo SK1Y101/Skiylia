@@ -13,6 +13,8 @@ from .tokens import Token
 
 
 def Lex(program: str) -> list[Token]:
+    if program[-1] != "\n":
+        program += "\n"
     lexer = Lexer(program)
     return lexer.lex()
 
@@ -54,9 +56,6 @@ class Lexer:
         raise UnidentifiedCharacter(self.column, self.row, c)
 
     def createToken(self, tpe: str, lexeme: str, literal: Any = None) -> Token:
-        if tpe == "NEWLINE":
-            self.row = 1
-            self.column += 1
         return Token(tpe, lexeme, literal, self.column, self.row)
 
     def createNumberToken(self, lexeme: str = "") -> Token:
@@ -76,22 +75,24 @@ class Lexer:
 
     def createStringToken(self, closure: str) -> Token:
         lexeme = ""
+        c, r = (self.column, self.row)
         while not self.match(closure):
             if self.atEnd():
-                self.exception(UnterminatedString, closure)
+                self.exception(UnterminatedString, closure, col=c, row=r)
             lexeme += self.advance()
         self.advance()
         return self.createToken("STRING", lexeme)
 
     def createCommentToken(self) -> Token:
         lexeme, closure = "", "\n"
+        c, r = (self.column, self.row)
         self.advance(2)
         if self.peek() == "/":
             self.advance()
             closure = "///"
-        while not self.matchGroup("///"):
+        while not self.matchGroup(closure):
             if self.atEnd():
-                self.exception(UnterminatedComment, closure)
+                self.exception(UnterminatedComment, closure, col=c, row=r)
             lexeme += self.advance()
         return self.createToken("COMMENT", lexeme)
 
@@ -121,10 +122,23 @@ class Lexer:
     def advance(self, offset: int = 1) -> str:
         self.pos += offset
         self.row += offset
-        return self.source[self.pos - offset]
+        char = self.source[self.pos - offset]
+        if char == "\n":
+            self.row = 1
+            self.column += 1
+        return char
 
     def atEnd(self) -> bool:
         return self.pos >= self.sourcelen
 
-    def exception(self, exception, message: str = "", location: str = "") -> None:
+    def exception(
+        self,
+        exception,
+        message: str = "",
+        location: str = "",
+        col: int = 0,
+        row: int = 0,
+    ) -> None:
+        if col and row:
+            raise exception(col, row, message, location)
         raise exception(self.column, self.row, message, location)

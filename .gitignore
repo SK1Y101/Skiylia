@@ -2,4 +2,5 @@
 .nox
 .pytest_cache
 .mypy_cache
+.coverage
 *pycache*

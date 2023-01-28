@@ -25,7 +25,7 @@ class SkiyliaError(Exception):
 
     def __str__(self) -> str:
         return (
-            f"[Line {self.column}, Col {self.row}] {self.err}: {self.message}"
+            f"[Line {self.column}, Char {self.row}] {self.err}: {self.message}"
             if self.row or self.column
             else f"{self.err} at {self.location}: {self.message}"
         )
@@ -52,9 +52,10 @@ class UnterminatedClosure(SkiyliaError):
             "(": ")",
             "[": "]",
             "{": "}",
+            "\n": "\\n",
         }.get(char, char)
         quote = "'" if antichar != "'" else "`"
-        super().__init__(column, row, f"Missing {quote}{char}{quote}")
+        super().__init__(column, row, f"Missing {quote}{antichar}{quote}")
 
 
 class UnterminatedString(UnterminatedClosure):
