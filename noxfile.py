@@ -45,5 +45,6 @@ def mypy(session: nox.session) -> None:
 def tests(session: nox.session) -> None:
     """Run the test suite."""
     session.install("pytest")
-    session.run("pytest", "--import-mode=importlib")
-    session.notify("coverage")
+    session.install("coverage")
+    session.run("coverage", "run", "-m", "pytest", "--import-mode=importlib")
+    session.run("coverage", "report", "-m")
