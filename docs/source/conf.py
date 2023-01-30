@@ -1,6 +1,9 @@
 # Configuration file for the Sphinx documentation builder.
 
-import os, sys
+import os
+import sys
+
+
 sys.path.insert(0, os.path.abspath('..'))
 # -- Project information
 
@@ -40,13 +43,13 @@ classic = "classic"
 rtd = "sphinx_rtd_theme"
 html_theme = classic
 
-skiylia_light_grey="#eeebee"
-skiylia_grey="#cfd3d7"
-skiylia_light_blue="#a2ddef"
-skiylia_dark_blue="#a2ceef"
+skiylia_light_grey = "#eeebee"
+skiylia_grey = "#cfd3d7"
+skiylia_light_blue = "#a2ddef"
+skiylia_dark_blue = "#a2ceef"
 
-skiylia_text="#5C5962"
-skiylia_bg="#ffffff"
+skiylia_text = "#5C5962"
+skiylia_bg = "#ffffff"
 
 html_theme_options = {
     "bgcolor": skiylia_bg,
@@ -77,7 +80,7 @@ html_logo = '_images/Skiylia_Logo_text.svg'
 
 html_favicon = '_images/Skiylia_Logo.ico'
 
-html_static_path = ['_images','_static']
+html_static_path = ['_images', '_static']
 
 html_css_files = [
     'css/custom.css',
