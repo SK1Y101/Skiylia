@@ -46,5 +46,5 @@ def tests(session: nox.session) -> None:
     """Run the test suite."""
     session.install("pytest")
     session.install("coverage")
-    session.run("coverage", "run", "-m", "pytest", "--import-mode=importlib")
+    session.run("coverage", "run", "-m", "pytest", "--import-mode=importlib", "-v")
     session.run("coverage", "report", "-m")
