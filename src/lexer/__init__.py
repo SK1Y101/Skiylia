@@ -13,8 +13,6 @@ from .tokens import Token
 
 
 def Lex(program: str) -> list[Token]:
-    if program[-1] != "\n":
-        program += "\n"
     lexer = Lexer(program)
     return lexer.lex()
 
@@ -33,8 +31,7 @@ class Lexer:
         """Continue to parse source code until we complete the token stream."""
         self.tokens = []
         while not self.atEnd():
-            token = self.scanToken()
-            self.tokens.append(token)
+            self.tokens.append(self.scanToken())
         return self.tokens
 
     def scanToken(self) -> Token:
@@ -53,9 +50,12 @@ class Lexer:
             return self.createIdentifierToken(c)
         elif c in string_chars:
             return self.createStringToken(c)
+        # return self.createToken("UNKNOWN_TOKEN", c)
         raise UnidentifiedCharacter(self.column, self.row, c)
 
     def createToken(self, tpe: str, lexeme: str, literal: Any = None) -> Token:
+        if lexeme == " " and self.matchGroup("   "):
+            tpe, lexeme = "TAB", "    "
         return Token(tpe, lexeme, literal, self.column, self.row)
 
     def createNumberToken(self, lexeme: str = "") -> Token:
@@ -84,12 +84,10 @@ class Lexer:
         return self.createToken("STRING", lexeme)
 
     def createCommentToken(self) -> Token:
-        lexeme, closure = "", "\n"
+        lexeme = ""
         c, r = (self.column, self.row)
         self.advance(2)
-        if self.peek() == "/":
-            self.advance()
-            closure = "///"
+        closure = "///" if self.match("/") else "\n"
         while not self.matchGroup(closure):
             if self.atEnd():
                 self.exception(UnterminatedComment, closure, col=c, row=r)
@@ -107,7 +105,7 @@ class Lexer:
         return self.source[self.pos : self.pos + offset]
 
     def match(self, char: str) -> bool:
-        if self.peek != char:
+        if self.peek() != char:
             return False
         self.advance()
         return True

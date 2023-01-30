@@ -13,4 +13,5 @@ symbols = {
     "-": "MINUS",
     "*": "STAR",
     "/": "SLASH",
+    # two char
 }
