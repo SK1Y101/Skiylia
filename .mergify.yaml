@@ -1,0 +1,46 @@
+pull_request_rules:
+  - name: automatic merge when GitHub branch protection passes
+    conditions:
+      - label!=work-in-progress
+      - -closed
+      - -merged
+    actions:
+      assign:
+        users: [SK1Y101]
+      merge:
+        method: merge
+
+  - name: automatic merge for Allcontributors bot pull requests
+    conditions:
+      - base=main
+      - author~=^allcontributors\[bot\]$
+    actions:
+      review:
+        type: APPROVE
+      merge:
+        method: merge
+    
+  - name: automatic merge for Dependabot pull requests
+    conditions:
+      - author=dependabot[bot]
+    actions:
+      review:
+        type: APPROVE
+      merge:
+        method: merge
+
+  - name: automatic merge for My pull requests
+    conditions:
+      - base=main
+      - author=SK1Y101
+    actions:
+      review:
+        type: APPROVE
+      merge:
+        method: merge
+
+  - name: remove outdated reviews
+    conditions:
+      - base=master
+    actions:
+      dismiss_reviews: {}

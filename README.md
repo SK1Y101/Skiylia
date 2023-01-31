@@ -13,9 +13,8 @@ Dynamically typed Object Oriented Programming Language.
 ![GitHub language count](https://img.shields.io/github/languages/count/SK1Y101/Skiylia)
 ![GitHub top language](https://img.shields.io/github/languages/top/SK1Y101/Skiylia)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/SK1Y101/Skiylia)
-![Lines of code](https://img.shields.io/tokei/lines/github.com/SK1Y101/Skiylia) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat)](#contributors)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
+![Lines of code](https://img.shields.io/tokei/lines/github.com/SK1Y101/Skiylia)
+[![All Contributors](https://img.shields.io/github/all-contributors/SK1Y101/Skiylia?color=ee8449&style=flat)](#contributors)
 
 ## Releases
 
