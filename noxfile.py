@@ -43,8 +43,22 @@ def mypy(session: nox.session) -> None:
 
 @nox.session
 def tests(session: nox.session) -> None:
-    """Run the test suite."""
+    """Run the python test suite."""
     session.install("pytest")
     session.install("coverage")
-    session.run("coverage", "run", "-m", "pytest", "--import-mode=importlib", "-v")
+    session.run(
+        "coverage",
+        "run",
+        "-m",
+        "pytest",
+        "python-tests",
+        "--import-mode=importlib",
+        "-v",
+    )
     session.run("coverage", "report", "-m")
+
+
+@nox.session
+def skiytests(session: nox.session) -> None:
+    """Run the skiylia test suite (Non-functional for now)"""
+    # session.run("python3 src/skiylia.py")
