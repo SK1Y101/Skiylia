@@ -13,6 +13,9 @@ Additionally, view the :doc:`design` section for an insight into the overarching
 
    This project is under active development.
 
+
+<script type='text/javascript' src='https://openhub.net/p/Skiylia/widgets/project_factoids_stats?format=js'></script>
+
 Contents
 --------
 

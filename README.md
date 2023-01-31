@@ -1,41 +1,37 @@
 # Skiylia
-Dynamically typed Object Oriented Programming Language.
+
+<img src="docs/source/_images/Skiylia_Logo_text.svg" width=60%/>
+
+Skiylia is a dynamically typed, object oriented, bytecode based programming language 
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
-[![Documentation Status](https://readthedocs.org/projects/skiylia/badge/?version=latest?style=for-the-badge)](https://skiylia.readthedocs.io/en/latest/?badge=latest)
+[![OpenHub](https://www.openhub.net/p/Skiylia/widgets/project_partner_badge?format=gif&style=for-the-badge)](https://www.openhub.net/p/Skiylia)
 
-![GitHub](https://img.shields.io/github/license/SK1Y101/Skiylia)
-[![CodeFactor](https://www.codefactor.io/repository/github/SK1Y101/Skiylia/badge)](https://www.codefactor.io/repository/github/SK1Y101/Skiylia)
-[![codecov](https://codecov.io/gh/SK1Y101/Skiylia/branch/main/graph/badge.svg?token=DRJ67ZQA7M)](https://codecov.io/gh/SK1Y101/Skiylia)
-[![time tracker](https://wakatime.com/badge/github/SK1Y101/Skiylia.svg)](https://wakatime.com/badge/github/SK1Y101/Skiylia)
-[![OpenHub]('https://www.openhub.net/p/Skiylia/widgets/project_thin_badge?format=gif')]('https://www.openhub.net/p/Skiylia')
+![GitHub](https://img.shields.io/github/license/SK1Y101/Skiylia?style=flat-square)
+[![CodeFactor](https://www.codefactor.io/repository/github/SK1Y101/Skiylia/badge?style=flat-square)](https://www.codefactor.io/repository/github/SK1Y101/Skiylia)
+[![time tracker](https://wakatime.com/badge/github/SK1Y101/Skiylia.svg?style=flat-square)](https://wakatime.com/badge/github/SK1Y101/Skiylia)
+[![Documentation Status](https://img.shields.io/readthedocs/skiylia?style=flat-square)](https://skiylia.readthedocs.io/en/latest/?badge=latest)
 
-![GitHub language count](https://img.shields.io/github/languages/count/SK1Y101/Skiylia)
-![GitHub top language](https://img.shields.io/github/languages/top/SK1Y101/Skiylia)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/SK1Y101/Skiylia)
-![Lines of code](https://img.shields.io/tokei/lines/github.com/SK1Y101/Skiylia)
-[![All Contributors](https://img.shields.io/github/all-contributors/SK1Y101/Skiylia?color=ee8449&style=flat)](#contributors)
+![GitHub language count](https://img.shields.io/github/languages/count/SK1Y101/Skiylia?style=flat-square)
+![GitHub top language](https://img.shields.io/github/languages/top/SK1Y101/Skiylia?style=flat-square)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/SK1Y101/Skiylia?style=flat-square)
+<!-- ![Lines of code](https://img.shields.io/tokei/lines/github.com/SK1Y101/Skiylia?style=flat-square) -->
+[![All Contributors](https://img.shields.io/github/all-contributors/SK1Y101/Skiylia?color=ee8449&style=flat-square)](#contributors)
 
 ## Releases
 
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/SK1Y101/Skiylia?include_prereleases)
-![GitHub commits since latest release (by date including pre-releases)](https://img.shields.io/github/commits-since/SK1Y101/Skiylia/latest/develop?include_prereleases)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/w/SK1Y101/Skiylia)
-![GitHub issues](https://img.shields.io/github/issues-raw/SK1Y101/Skiylia)
-![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/SK1Y101/Skiylia)
-![GitHub last commit](https://img.shields.io/github/last-commit/SK1Y101/Skiylia)
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/SK1Y101/Skiylia?include_prereleases&style=flat-square)
+![GitHub commits since latest release (by date including pre-releases)](https://img.shields.io/github/commits-since/SK1Y101/Skiylia/latest/develop?include_prereleases&style=flat-square)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/SK1Y101/Skiylia?style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues-raw/SK1Y101/Skiylia?style=flat-square)
+![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/SK1Y101/Skiylia?style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/SK1Y101/Skiylia?style=flat-square)
 
 **Skiylia: [Latest release](../../releases)**
 
 Open issues can be found here: [issues](../../issues)
 
 To create an issue, be it a bug, question, feature request, or other, use this link here: [Open an issue](../../issues/new/choose)
-
-# Skiylia
-
-<img src="https://raw.githubusercontent.com/SK1Y101/SK1Y101.github.com/7a2533a517895c08b8aa52c32396c292a0563d49/Skiylia_Logo_text.svg" width=60%/>
-
-Skiylia is a dynamically typed, object oriented, bytecode based programming language 
 
 ## Running Skiylia
 
