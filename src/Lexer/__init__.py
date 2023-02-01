@@ -12,13 +12,13 @@ from .grammar_rules import string_chars, symbols
 from .tokens import Token
 
 
-def Lex(program: str) -> list[Token]:
-    lexer = Lexer(program)
-    return lexer.lex()
+def Lex(program: str, debug: bool = False) -> list[Token]:
+    lexer = Lexer(program, debug)
+    return lexer.lexAll()
 
 
 class Lexer:
-    def __init__(self, program: str) -> None:
+    def __init__(self, program: str, debug: bool = False) -> None:
         self.pos: int = 0
         self.row: int = 1
         self.column: int = 1
@@ -26,13 +26,27 @@ class Lexer:
             program += "\0"
         self.source: str = program
         self.sourcelen: int = len(program)
-
-    def lex(self) -> list[Token]:
+        self.debug = debug
+    
+    def lexAll(self) -> list[Token]:
         """Continue to parse source code until we complete the token stream."""
-        self.tokens = []
+        toks: list[Token] = []
         while not self.atEnd():
-            self.tokens.append(self.scanToken())
-        return self.tokens
+            toks.append(self.lex())
+        return toks
+
+    def lex(self) -> Token:
+        """Parse the next token from the soure code"""
+        lastrow = self.row if self.pos > 0 else 0
+        token = self.scanToken()
+        if self.debug:
+            row = token.row
+            tpe, lex = token.rep()
+            print("   |" if row == lastrow else f"{row:4d}",
+                tpe.rjust(10),
+                lex)
+            lastrow = row
+        return token
 
     def scanToken(self) -> Token:
         """Fetch the next token in the source."""
@@ -119,7 +133,7 @@ class Lexer:
 
     def advance(self, offset: int = 1) -> str:
         self.pos += offset
-        self.row += offset
+        self.column += offset
         char = self.source[self.pos - offset]
         if char == "\n":
             self.row = 1
