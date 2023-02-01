@@ -5,7 +5,7 @@ import pytest
 
 sys.path.append("src")
 
-from lexer import Lex, Token
+from Lexer import Lex, Token
 
 
 class decomposedLexer:
