@@ -8,19 +8,19 @@ from .Types import Number
 
 
 def Parse(program: list[Token], debug: bool = False) -> list[int]:
-    parser = Parser(program, debug)
-    return parser.parseAll()
+    parser = Parser(debug)
+    return parser.parseAll(program)
 
 
 class Parser:
-    def __init__(self, program: list[Token], debug: bool = False) -> None:
-        self.program = program
+    def __init__(self, debug: bool = False) -> None:
         self.debug = debug
 
-    def parse(self) -> int:
+    def parse(self, token: Token) -> int:
         pass
 
-    def parseAll(self) -> list[int]:
+    def parseAll(self, program: list[Token]) -> list[int]:
+        
         group = Group("test")
         constant = group.addConstant(Number.Number(56))
         group.write(OpCodes.CONSTANT, 123)
