@@ -6,6 +6,7 @@ import pytest
 sys.path.append("src")
 
 from Lexer import Lex, Token
+from Parser import Parse
 
 
 class decomposedLexer:
@@ -29,6 +30,9 @@ def decomposeLexer(program: str) -> decomposedLexer:
     lexer = decomposedLexer(program)
     return lexer.lex()
 
+@pytest.fixture
+def parser():
+    return Parse
 
 @pytest.fixture
 def lexer():
