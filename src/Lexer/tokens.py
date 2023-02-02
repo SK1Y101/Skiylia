@@ -2,6 +2,7 @@
 
 from typing import Any
 
+
 class Token:
     def __init__(
         self, type: str, lexeme: str, literal: Any = None, col: int = 0, row: int = 0
@@ -14,7 +15,7 @@ class Token:
 
     def __repr__(self) -> str:
         return " ".join(self.rep())
-    
+
     def rep(self) -> tuple[str, str]:
         if self.literal:
             return self.type, f"'{self.lexeme}': {float(self.literal)}"
@@ -22,4 +23,4 @@ class Token:
             return self.type, "'\\n'"
         if self.lexeme == "\0":
             return self.type, "'\\0'"
-        return self.type, self.lexeme
+        return self.type, f"'{self.lexeme}'"

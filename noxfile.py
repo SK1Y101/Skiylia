@@ -4,15 +4,17 @@ directories = ["src"]
 
 format_dirs = ["noxfile.py"] + directories
 
+nox.options.sessions = ["black", "isort", "lint", "mypy", "tests"]
 
-@nox.session
+
+@nox.session(tags=["format", "lint"])
 def black(session: nox.session) -> None:
     """Reformat python files."""
     session.install("black")
     session.run("black", *format_dirs)
 
 
-@nox.session
+@nox.session(tags=["format", "lint"])
 def isort(session: nox.session) -> None:
     session.install("isort")
     session.run(
@@ -23,14 +25,14 @@ def isort(session: nox.session) -> None:
     )
 
 
-@nox.session
+@nox.session(tags=["lint"])
 def lint(session: nox.session) -> None:
     """Lint all python files."""
     session.install("flake8")
     session.run("flake8", *format_dirs, "--max-line-length", "88", "--ignore", "E203")
 
 
-@nox.session
+@nox.session(tags=["lint"])
 def mypy(session: nox.session) -> None:
     """Check python files for type violations."""
     dirs = []
@@ -41,7 +43,7 @@ def mypy(session: nox.session) -> None:
     session.run("mypy", *dirs, "--ignore-missing-imports")
 
 
-@nox.session
+@nox.session(tags=["test"])
 def tests(session: nox.session) -> None:
     """Run the python test suite."""
     session.install("pytest")
@@ -53,6 +55,7 @@ def tests(session: nox.session) -> None:
         "pytest",
         "python-tests",
         "--import-mode=importlib",
+        "--durations=0",
         "-v",
     )
     session.run("coverage", "report", "-m")

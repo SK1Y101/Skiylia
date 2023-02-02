@@ -1,43 +1,71 @@
 # Skiylia group class, used to represent small groupings of bytecode
 
-from .Types import Number
+from typing import Any
+
 from .opcodes import OpCodes
+
+
+class NumberGroup:
+    def __init__(self) -> None:
+        self.count = 0
+        self.memory: list[float] = []
+
+    def write(self, value: float) -> int:
+        self.memory.append(value)
+        self.count += 1
+        return self.count - 1
+
+    def read(self, idx: int) -> float:
+        return self.memory[idx]
+
+    def free(self) -> None:
+        self.count = 0
+        self.memory.clear()
+
 
 class Group:
     def __init__(self, name: str) -> None:
         self.name = name
         self.code = bytearray()
-        self.constants = Number.NumberGroup()
-        self.lines = list()
+        self.constants = NumberGroup()
+        self.lines: list[int] = []
+        self.cols: list[int] = []
         self.count = 0
+        self.dis = 0
 
-    def write(self, byte: int, line: int) -> None:
+    def write(self, byte: int, line: int, col: int) -> int:
         self.count += 1
         self.code.append(byte)
         self.lines.append(line)
+        self.cols.append(col)
         return self.count - 1
-    
-    def read(self, idx: int) -> Number:
+
+    def read(self, idx: int) -> Any:
         return self.code[idx]
 
     def free(self) -> None:
-        self.__init__()
-    
-    def toByteCode(self) -> list[int]:
+        self.count = 0
+        self.code.clear()
+        self.lines.clear()
+        self.cols.clear()
+
+    def toByteCode(self) -> bytearray:
         return self.code
 
-    """ Debug information. """
+    """= ==== DEBUGGING ===== """
 
-    def disasemble(self) -> str:
+    def disasemble(self) -> None:
         print(f"== {self.name} ==")
         offset, lastline = 0, 0
         while offset < self.count:
             line = self.lines[offset]
             idx, op, text, offset = self.disassembleInstruction(offset)
-            print(f"{idx:04d}",
+            print(
+                f"{idx:04d}",
                 "   |" if line == lastline else f"{line:4d}",
                 op.ljust(16),
-                text)
+                text,
+            )
             lastline = line
 
     def disassembleInstruction(self, offset: int) -> tuple[int, str, str, int]:
@@ -50,18 +78,20 @@ class Group:
             case _:
                 return self.unknownInstruction(opcode, offset)
 
-    def constantInstruction(self, opcode: str, offset: int) -> tuple[int, str, str, int]:
+    def constantInstruction(
+        self, opcode: str, offset: int
+    ) -> tuple[int, str, str, int]:
         constptr = self.read(offset + 1)
         constant = f"{constptr} '{self.constants.read(constptr)}'"
         return offset, opcode, constant, offset + 2
 
     def simpleInstruction(self, opcode: str, offset: int) -> tuple[int, str, str, int]:
         return offset, opcode, "", offset + 1
-    
-    def unknownInstruction(self, opcode: str, offset: int) -> tuple[int, str, str, int]:
+
+    def unknownInstruction(self, opcode: Any, offset: int) -> tuple[int, str, str, int]:
         return offset, "Unknown opcode", opcode, offset + 1
-    
-    """ Parsing operations. """
-    
-    def addConstant(self, value: Number.Number) -> None:
+
+    """ ===== OPERATIONS ON THE GROUP ===== """
+
+    def addConstant(self, value: float) -> int:
         return self.constants.write(value)
