@@ -3,21 +3,29 @@
 from typing import Any
 
 
+def repchar(char: str) -> str:
+    match char:
+        case "\n":
+            return "\\n"
+        case "\0":
+            return "\\0"
+    return char
+
+
 class Token:
     def __init__(
         self, type: str, lexeme: str, literal: Any = None, col: int = 0, row: int = 0
     ) -> None:
         self.type = type
-        self.lexeme = lexeme
+        self.lexeme = repchar(lexeme)
         self.literal = literal
         self.col = col
         self.row = row
 
     def __repr__(self) -> str:
+        return " ".join(self.rep())
+
+    def rep(self) -> tuple[str, str]:
         if self.literal:
-            return f"{self.type} '{self.lexeme}': {float(self.literal)}"
-        if self.lexeme == "\n":
-            return f"{self.type} '\\n'"
-        if self.lexeme == "\0":
-            return f"{self.type} '\\0'"
-        return f"{self.type} '{self.lexeme}'"
+            return self.type, f"'{self.lexeme}': {float(self.literal)}"
+        return self.type, f"'{self.lexeme}'"
