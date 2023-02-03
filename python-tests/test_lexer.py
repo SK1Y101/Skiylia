@@ -1,7 +1,7 @@
 # Tests to verify the correct functioning of the Skiylia lexer
 
-from .fixtures import decompose, lexer
-from Lexer import Token
+from .fixtures import decompose, lexer  # isort:skip
+
 from skiylia_errors import error
 
 
@@ -11,18 +11,15 @@ class TestLexerLexes:
     def test_debug(self, lexer: lexer, capsys) -> None:
         num1, op, num2, string = 1, "+", 2, "hello world!"
         lexer(f"{num1}{op}{num2}\n'{string}'", True)
-        assert (
-            capsys.readouterr().out.split("\n") == 
-            [
-                f"{1:4d} {'NUMBER'.rjust(10)} '{num1}': {float(num1)}",
-                f"   | {'PLUS'.rjust(10)} '+'",
-                f"   | {'NUMBER'.rjust(10)} '{num2}': {float(num2)}",
-                f"   | {'NEWLINE'.rjust(10)} '\\n'",
-                f"{2:4d} {'STRING'.rjust(10)} '{string}'",
-                f"   | {'EOF'.rjust(10)} '\\0'",
-                ""
-            ]
-        )
+        assert capsys.readouterr().out.split("\n") == [
+            f"{1:4d} {'NUMBER'.rjust(10)} '{num1}': {float(num1)}",
+            f"   | {'PLUS'.rjust(10)} '+'",
+            f"   | {'NUMBER'.rjust(10)} '{num2}': {float(num2)}",
+            f"   | {'NEWLINE'.rjust(10)} '\\n'",
+            f"{2:4d} {'STRING'.rjust(10)} '{string}'",
+            f"   | {'EOF'.rjust(10)} '\\0'",
+            "",
+        ]
 
     def test_comment_single(self, lexer: lexer) -> None:
         comment = "Example comment"
@@ -45,13 +42,21 @@ class TestLexerLexes:
 
     def test_comment_fails(self, lexer: lexer) -> None:
         tokens = lexer("// failed single comment")
-        err_token = [token for token in tokens if token.type=="ERROR"][0]
-        assert (err_token.type, err_token.lexeme, err_token.literal) == ("ERROR", "\\n", error.UNTERMINATEDCOMMENT)
+        err_token = [token for token in tokens if token.type == "ERROR"][0]
+        assert (err_token.type, err_token.lexeme, err_token.literal) == (
+            "ERROR",
+            "\\n",
+            error.UNTERMINATEDCOMMENT,
+        )
 
         tokens = lexer("/// failed multi-line comment")
-        err_token = [token for token in tokens if token.type=="ERROR"][0]
-        assert (err_token.type, err_token.lexeme, err_token.literal) == ("ERROR", "///", error.UNTERMINATEDCOMMENT)
-        
+        err_token = [token for token in tokens if token.type == "ERROR"][0]
+        assert (err_token.type, err_token.lexeme, err_token.literal) == (
+            "ERROR",
+            "///",
+            error.UNTERMINATEDCOMMENT,
+        )
+
     def test_string(self, decompose: decompose) -> None:
         string1 = "hello"
         string2 = "world"
@@ -75,12 +80,20 @@ class TestLexerLexes:
 
     def test_number_fails(self, lexer: lexer) -> None:
         tokens = lexer("7.6.9")
-        err_token = [token for token in tokens if token.type=="ERROR"][0]
-        assert (err_token.type, err_token.lexeme, err_token.literal) == ("ERROR", ".", error.UNIDENTIFIEDCHARACTER)
+        err_token = [token for token in tokens if token.type == "ERROR"][0]
+        assert (err_token.type, err_token.lexeme, err_token.literal) == (
+            "ERROR",
+            ".",
+            error.UNIDENTIFIEDCHARACTER,
+        )
         tokens = lexer(".90")
-        
-        err_token = [token for token in tokens if token.type=="ERROR"][0]
-        assert (err_token.type, err_token.lexeme, err_token.literal) == ("ERROR", ".", error.UNIDENTIFIEDCHARACTER)
+
+        err_token = [token for token in tokens if token.type == "ERROR"][0]
+        assert (err_token.type, err_token.lexeme, err_token.literal) == (
+            "ERROR",
+            ".",
+            error.UNIDENTIFIEDCHARACTER,
+        )
 
     def test_identifier(self, lexer: lexer) -> None:
         ident = "testvar"

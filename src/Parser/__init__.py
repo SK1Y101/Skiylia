@@ -8,9 +8,9 @@ from .groups import Group
 from .opcodes import opcodes
 
 
-def Parse(program: str, debug: bool = False) -> bytearray:
+def Parse(program: str, debug: bool = False, lexerDebug: bool = False) -> bytearray:
     parser = Parser("test", debug)
-    return parser.parseAll(program)
+    return parser.parseAll(program, lexerDebug)
 
 
 class Parser(grammar):
@@ -24,8 +24,8 @@ class Parser(grammar):
         self.panicMode = False
         self.hadError = False
 
-    def parseAll(self, program: str) -> bytearray:
-        self.lexer = Lexer(program, self.debug)
+    def parseAll(self, program: str, lexerDebug: bool | None = None) -> bytearray:
+        self.lexer = Lexer(program, self.debug if lexerDebug is None else lexerDebug)
         while not self.lexer.atEnd():
             self.parse()
         if self.debug:
@@ -80,7 +80,7 @@ class Parser(grammar):
     def advance(self) -> None:
         self.previous = self.current
         while not self.lexer.atEnd():
-            self.current = self.lexer.lex()
+            self.current = self.lexer.lex(ignore_comment=True)
             if self.current.type != "ERROR":
                 break
             self.errorAtCurrent()

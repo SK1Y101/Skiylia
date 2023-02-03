@@ -35,9 +35,12 @@ class Lexer:
                 break
         return toks
 
-    def lex(self) -> Token:
+    def lex(self, ignore_comment: bool = False) -> Token:
         """Parse the next token from the soure code"""
         token = self.scanToken()
+        if ignore_comment:
+            while token.type == "COMMENT":
+                token = self.scanToken()
         if self.debug:
             line = token.row
             tpe, lex = token.rep()
