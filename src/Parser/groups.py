@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from .opcodes import OpCodes
+from .opcodes import opcodes
 
 
 class NumberGroup:
@@ -71,10 +71,19 @@ class Group:
     def disassembleInstruction(self, offset: int) -> tuple[int, str, str, int]:
         opcode = self.read(offset)
         match opcode:
-            case OpCodes.RETURN:
+            case opcodes.RETURN:
                 return self.simpleInstruction("OP_RETURN", offset)
-            case OpCodes.CONSTANT:
+            case opcodes.CONSTANT:
                 return self.constantInstruction("OP_CONSTANT", offset)
+            # Binary operations
+            case opcodes.ADD:
+                return self.simpleInstruction("OP_ADD", offset)
+            case opcodes.SUBTRACT:
+                return self.simpleInstruction("OP_SUBTRACT", offset)
+            case opcodes.MULTIPLY:
+                return self.simpleInstruction("OP_MULTIPLY", offset)
+            case opcodes.DIVIDE:
+                return self.simpleInstruction("OP_DIVIDE", offset)
             case _:
                 return self.unknownInstruction(opcode, offset)
 

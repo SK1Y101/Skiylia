@@ -5,7 +5,7 @@ from skiylia_errors import error
 
 from .grammar_rules import grammar
 from .groups import Group
-from .opcodes import OpCodes
+from .opcodes import opcodes
 
 
 def Parse(program: str, debug: bool = False) -> bytearray:
@@ -15,6 +15,7 @@ def Parse(program: str, debug: bool = False) -> bytearray:
 
 class Parser(grammar):
     def __init__(self, name: str, debug: bool = False) -> None:
+        super().__init__()
         self.debug = debug
         self.group = Group(name)
         self.pos = 0
@@ -24,7 +25,7 @@ class Parser(grammar):
         self.hadError = False
 
     def parseAll(self, program: str) -> bytearray:
-        self.lexer = Lexer(program, True)
+        self.lexer = Lexer(program, self.debug)
         while not self.lexer.atEnd():
             self.parse()
         if self.debug:
@@ -41,11 +42,23 @@ class Parser(grammar):
 
     def endParsing(self) -> None:
         self.emitReturn()
-        if not self.hadError:
+        if self.hadError:
             self.group.disasemble()
 
-    def parsePrecedence(self, prec: int) -> None:
-        pass
+    def parsePrecedence(self, precedence: int) -> None:
+        self.advance()
+        prefixRule = self.getRule(self.previous.type).prefix
+        if not prefixRule:
+            self.error("Expected expression.")
+            return
+
+        prefixRule()
+
+        while precedence <= self.getRule(self.current.type).precedence:
+            self.advance()
+            infixRule = self.getRule(self.previous.type).infix
+            if infixRule:
+                infixRule()
 
     """ Bytecode operations. """
 
@@ -57,47 +70,26 @@ class Parser(grammar):
         self.group.write(byte, self.previous.row, self.previous.col)
 
     def emitReturn(self) -> None:
-        self.emitByte(OpCodes.RETURN)
+        self.emitByte(opcodes.RETURN)
 
     def emitConstant(self, value: float) -> None:
-        self.emitBytes(OpCodes.CONSTANT, self.group.addConstant(value))
+        self.emitBytes(opcodes.CONSTANT, self.group.addConstant(value))
 
     """ Token operations. """
 
-    def advance(self):
+    def advance(self) -> None:
         self.previous = self.current
-        while True:
+        while not self.lexer.atEnd():
             self.current = self.lexer.lex()
             if self.current.type != "ERROR":
                 break
             self.errorAtCurrent()
 
-    def consume(self, type: str, message: str):
+    def consume(self, type: str, message: str) -> None:
         if self.current.type == type:
             self.advance()
             return
         self.errorAtCurrent(message)
-
-    # def peek(self, offset: int = 0) -> str:
-    #     if self.pos + offset >= self.sourcelen:
-    #         return "\0"
-    #     return self.source[self.pos + offset]
-
-    # def match(self, char: str) -> bool:
-    #     if self.peek() != char:
-    #         return False
-    #     self.advance()
-    #     return True
-
-    # def advance(self, offset: int = 1) -> str:
-    #     self.pos += offset
-    #     self.column += offset
-    #     char = self.source[self.pos - offset]
-    #     if char == "\n":
-    #         self.temp = (self.row, self.column)
-    #         self.row += 1
-    #         self.column = 1
-    #     return char
 
     def errorAtCurrent(self, message: str = "") -> None:
         self.errorAt(self.current, message)

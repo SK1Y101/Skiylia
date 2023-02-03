@@ -3,13 +3,21 @@
 from typing import Type
 
 
+class UnsuppliedFileError(FileNotFoundError):
+    """Used if a file is not supplied to the Skiylia Interpreter."""
+
+
+class InvalidFileError(FileNotFoundError):
+    """Used if a file is not a valid interpretation target."""
+
+
 class SkiyliaError(Exception):
     """Base Skiylia error."""
 
     def __init__(
         self,
-        col: int = 0,
         row: int = 0,
+        col: int = 0,
         message: str = "",
         location: str = "",
         *args,
@@ -35,8 +43,8 @@ class SkiyliaError(Exception):
 class UnidentifiedCharacter(SkiyliaError):
     """Raised when an unknown character is found in the filestream."""
 
-    def __init__(self, col: int = 0, row: int = 0, char: str = "", *args) -> None:
-        super().__init__(col, row, f"'{char}'")
+    def __init__(self, row: int = 0, col: int = 0, char: str = "", *args) -> None:
+        super().__init__(row, col, f"'{char}'")
 
 
 class UnexpectedCharacter(SkiyliaError):
@@ -46,7 +54,7 @@ class UnexpectedCharacter(SkiyliaError):
 class UnterminatedClosure(SkiyliaError):
     """Used when an opening literal is not closed."""
 
-    def __init__(self, col: int = 0, row: int = 0, char: str = "", *args) -> None:
+    def __init__(self, row: int = 0, col: int = 0, char: str = "", *args) -> None:
         antichar = {
             "(": ")",
             "[": "]",
@@ -54,7 +62,7 @@ class UnterminatedClosure(SkiyliaError):
             "\n": "\\n",
         }.get(char, char)
         quote = "'" if antichar != "'" else "`"
-        super().__init__(col, row, f"Missing {quote}{antichar}{quote}")
+        super().__init__(row, col, f"Missing {quote}{antichar}{quote}")
 
 
 class UnterminatedString(UnterminatedClosure):

@@ -1,46 +1,62 @@
 # Skiylia Interpreter, Used as an entrypoint to make Skiylia code work
 
+import argparse
 import os
-import sys
+import traceback
 
 from Parser import Parser
+from skiylia_errors import InvalidFileError, UnsuppliedFileError
 
 
 class Skiylia:
-    DEBUG = False
-    SUPERDEBUG = False
+    DEBUG = 0
+    name = "Skiylia"
+    version = "0.0.1"
 
-    def run(self, program_file: str) -> None:
+    valid_extensions = [".skiy"]
+
+    def open_file(self, program_file: str) -> str:
         with open(program_file, "r") as f:
-            program_contents = f.read()
-        parser = Parser(program_file, self.DEBUG)
-        bytecode = parser.parseAll(program_contents)
-        print(bytecode)
+            return f.read()
 
-    def entry_point(self, argv: list[str]) -> int:
-        if "-d" in argv:
-            argv.remove("-d")
-            self.DEBUG = True
-        if "-dd" in argv:
-            self.DEBUG = True
-            self.SUPERDEBUG = True
+    def run(self, program: str, env_name: str) -> None:
+        parser = Parser(env_name, self.DEBUG)
+        _ = parser.parseAll(program)
 
-        if len(argv) == 0:
-            print("Error: Must supply a filename.")
-            return 1
-        if not os.path.exists(argv[0]):
-            print("Error: file does not exist.")
-            return 2
+    def entry_point(self, args) -> int:
+        self.DEBUG = args.debug
 
-        if self.SUPERDEBUG:
-            self.run(argv[0])
-        else:
-            try:
-                self.run(argv[0])
-            except Exception as e:
-                print(e)
+        try:
+            program_name = args.file
+
+            if not program_name:
+                raise UnsuppliedFileError("Must supply a file.")
+            if os.path.splitext(program_name)[1] not in self.valid_extensions:
+                raise InvalidFileError(f"'{program_name}' is not a valid skiylia file.")
+            if not os.path.exists(program_name):
+                raise FileNotFoundError(f"'{program_name}' does not exist.")
+
+            self.run(self.open_file(program_name), program_name)
+        except Exception as e:
+            # all hell breaks loose on superdebug
+            if self.DEBUG > 1:
+                errtext = traceback.format_exc()[:-1]
+            # handle python errors nicely
+            elif self.DEBUG:
+                errtext = str(e)
+            else:
+                errtext = "Re-execute with debug enabled."
+            print(f"Skiylia interpreter encountered {e.__class__.__name__}:\n{errtext}")
         return 0
 
 
 if __name__ == "__main__":
-    Skiylia().entry_point(sys.argv[1:])
+    parser = argparse.ArgumentParser(description="Skiylia interpreter.")
+    parser.add_argument(
+        "file", help="Skiylia file to execute."
+    )  # , nargs="?", default="")
+    parser.add_argument(
+        "-d", "--debug", help="increase output debug level.", action="count", default=0
+    )
+
+    Skiylia().entry_point(parser.parse_args())

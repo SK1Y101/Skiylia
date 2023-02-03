@@ -21,6 +21,7 @@ class Lexer:
 
         self.debug = debug
         self.lastline: int = -1
+        self.skipWhitespace = False
 
         self.source: str = program + "\0"
 
@@ -56,8 +57,16 @@ class Lexer:
         self.startrow = self.currentrow
         self.startcol = self.currentcol
 
+        # if self.atEnd():
+        #     self.current+=1
+        #     return self.createToken("EOF")
         if self.matchGroup("//"):
             return self.createCommentToken()
+        elif self.skipWhitespace:
+            while not self.atEnd() and self.peek() in [" ", "\t"]:
+                self.advance()
+                self.start += 1
+                self.startcol += 1
 
         c = self.advance()
 
@@ -75,6 +84,7 @@ class Lexer:
     def createToken(self, tpe: str, literal: Any = None) -> Token:
         if tpe == "SPACE" and self.matchGroup("   "):
             tpe = "TAB"
+        self.skipWhitespace = tpe not in ["NEWLINE", "SPACE", "TAB"]
         return Token(tpe, self.lexeme, literal, self.startcol, self.startrow)
 
     def createErrorToken(self, errcode: int, message: str = "") -> Token:
@@ -161,7 +171,7 @@ class Lexer:
         return self.source[self.current - 1]
 
     def atEnd(self) -> bool:
-        return self.source[self.current] == "\0"
+        return self.current >= len(self.source)
 
     @property
     def lexeme(self) -> str:
