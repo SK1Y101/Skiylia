@@ -1,11 +1,13 @@
 # Fixtures used for the skiylia test suite
 
 import sys
+
 import pytest
 
 sys.path.append("src")
 
-from lexer import Lex, Token
+from Lexer import Lex, Token  # isort:skip
+from Parser import Parse  # isort:skip
 
 
 class decomposedLexer:
@@ -28,6 +30,11 @@ class decomposedLexer:
 def decomposeLexer(program: str) -> decomposedLexer:
     lexer = decomposedLexer(program)
     return lexer.lex()
+
+
+@pytest.fixture
+def parser():
+    return Parse
 
 
 @pytest.fixture
