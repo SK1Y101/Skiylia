@@ -14,15 +14,16 @@ class parseRule:
 
 
 class grammar:
+
+    """Precedence."""
+
+    PREC_NONE = 0
+    PREC_TERM = 1
+    PREC_FACTOR = 2
+    PREC_PRIMARY = 3
+
     def __init__(self):
-        """Precedence."""
-
-        self.PREC_NONE = 0
-        self.PREC_TERM = 1
-        self.PREC_FACTOR = 2
-        self.PREC_PRIMARY = 3
-
-        """ Rules mapping. """
+        """Rules mapping."""
 
         self.RULES = {
             # special
@@ -36,6 +37,8 @@ class grammar:
             "STAR": parseRule(None, self.binary, self.PREC_FACTOR),
             # literals
             "NUMBER": parseRule(self.number, None, self.PREC_NONE),
+            "STRING": parseRule(None, None, self.PREC_NONE),
+            "IDENTIFIER": parseRule(None, None, self.PREC_NONE),
             # keywords
         }
 

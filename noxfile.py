@@ -1,8 +1,11 @@
 import nox
 
+# run mypy on these
 directories = ["src"]
-
-format_dirs = ["noxfile.py"] + directories
+# additionally run flake8 on these
+lint_dirs = ["noxfile.py"] + directories
+# and run black and isort on these
+format_dirs = ["python-tests"] + lint_dirs
 
 nox.options.sessions = ["black", "isort", "lint", "mypy", "tests"]
 
@@ -29,7 +32,7 @@ def isort(session: nox.session) -> None:
 def lint(session: nox.session) -> None:
     """Lint all python files."""
     session.install("flake8")
-    session.run("flake8", *format_dirs, "--max-line-length", "88", "--ignore", "E203")
+    session.run("flake8", *lint_dirs, "--max-line-length", "88", "--ignore", "E203")
 
 
 @nox.session(tags=["lint"])
