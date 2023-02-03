@@ -56,7 +56,7 @@ def tests(session: nox.session) -> None:
         "python-tests",
         "--import-mode=importlib",
         "--durations=0",
-        "-v",
+        "-vv",
     )
     session.run("coverage", "report", "-m")
 
