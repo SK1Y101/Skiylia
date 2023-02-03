@@ -35,7 +35,7 @@ class TestLexerLexes:
         comment2 = "second comment"
         tokens = decompose(f"//{comment1}\n\n//{comment2}\n")
         assert tokens.types == ["COMMENT", "NEWLINE", "COMMENT", "EOF"]
-        assert tokens.lexemes == [comment1, "\n", comment2, "\0"]
+        assert tokens.lexemes == [comment1, "\\n", comment2, "\\0"]
 
     def test_comment_multi(self, lexer: lexer) -> None:
         comment = "This is a multi-\n\tline comment\n"
@@ -46,7 +46,7 @@ class TestLexerLexes:
     def test_comment_fails(self, lexer: lexer) -> None:
         tokens = lexer("// failed single comment")
         err_token = [token for token in tokens if token.type=="ERROR"][0]
-        assert (err_token.type, err_token.lexeme, err_token.literal) == ("ERROR", "\n", error.UNTERMINATEDCOMMENT)
+        assert (err_token.type, err_token.lexeme, err_token.literal) == ("ERROR", "\\n", error.UNTERMINATEDCOMMENT)
 
         tokens = lexer("/// failed multi-line comment")
         err_token = [token for token in tokens if token.type=="ERROR"][0]
@@ -55,8 +55,9 @@ class TestLexerLexes:
     def test_string(self, decompose: decompose) -> None:
         string1 = "hello"
         string2 = "world"
-        tokens = decompose(f"'{string1}' \n \"{string2}\"")
-        assert tokens.lexemes == [string1, " ", "\n", " ", string2, "\0"]
+        tokens = decompose(f"'{string1}'\n \"{string2}\"")
+        assert tokens.lexemes == [string1, "\\n", " ", string2, "\\0"]
+        assert tokens.types == ["STRING", "NEWLINE", "SPACE", "STRING", "EOF"]
 
     def test_number_integer(self, lexer: lexer) -> None:
         number = "1"

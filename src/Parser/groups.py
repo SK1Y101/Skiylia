@@ -75,7 +75,7 @@ class Group:
                 return self.simpleInstruction("OP_RETURN", offset)
             case opcodes.CONSTANT:
                 return self.constantInstruction("OP_CONSTANT", offset)
-            # Binary operations
+
             case opcodes.ADD:
                 return self.simpleInstruction("OP_ADD", offset)
             case opcodes.SUBTRACT:

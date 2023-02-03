@@ -28,7 +28,7 @@ class Lexer:
     def lexAll(self) -> list[Token]:
         """Continue to parse source code until we complete the token stream."""
         toks: list[Token] = []
-        while True:
+        while not self.atEnd():
             tok = self.lex()
             toks.append(tok)
             if tok.type == "EOF":
@@ -57,9 +57,6 @@ class Lexer:
         self.startrow = self.currentrow
         self.startcol = self.currentcol
 
-        # if self.atEnd():
-        #     self.current+=1
-        #     return self.createToken("EOF")
         if self.matchGroup("//"):
             return self.createCommentToken()
         elif self.skipWhitespace:

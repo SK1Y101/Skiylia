@@ -52,9 +52,7 @@ class Skiylia:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Skiylia interpreter.")
-    parser.add_argument(
-        "file", help="Skiylia file to execute."
-    )  # , nargs="?", default="")
+    parser.add_argument("file", help="Skiylia file to execute.")
     parser.add_argument(
         "-d", "--debug", help="increase output debug level.", action="count", default=0
     )
