@@ -27,14 +27,14 @@ class Parser(grammar):
 
         self.advance()
         self.expression()
-        self.consume("EOF", "Expected end of expression.")
+        self.consume("EOF", "Expected end of expression.", error.INCOMPLETEEXPRESSION)
 
         self.endParsing()
         return not self.hadError
 
     def endParsing(self) -> None:
         self.emitReturn()
-        if not self.hadError:
+        if not self.hadError and self.debug:
             self.group.disasemble()
 
     def parsePrecedence(self, precedence: int) -> None:
@@ -82,25 +82,27 @@ class Parser(grammar):
                 break
             self.errorAtCurrent()
 
-    def consume(self, type: str, message: str) -> None:
+    def consume(self, type: str, message: str, errcode: int = 0) -> None:
         if self.current.type == type:
             self.advance()
             return
-        self.errorAtCurrent(message)
+        self.errorAtCurrent(message, errcode)
 
-    def errorAtCurrent(self, message: str = "") -> None:
-        self.errorAt(self.current, message)
+    def errorAtCurrent(self, message: str = "", errcode: int = 0) -> None:
+        self.errorAt(self.current, message, errcode)
 
-    def error(self, message: str) -> None:
-        self.errorAt(self.previous, message)
+    def error(self, message: str, errcode: int = 0) -> None:
+        self.errorAt(self.previous, message, errcode)
 
-    def errorAt(self, token: Token, message: str) -> None:
+    def errorAt(self, token: Token, message: str, errcode: int = 0) -> None:
         if self.panicMode:
             return
         self.panicMode = True
         if token.type == "ERROR":
             self.exception(error().reverse(token.literal), token, message)
-        self.exception(error().reverse(), token, message)
+        else:
+            self.exception(error().reverse(errcode), token, message)
+        self.hadError = True
 
     def exception(
         self,
@@ -108,6 +110,4 @@ class Parser(grammar):
         token: Token,
         message: str = "",
     ) -> None:
-        if message:
-            raise exception(token.row, token.col, message)
-        raise exception(token.row, token.col, token.lexeme)
+        print(exception(token.row, token.col, message if message else token.lexeme))

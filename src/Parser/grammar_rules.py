@@ -37,7 +37,7 @@ class grammar:
             "STAR": parseRule(None, self.binary, self.PREC_FACTOR),
             # literals
             "NUMBER": parseRule(self.number, None, self.PREC_NONE),
-            "STRING": parseRule(None, None, self.PREC_NONE),
+            "STRING": parseRule(self.string, None, self.PREC_NONE),
             "IDENTIFIER": parseRule(None, None, self.PREC_NONE),
             # keywords
         }
@@ -69,4 +69,8 @@ class grammar:
 
     def number(self) -> None:
         value = self.previous.literal  # type: ignore
+        self.emitConstant(value)  # type: ignore
+
+    def string(self) -> None:
+        value = self.previous.lexeme  # type: ignore
         self.emitConstant(value)  # type: ignore

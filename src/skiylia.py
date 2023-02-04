@@ -6,7 +6,7 @@ import os
 import traceback
 
 from skiylia_errors import InvalidFileError, UnsuppliedFileError
-from VirtualMachine import Vm
+from VirtualMachine import Vm, vmresult
 
 
 class Skiylia:
@@ -22,7 +22,10 @@ class Skiylia:
 
     def run(self, program: str, env_name: str) -> None:
         vm = Vm(self.DEBUG)
-        _ = vm.interpret(program, env_name)
+        result = vm.interpret(program, env_name)
+
+        if result == vmresult.INTERPRET_OK:
+            print(vm.final_state)
 
     def entry_point(self, args) -> int:
         self.DEBUG = args.debug
