@@ -81,7 +81,10 @@ class Group:
                 return self.constantInstruction("OP_CONSTANT", offset)
             case opcodes.CONSTANT_LONG:
                 return self.longConstantInstruction("OP_CONSTANT_LONG", offset)
-
+            case opcodes.NEGATE:
+                return self.simpleInstruction("OP_NEGATE", offset)
+            case opcodes.POSIGATE:
+                return self.simpleInstruction("OP_POSIGATE", offset)
             case opcodes.ADD:
                 return self.simpleInstruction("OP_ADD", offset)
             case opcodes.SUBTRACT:

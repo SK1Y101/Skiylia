@@ -7,3 +7,6 @@ class opcodes:
     SUBTRACT = 4
     MULTIPLY = 5
     DIVIDE = 6
+
+    NEGATE = 7
+    POSIGATE = 8

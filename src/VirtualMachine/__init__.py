@@ -57,6 +57,11 @@ class Vm:
                 case opcodes.CONSTANT_LONG:
                     constant = self.readLongConstant()
                     self.push(constant)
+                case opcodes.NEGATE:
+                    self.stack[-1] = - self.stack[-1]
+                    # self.push(-self.pop())
+                case opcodes.POSIGATE:
+                    self.stack[-1] = abs(self.stack[-1])
                 case opcodes.ADD:
                     self.BINARY_OP("+")
                 case opcodes.SUBTRACT:
