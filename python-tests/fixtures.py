@@ -6,8 +6,9 @@ import pytest
 
 sys.path.append("src")
 
-from Lexer import Lex, Token  # isort:skip
-from Parser import Parse  # isort:skip
+from Lexer import Lexer, Token  # isort:skip
+from Parser import Parser, Group  # isort:skip
+from VirtualMachine import Vm  # isort: skip
 
 
 class decomposedLexer:
@@ -30,6 +31,32 @@ class decomposedLexer:
 def decomposeLexer(program: str) -> decomposedLexer:
     lexer = decomposedLexer(program)
     return lexer.lex()
+
+
+def execute(program: str, debug: bool = False) -> None:
+    vm = Vm(debug)
+    vm.interpret(program, "test")
+    return vm.final_state
+
+
+def Parse(program: str, debug: bool = False) -> bytearray:
+    parser = Parser(debug)
+    group = Group("test")
+    parser.parse(program, group)
+    return group.toByteCode()
+
+
+def Lex(program: str, debug: bool = False) -> list[Token]:
+    lexer = Lexer(program, debug)
+    tokens: list[Token] = []
+    while not lexer.atEnd():
+        tokens.append(lexer.lex())
+    return tokens
+
+
+@pytest.fixture
+def virtual_machine():
+    return execute
 
 
 @pytest.fixture

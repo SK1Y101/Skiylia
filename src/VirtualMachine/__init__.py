@@ -17,11 +17,13 @@ class Vm:
         self.ip: int = 0
         self.debug = debug
         self.stack: list[Any] = []
+        self.final_state: Any = None
 
     def free(self) -> None:
         self.group = None
         self.ip = 0
         self.stack = []
+        self.final_state = None
 
     def interpret(self, program: str, program_name: str) -> int:
         group = Group(program_name)
@@ -47,7 +49,7 @@ class Vm:
             instruction = self.readByte()
             match instruction:
                 case opcodes.RETURN:
-                    print(self.pop())
+                    self.final_state = self.pop()
                     return vmresult.INTERPRET_OK
                 case opcodes.CONSTANT:
                     constant = self.readConstant()

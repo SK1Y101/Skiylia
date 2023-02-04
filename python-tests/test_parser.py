@@ -1,4 +1,4 @@
-# # Tests to verify the correct functioning of the Skiylia lexer
+# Tests to verify the correct functioning of the Skiylia parser
 
 import pytest
 
