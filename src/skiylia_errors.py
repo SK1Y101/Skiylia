@@ -72,6 +72,9 @@ class UnterminatedString(UnterminatedClosure):
 class UnterminatedComment(UnterminatedClosure):
     """Raised when a comment is not terminated correctly."""
 
+class IncompleteExpression(SkiyliaError):
+    """Raised when a source file hits EOF before an expression is completed."""
+
 
 class error:
     UNIDENTIFIEDCHARACTER = 1
@@ -80,6 +83,8 @@ class error:
     UNTERMINATEDCLOSURE = 3
     UNTERMINATEDSTRING = 4
     UNTERMINATEDCOMMENT = 5
+
+    INCOMPLETEEXPRESSION = 6
 
     def reverse(self, code: int = 0) -> Type[SkiyliaError]:
         match code:
@@ -93,5 +98,7 @@ class error:
                 return UnterminatedString
             case self.UNTERMINATEDCOMMENT:
                 return UnterminatedComment
+            case self.INCOMPLETEEXPRESSION:
+                return IncompleteExpression
             case _:
                 return SkiyliaError
