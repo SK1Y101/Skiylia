@@ -25,16 +25,6 @@ class Lexer:
 
         self.source: str = program + "\0"
 
-    def lexAll(self) -> list[Token]:
-        """Continue to parse source code until we complete the token stream."""
-        toks: list[Token] = []
-        while not self.atEnd():
-            tok = self.lex()
-            toks.append(tok)
-            if tok.type == "EOF":
-                break
-        return toks
-
     def lex(self, ignore_comment: bool = False) -> Token:
         """Parse the next token from the soure code"""
         token = self.scanToken()

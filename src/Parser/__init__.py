@@ -14,35 +14,32 @@ def Parse(program: str, debug: bool = False, lexerDebug: bool = False) -> bytear
 
 
 class Parser(grammar):
-    def __init__(self, name: str, debug: bool = False) -> None:
+    def __init__(self, debug: bool = False) -> None:
         super().__init__()
         self.debug = debug
-        self.group = Group(name)
         self.pos = 0
         self.current: Token = None
         self.previous: Token = None
         self.panicMode = False
         self.hadError = False
 
-    def parseAll(self, program: str, lexerDebug: bool | None = None) -> bytearray:
-        self.lexer = Lexer(program, self.debug if lexerDebug is None else lexerDebug)
-        while not self.lexer.atEnd():
-            self.parse()
-        if self.debug:
-            self.group.disasemble()
-        return self.group.toByteCode()
-
-    def parse(self) -> bool:
+    def parse(self, program: str, group: Group) -> bool:
         """Parse the token into bytecode."""
+        self.lexer = Lexer(program, self.debug)
+        self.group = group
+        if self.debug:
+            print(f"-- {self.group.name} --")
+
         self.advance()
         self.expression()
         self.consume("EOF", "Expected end of expression.")
+
         self.endParsing()
         return not self.hadError
 
     def endParsing(self) -> None:
         self.emitReturn()
-        if self.hadError:
+        if not self.hadError:
             self.group.disasemble()
 
     def parsePrecedence(self, precedence: int) -> None:
