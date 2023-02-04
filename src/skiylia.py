@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Skiylia Interpreter, Used as an entrypoint to make Skiylia code work
 
 import argparse

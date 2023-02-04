@@ -79,6 +79,8 @@ class Group:
                 return self.simpleInstruction("OP_RETURN", offset)
             case opcodes.CONSTANT:
                 return self.constantInstruction("OP_CONSTANT", offset)
+            case opcodes.CONSTANT_LONG:
+                return self.longConstantInstruction("OP_CONSTANT_LONG", offset)
 
             case opcodes.ADD:
                 return self.simpleInstruction("OP_ADD", offset)
@@ -97,6 +99,17 @@ class Group:
         constptr = self.read(offset + 1)
         constant = f"{constptr:4d} '{self.constants.read(constptr)}'"
         return offset, opcode, constant, offset + 2
+
+    def longConstantInstruction(
+        self, opcode: str, offset: int
+    ) -> tuple[int, str, str, int]:
+        constptr = (
+            self.read(offset + 1)
+            | (self.read(offset + 2) << 8)
+            | (self.read(offset + 3) << 16)
+        )
+        constant = f"{constptr:8d} '{self.constants.read(constptr)}'"
+        return offset, opcode, constant, offset + 4
 
     def simpleInstruction(self, opcode: str, offset: int) -> tuple[int, str, str, int]:
         return offset, opcode, "", offset + 1

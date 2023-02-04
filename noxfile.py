@@ -32,7 +32,9 @@ def isort(session: nox.session) -> None:
 def lint(session: nox.session) -> None:
     """Lint all python files."""
     session.install("flake8")
-    session.run("flake8", *lint_dirs, "--max-line-length", "88", "--ignore", "E203")
+    session.run(
+        "flake8", *lint_dirs, "--max-line-length", "88", "--extend-ignore", "E203"
+    )
 
 
 @nox.session(tags=["lint"])
