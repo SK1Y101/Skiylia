@@ -11,6 +11,7 @@ Skiylia is a dynamically typed, object oriented, bytecode based programming lang
 [![CodeFactor](https://www.codefactor.io/repository/github/SK1Y101/Skiylia/badge?style=flat-square)](https://www.codefactor.io/repository/github/SK1Y101/Skiylia)
 [![time tracker](https://wakatime.com/badge/github/SK1Y101/Skiylia.svg?style=flat-square)](https://wakatime.com/badge/github/SK1Y101/Skiylia)
 [![Documentation Status](https://img.shields.io/readthedocs/skiylia?style=flat-square)](https://skiylia.readthedocs.io/en/latest/?badge=latest)
+[![Known Vulnerabilities](https://snyk.io/test/github/SK1Y101/Skiylia/badge.svg?style=flat-square)](https://snyk.io/test/github/SK1Y101/Skiylia)
 
 ![GitHub language count](https://img.shields.io/github/languages/count/SK1Y101/Skiylia?style=flat-square)
 ![GitHub top language](https://img.shields.io/github/languages/top/SK1Y101/Skiylia?style=flat-square)

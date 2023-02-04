@@ -21,7 +21,7 @@ class Skiylia:
 
     def run(self, program: str, env_name: str) -> None:
         vm = Vm(self.DEBUG)
-        result = vm.interpret(program, env_name)
+        _ = vm.interpret(program, env_name)
 
     def entry_point(self, args) -> int:
         self.DEBUG = args.debug

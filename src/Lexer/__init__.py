@@ -10,7 +10,10 @@ from .tokens import Token
 
 def Lex(program: str, debug: bool = False) -> list[Token]:
     lexer = Lexer(program, debug)
-    return lexer.lexAll()
+    tokens: list[Token] = []
+    while not lexer.atEnd():
+        tokens.append(lexer.lex())
+    return tokens
 
 
 class Lexer:
