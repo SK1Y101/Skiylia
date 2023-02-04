@@ -8,9 +8,11 @@ from .groups import Group
 from .opcodes import opcodes
 
 
-def Parse(program: str, debug: bool = False, lexerDebug: bool = False) -> bytearray:
-    parser = Parser("test", debug)
-    return parser.parseAll(program, lexerDebug)
+def Parse(program: str, debug: bool = False) -> bytearray:
+    parser = Parser(debug)
+    group = Group("test")
+    parser.parse(program, group)
+    return group.toByteCode()
 
 
 class Parser(grammar):

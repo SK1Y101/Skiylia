@@ -13,8 +13,15 @@ class TestParserParses:
 
     def test_debug(self, parser: parser, capsys) -> None:
         number1, number2, number3 = 1.4, 6.7, 8891
-        parser(f"{number1}+{number2}/{number3}", True, False)
+        parser(f"{number1}+{number2}/{number3}", True)
         assert capsys.readouterr().out.split("\n") == [
+            "-- test --",
+            f"{1:4d} {'NUMBER'.rjust(10)} '{number1}': {float(number1)}",
+            f"   | {'PLUS'.rjust(10)} '+'",
+            f"   | {'NUMBER'.rjust(10)} '{number2}': {float(number2)}",
+            f"   | {'SLASH'.rjust(10)} '/'",
+            f"   | {'NUMBER'.rjust(10)} '{number3}': {float(number3)}",
+            f"   | {'EOF'.rjust(10)} '\\0'",
             "== test ==",
             f"{0:04d} {1:4d} {'OP_CONSTANT'.ljust(16)} {0:4d} '{float(number1)}'",
             f"{2:04d}    | {'OP_CONSTANT'.ljust(16)} {1:4d} '{float(number2)}'",
