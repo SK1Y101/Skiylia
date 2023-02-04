@@ -18,9 +18,10 @@ class grammar:
     """Precedence."""
 
     PREC_NONE = 0
-    PREC_TERM = 1
-    PREC_FACTOR = 2
-    PREC_PRIMARY = 3
+    PREC_TERM = 1 # + -
+    PREC_FACTOR = 2 # * /
+    PREC_UNARY = 3 # - +
+    PREC_PRIMARY = 4
 
     def __init__(self):
         """Rules mapping."""
@@ -31,8 +32,8 @@ class grammar:
             "ERROR": parseRule(None, None, self.PREC_NONE),
             "SPACE": parseRule(None, None, self.PREC_NONE),
             # symbols
-            "MINUS": parseRule(None, self.binary, self.PREC_TERM),
-            "PLUS": parseRule(None, self.binary, self.PREC_TERM),
+            "MINUS": parseRule(self.unary, self.binary, self.PREC_TERM),
+            "PLUS": parseRule(self.unary, self.binary, self.PREC_TERM),
             "SLASH": parseRule(None, self.binary, self.PREC_FACTOR),
             "STAR": parseRule(None, self.binary, self.PREC_FACTOR),
             # literals
@@ -49,6 +50,16 @@ class grammar:
 
     def expression(self) -> None:
         self.parsePrecedence(1)  # type: ignore
+    
+    def unary(self) -> None:
+        op = self.previous.type #type: ignore
+        self.parsePrecedence(self.PREC_UNARY)  # type: ignore
+
+        match op:
+            case "MINUS":
+                self.emitByte(opcodes.NEGATE) # type: ignore
+            case "PLUS":
+                self.emitByte(opcodes.POSIGATE) # type: ignore
 
     def binary(self) -> None:
         op = self.previous.type  # type: ignore
