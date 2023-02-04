@@ -4,8 +4,8 @@ import argparse
 import os
 import traceback
 
-from Parser import Parser
 from skiylia_errors import InvalidFileError, UnsuppliedFileError
+from VirtualMachine import Vm
 
 
 class Skiylia:
@@ -20,8 +20,8 @@ class Skiylia:
             return f.read()
 
     def run(self, program: str, env_name: str) -> None:
-        parser = Parser(env_name, self.DEBUG)
-        _ = parser.parseAll(program)
+        vm = Vm(self.DEBUG)
+        result = vm.interpret(program, env_name)
 
     def entry_point(self, args) -> int:
         self.DEBUG = args.debug

@@ -24,7 +24,7 @@ class NumberGroup:
 
 
 class Group:
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str = "") -> None:
         self.name = name
         self.code = bytearray()
         self.constants = NumberGroup()
@@ -67,6 +67,10 @@ class Group:
                 text,
             )
             lastline = line
+
+    def disassembleOne(self, idx: int) -> None:
+        idx, op, text, _ = self.disassembleInstruction(idx)
+        print(f"{idx:04d}", op.ljust(16), text)
 
     def disassembleInstruction(self, offset: int) -> tuple[int, str, str, int]:
         opcode = self.read(offset)
