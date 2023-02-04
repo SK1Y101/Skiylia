@@ -3,7 +3,11 @@
 import pytest
 
 from Parser import opcodes
-from skiylia_errors import UnidentifiedCharacter, UnterminatedString
+from skiylia_errors import (
+    UnidentifiedCharacter,
+    UnterminatedComment,
+    UnterminatedString,
+)
 
 from .fixtures import parser  # isort:skip
 
@@ -59,10 +63,8 @@ class TestParserParses:
         )
 
     def test_parse_constant_fail(self, parser: parser) -> None:
-        with pytest.raises(UnidentifiedCharacter):
-            parser("1.2.3")
-        with pytest.raises(UnidentifiedCharacter):
-            parser(".1")
+        assert isinstance(parser("1.2.3")[0], UnidentifiedCharacter)
+        assert isinstance(parser(".1")[0], UnidentifiedCharacter)
 
     def test_parse_comments_not_included(self, parser: parser) -> None:
         bytecode = parser("// comment here\n1+3")
@@ -70,9 +72,11 @@ class TestParserParses:
             [opcodes.CONSTANT, 0, opcodes.CONSTANT, 1, opcodes.ADD, opcodes.RETURN]
         )
 
+    def test_parse_comment_fail(self, parser: parser) -> None:
+        assert isinstance(parser("// unterminated comment")[0], UnterminatedComment)
+
     def test_parse_string_fails(self, parser: parser) -> None:
-        with pytest.raises(UnterminatedString):
-            parser("'hello")
+        assert isinstance(parser("'hello")[0], UnterminatedString)
 
     def test_parse_arithmetic(self, parser: parser) -> None:
         bytecode = parser("1+2")

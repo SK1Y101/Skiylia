@@ -45,6 +45,7 @@ class Group:
 
     def free(self) -> None:
         self.count = 0
+        self.constants.free()
         self.code.clear()
         self.lines.clear()
         self.cols.clear()
