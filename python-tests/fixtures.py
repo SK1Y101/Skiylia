@@ -6,6 +6,8 @@ import pytest
 
 sys.path.append("src")
 
+from skiylia import Skiylia
+
 from Lexer import Lexer, Token  # isort:skip
 from Parser import Parser, Group  # isort:skip
 from VirtualMachine import Vm  # isort: skip
@@ -53,6 +55,25 @@ def Lex(program: str, debug: bool = False) -> list[Token]:
     while not lexer.atEnd():
         tokens.append(lexer.lex())
     return tokens
+
+
+@pytest.fixture
+def skiylia_args():
+    skiylia = Skiylia()
+    return skiylia.parse_args
+
+
+@pytest.fixture
+def skiylia(capsys):
+    def execute_code(program_name: str, debug: bool = False):
+        skiylia = Skiylia()
+        args = [program_name]
+        if debug:
+            args.append("-dd")
+        skiylia.entry_point(skiylia.parse_args(args))
+        return capsys.readouterr()
+
+    return execute_code
 
 
 @pytest.fixture
