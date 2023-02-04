@@ -8,14 +8,6 @@ from .lexical_rules import string_chars, symbols
 from .tokens import Token
 
 
-def Lex(program: str, debug: bool = False) -> list[Token]:
-    lexer = Lexer(program, debug)
-    tokens: list[Token] = []
-    while not lexer.atEnd():
-        tokens.append(lexer.lex())
-    return tokens
-
-
 class Lexer:
     def __init__(self, program: str, debug: bool = False) -> None:
         self.current: int = 0

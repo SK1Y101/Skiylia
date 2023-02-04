@@ -8,13 +8,6 @@ from .groups import Group
 from .opcodes import opcodes
 
 
-def Parse(program: str, debug: bool = False) -> bytearray:
-    parser = Parser(debug)
-    group = Group("test")
-    parser.parse(program, group)
-    return group.toByteCode()
-
-
 class Parser(grammar):
     def __init__(self, debug: bool = False) -> None:
         super().__init__()
