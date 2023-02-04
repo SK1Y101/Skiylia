@@ -72,6 +72,7 @@ class UnterminatedString(UnterminatedClosure):
 class UnterminatedComment(UnterminatedClosure):
     """Raised when a comment is not terminated correctly."""
 
+
 class IncompleteExpression(SkiyliaError):
     """Raised when a source file hits EOF before an expression is completed."""
 

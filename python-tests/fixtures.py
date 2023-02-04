@@ -42,7 +42,8 @@ def execute(program: str, debug: bool = False) -> None:
 def Parse(program: str, debug: bool = False) -> bytearray:
     parser = Parser(debug)
     group = Group("test")
-    parser.parse(program, group)
+    if not parser.parse(program, group):
+        return parser.errors
     return group.toByteCode()
 
 

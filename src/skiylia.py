@@ -27,6 +27,8 @@ class Skiylia:
         if result == vmresult.INTERPRET_OK:
             print(vm.final_state)
 
+        vm.free()
+
     def entry_point(self, args) -> int:
         self.DEBUG = args.debug
 

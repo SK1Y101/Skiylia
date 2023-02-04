@@ -18,9 +18,9 @@ class grammar:
     """Precedence."""
 
     PREC_NONE = 0
-    PREC_TERM = 1 # + -
-    PREC_FACTOR = 2 # * /
-    PREC_UNARY = 3 # - +
+    PREC_TERM = 1  # + -
+    PREC_FACTOR = 2  # * /
+    PREC_UNARY = 3  # - +
     PREC_PRIMARY = 4
 
     def __init__(self):
@@ -50,16 +50,16 @@ class grammar:
 
     def expression(self) -> None:
         self.parsePrecedence(1)  # type: ignore
-    
+
     def unary(self) -> None:
-        op = self.previous.type #type: ignore
+        op = self.previous.type  # type: ignore
         self.parsePrecedence(self.PREC_UNARY)  # type: ignore
 
         match op:
             case "MINUS":
-                self.emitByte(opcodes.NEGATE) # type: ignore
+                self.emitByte(opcodes.NEGATE)  # type: ignore
             case "PLUS":
-                self.emitByte(opcodes.POSIGATE) # type: ignore
+                self.emitByte(opcodes.POSIGATE)  # type: ignore
 
     def binary(self) -> None:
         op = self.previous.type  # type: ignore

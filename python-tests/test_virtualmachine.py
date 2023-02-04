@@ -13,3 +13,13 @@ class TestVmExecutes:
         self, virtual_machine: virtual_machine
     ) -> None:
         assert virtual_machine("2 - 6 * 3 / 4") == -2.5
+
+    def test_vm_return_string(self, virtual_machine: virtual_machine) -> None:
+        assert virtual_machine('"hello world!"') == "hello world!"
+
+    def test_vm_unary_operations(self, virtual_machine: virtual_machine) -> None:
+        assert virtual_machine("-2") == -2
+        assert virtual_machine("+-2") == 2
+
+    def test_vm_reach_eof(self, virtual_machine: virtual_machine) -> None:
+        assert virtual_machine("") == None

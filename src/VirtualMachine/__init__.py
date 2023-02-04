@@ -20,6 +20,7 @@ class Vm:
         self.final_state: Any = None
 
     def free(self) -> None:
+        self.group.free()
         self.group = None
         self.ip = 0
         self.stack = []
@@ -58,7 +59,7 @@ class Vm:
                     constant = self.readLongConstant()
                     self.push(constant)
                 case opcodes.NEGATE:
-                    self.stack[-1] = - self.stack[-1]
+                    self.stack[-1] = -self.stack[-1]
                     # self.push(-self.pop())
                 case opcodes.POSIGATE:
                     self.stack[-1] = abs(self.stack[-1])

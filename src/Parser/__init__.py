@@ -1,7 +1,9 @@
 # Skiylia Parser, converts tokenised code to bytecode
 
+from typing import Type
+
 from Lexer import Lexer, Token
-from skiylia_errors import error
+from skiylia_errors import SkiyliaError, error
 
 from .grammar_rules import grammar
 from .groups import Group
@@ -17,6 +19,7 @@ class Parser(grammar):
         self.previous: Token = None
         self.panicMode = False
         self.hadError = False
+        self.errors: list[Type[SkiyliaError]] = []
 
     def parse(self, program: str, group: Group) -> bool:
         """Parse the token into bytecode."""
@@ -110,4 +113,6 @@ class Parser(grammar):
         token: Token,
         message: str = "",
     ) -> None:
-        print(exception(token.row, token.col, message if message else token.lexeme))
+        exc = exception(token.row, token.col, message if message else token.lexeme)
+        self.errors.append(exc)
+        print(exc)
