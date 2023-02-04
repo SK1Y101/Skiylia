@@ -36,6 +36,28 @@ class TestParserParses:
         bytecode = parser("1")
         assert bytecode == bytearray([opcodes.CONSTANT, 0, opcodes.RETURN])
 
+    def test_parse_long_constants(self, parser: parser) -> None:
+        max_sum = 290
+        bytecode = parser("+".join([str(x) for x in range(max_sum)]))
+        assert bytecode == bytearray(
+            [opcodes.CONSTANT, 0]
+            + sum(
+                [[opcodes.CONSTANT, x, opcodes.ADD] for x in range(1, 256)]
+                + [
+                    [
+                        opcodes.CONSTANT_LONG,
+                        x & 0xFF,
+                        (x >> 8) & 0xFF,
+                        (x >> 16) & 0xFF,
+                        opcodes.ADD,
+                    ]
+                    for x in range(256, max_sum)
+                ],
+                [],
+            )
+            + [opcodes.RETURN]
+        )
+
     def test_parse_constant_fail(self, parser: parser) -> None:
         with pytest.raises(UnidentifiedCharacter):
             parser("1.2.3")

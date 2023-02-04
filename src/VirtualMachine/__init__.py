@@ -54,6 +54,9 @@ class Vm:
                 case opcodes.CONSTANT:
                     constant = self.readConstant()
                     self.push(constant)
+                case opcodes.CONSTANT_LONG:
+                    constant = self.readLongConstant()
+                    self.push(constant)
                 case opcodes.ADD:
                     self.BINARY_OP("+")
                 case opcodes.SUBTRACT:
@@ -86,10 +89,14 @@ class Vm:
 
     """ Bytecode operations. """
 
-    def readByte(self, idx: int | None = None) -> int:
+    def readByte(self) -> int:
         self.ip += 1
         return self.group.read(self.ip - 1)
 
-    def readConstant(self, idx: int | None = None) -> float:
-        const = self.readByte(self.ip)
-        return self.group.constants.read(const)
+    def readConstant(self) -> float:
+        idx = self.readByte()
+        return self.group.constants.read(idx)
+
+    def readLongConstant(self) -> float:
+        idx = self.readByte() | (self.readByte() << 8) | (self.readByte() << 16)
+        return self.group.constants.read(idx)

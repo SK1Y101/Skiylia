@@ -54,18 +54,23 @@ class Parser(grammar):
 
     """ Bytecode operations. """
 
+    def emitByte(self, byte: int) -> None:
+        self.group.write(byte, self.previous.row, self.previous.col)
+
     def emitBytes(self, byte1: int, byte2: int) -> None:
         self.emitByte(byte1)
         self.emitByte(byte2)
-
-    def emitByte(self, byte: int) -> None:
-        self.group.write(byte, self.previous.row, self.previous.col)
 
     def emitReturn(self) -> None:
         self.emitByte(opcodes.RETURN)
 
     def emitConstant(self, value: float) -> None:
-        self.emitBytes(opcodes.CONSTANT, self.group.addConstant(value))
+        idx = self.group.addConstant(value)
+        if idx < 256:
+            self.emitBytes(opcodes.CONSTANT, idx)
+        else:
+            self.emitBytes(opcodes.CONSTANT_LONG, idx & 0xFF)
+            self.emitBytes((idx >> 8) & 0xFF, (idx >> 16) & 0xFF)
 
     """ Token operations. """
 
