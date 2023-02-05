@@ -5,30 +5,39 @@ import argparse
 import os
 import sys
 import traceback
+import json
 
 from skiylia_errors import InvalidFileError, UnsuppliedFileError
 from VirtualMachine import Vm, vmresult
 
-
 class Skiylia:
-    DEBUG = 0
+    # versioning
+    major = 0 # Introduced functionality that was not backwards compatible
+    minor = 0 # Introduced functionality that was backwards compatible
+    patch = 1 # backwards compatible bug fixes
+    build = 96 # the build number (number of commits since initial)
+    additional = "pre-alpha" # additional qualifiers (pre-alpha, alpha, beta, release, "")
+    version = f"{major:d}.{minor:d}.{patch:d}.{build:d}"+(f"-{additional}" if additional else "")
+    # version = str(major)
+    #description
     name = "Skiylia"
-    version = "0.0.1"
     url = "https://skiylia.readthedocs.io"
-    description = f"{name} Interprter version {version}. Read more at {url}."
-
+    description = f"{name} Interprter version {version}, Read more at {url}."
+    # interpreter-specific
+    DEBUG = 0
     valid_extensions = [".skiy"]
 
     def parse_args(self, args: list[str]):
         parser = argparse.ArgumentParser(prog=self.name, description=self.description)
-        parser.add_argument("file", help="Skiylia file to execute.")
+        parser.add_argument("file", help=f"{self.name} file to execute")
         parser.add_argument(
             "-d",
             "--debug",
-            help="increase output debug level.",
+            help="increase output debug level",
             action="count",
             default=0,
         )
+        parser.add_argument("-v", "--version", help=f"return the currently installed {self.name} version", action='version', version=f"{self.name} {self.version}")
         return parser.parse_args(args)
 
     def open_file(self, program_file: str) -> str:
