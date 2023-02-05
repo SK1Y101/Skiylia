@@ -1,6 +1,8 @@
 pull_request_rules:
-  - name: automatic merge when GitHub branch protection passes
+  - name: Merge to main when checks succeed
     conditions:
+      - base=main
+      - approved-reviews-by=SK1Y101
       - label!=work-in-progress
       - -closed
       - -merged
@@ -14,14 +16,17 @@ pull_request_rules:
       merge:
         method: merge
 
-  - name: apply patches to the edge branch
+  - name: Create and merge edge patches
     conditions:
       - base=main
+      - head=edge
     actions:
       backport:
         regexes: [edge]
+      merge:
+        method: merge
 
-  - name: automatic merge for Allcontributors bot pull requests
+  - name: Add Contributors automatically
     conditions:
       - base=main
       - author~=^allcontributors\[bot\]$
@@ -31,7 +36,7 @@ pull_request_rules:
       merge:
         method: merge
 
-  - name: automatic merge for Dependabot pull requests
+  - name: Add dependencies automatically
     conditions:
       - author=dependabot[bot]
     actions:
@@ -40,7 +45,7 @@ pull_request_rules:
       merge:
         method: merge
 
-  - name: automatic merge for My pull requests
+  - name: Approve my pull requests automatically
     conditions:
       - author=SK1Y101
     actions:
@@ -49,7 +54,7 @@ pull_request_rules:
       merge:
         method: merge
 
-  - name: remove outdated reviews
+  - name: Remove outdated reviews
     conditions:
       - base=master
     actions:
