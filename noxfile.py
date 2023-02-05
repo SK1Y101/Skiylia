@@ -1,4 +1,7 @@
 import nox
+import os
+import sys
+sys.path.insert(0, os.path.abspath('src'))
 
 # run mypy on these
 directories = ["src"]
@@ -26,6 +29,13 @@ def isort(session: nox.session) -> None:
         "black",
         *format_dirs,
     )
+
+@nox.session(tags=["format"])
+def version(session) -> None:
+    from skiylia import Skiylia
+    build = session.run("git", "rev-list", "--count", "main", silent=True, external=True)
+    buildnum = int(build[:-1])
+    assert buildnum == Skiylia.build
 
 
 @nox.session(tags=["lint"])
