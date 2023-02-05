@@ -14,9 +14,6 @@ pull_request_rules:
       merge:
         method: merge
 
-<<<<<<< HEAD
-  - name: apply patches to the edge branch
-=======
   - name: Create edge patches
     conditions:
       - base=main
@@ -25,17 +22,11 @@ pull_request_rules:
         regexes: [edge]
 
   - name: Merge edge patches
->>>>>>> 80c9712 (ci(Mergify): configuration update)
     conditions:
       - base=main
     actions:
-<<<<<<< HEAD
-      backport:
-        regexes: [edge]
-=======
       merge:
         method: merge
->>>>>>> 80c9712 (ci(Mergify): configuration update)
 
   - name: automatic merge for Allcontributors bot pull requests
     conditions:
