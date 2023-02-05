@@ -22,7 +22,7 @@ pull_request_rules:
     actions:
       backport:
         regexes: [edge]
-        
+
   - name: Merge edge patches
     conditions:
       - base=main
