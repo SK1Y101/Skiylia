@@ -8,11 +8,6 @@ from .lexical_rules import string_chars, symbols
 from .tokens import Token
 
 
-def Lex(program: str, debug: bool = False) -> list[Token]:
-    lexer = Lexer(program, debug)
-    return lexer.lexAll()
-
-
 class Lexer:
     def __init__(self, program: str, debug: bool = False) -> None:
         self.current: int = 0
@@ -24,16 +19,6 @@ class Lexer:
         self.skipWhitespace = False
 
         self.source: str = program + "\0"
-
-    def lexAll(self) -> list[Token]:
-        """Continue to parse source code until we complete the token stream."""
-        toks: list[Token] = []
-        while not self.atEnd():
-            tok = self.lex()
-            toks.append(tok)
-            if tok.type == "EOF":
-                break
-        return toks
 
     def lex(self, ignore_comment: bool = False) -> Token:
         """Parse the next token from the soure code"""

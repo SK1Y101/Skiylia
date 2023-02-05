@@ -18,13 +18,13 @@ Chars:
     ]               [1,2,3]     [1..3]      a[0]        a[0:4]
     (               print()
     )               print()
-    {               {1,2,3}     {1:2, 2:3}
-    }               {1,2,3}     {1:2, 2:3}
+    {               {1,2,3}     {1:2, 2:3}  "1+2 is {1+2}"
+    }               {1,2,3}     {1:2, 2:3}  "1+2 is {1+2}"
     :               a ? b : c   a ?: b      if:
     ,               [a,b,c]     print(a,b)
     .               1.2         class.field
-    <               a < 3       a <= 3
-    >               a > 3       a >= 3      a -> int
+    <               a < 3       a <= 3      a << b      <<a
+    >               a > 3       a >= 3      a -> int    a >> b      >>a
     =               a = 4       a == 4      a === 4     a != 6      a!==6       a>=6    a<=6
     !               a != 6      !a
     @               @property
@@ -135,6 +135,7 @@ Numbers
 Strings
     "hi there"
     'hi there'
+    "1 + 3 is {1 + 3}"                              String interpolation
 
 
 Data Structures
@@ -177,13 +178,21 @@ Infix
     a / b                                           Division
     a ** b                                          Exponentiation
     a % b                                           Modulo
+    a << b                                          Left shift a 'b' times
+    a >> b                                          Right shift a 'b' times
 Prefix
-    -a                                              Negation
+    -a                                              Negation (Invert magnitude)
+    +a                                              Posigation (Force positive)
+    -+a                                             Negiposigation (Force negative)
     --a                                             Decrement before evaluation
     ++a                                             Increment before evaluation
+    >>a                                             Right shift a once before evaluation
+    <<a                                             Left shift a once before evaluation
 Postfix
     a--                                             Decrement after evaluation
     a++                                             Increment after evaluation
+    a>>                                             Right shift a once after evaluation
+    a<<                                             Left shift a once after evaluation
 
 Comparison 
     a < b                                           Less than
