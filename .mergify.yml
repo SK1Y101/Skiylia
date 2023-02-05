@@ -7,12 +7,19 @@ pull_request_rules:
       - check-success=run_nox
       - check-success=update_release_draft
       - check-success=CodeFactor
-
+      - check-success~=^security/snyk
     actions:
       assign:
         users: [SK1Y101]
       merge:
         method: merge
+
+  - name: apply patches to the edge branch
+    conditions:
+      - base=main
+    actions:
+      backport:
+        regexes: [edge]
 
   - name: automatic merge for Allcontributors bot pull requests
     conditions:
@@ -35,7 +42,6 @@ pull_request_rules:
 
   - name: automatic merge for My pull requests
     conditions:
-      - base=main
       - author=SK1Y101
     actions:
       review:
