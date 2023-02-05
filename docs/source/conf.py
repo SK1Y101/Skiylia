@@ -14,8 +14,8 @@ copyright = '2022, Jack Lloyd-Walters'
 author = 'Jack Lloyd-Walters'
 
 # Full version, including tags
-release = Skiylia.version
-# shirtened version name
+release = Skiylia.Version.version
+# shortened version name
 version = ".".join(release.split(".")[:2])
 
 

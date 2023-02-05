@@ -52,4 +52,4 @@ class SkiyliaLexer(RegexLexer):
 
 
 def setup(app):
-    app.add_lexer("skiylia", SkiyliaLexer())
+    app.add_lexer("SkiyliaLexer", SkiyliaLexer())
