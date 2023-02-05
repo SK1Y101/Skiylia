@@ -14,12 +14,19 @@ pull_request_rules:
       merge:
         method: merge
 
-  - name: apply patches to the edge branch
+  - name: Create edge patches
     conditions:
       - base=main
     actions:
       backport:
         regexes: [edge]
+
+  - name: Merge edge patches
+    conditions:
+      - base=main
+    actions:
+      merge:
+        method: merge
 
   - name: automatic merge for Allcontributors bot pull requests
     conditions:
