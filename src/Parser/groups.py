@@ -24,7 +24,7 @@ class NumberGroup:
 
 
 class Group:
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str = "") -> None:
         self.name = name
         self.code = bytearray()
         self.constants = NumberGroup()
@@ -45,6 +45,7 @@ class Group:
 
     def free(self) -> None:
         self.count = 0
+        self.constants.free()
         self.code.clear()
         self.lines.clear()
         self.cols.clear()
@@ -68,6 +69,10 @@ class Group:
             )
             lastline = line
 
+    def disassembleOne(self, idx: int) -> None:
+        idx, op, text, _ = self.disassembleInstruction(idx)
+        print(f"{idx:04d}", op.ljust(16), text)
+
     def disassembleInstruction(self, offset: int) -> tuple[int, str, str, int]:
         opcode = self.read(offset)
         match opcode:
@@ -75,7 +80,12 @@ class Group:
                 return self.simpleInstruction("OP_RETURN", offset)
             case opcodes.CONSTANT:
                 return self.constantInstruction("OP_CONSTANT", offset)
-
+            case opcodes.CONSTANT_LONG:
+                return self.longConstantInstruction("OP_CONSTANT_LONG", offset)
+            case opcodes.NEGATE:
+                return self.simpleInstruction("OP_NEGATE", offset)
+            case opcodes.POSIGATE:
+                return self.simpleInstruction("OP_POSIGATE", offset)
             case opcodes.ADD:
                 return self.simpleInstruction("OP_ADD", offset)
             case opcodes.SUBTRACT:
@@ -93,6 +103,17 @@ class Group:
         constptr = self.read(offset + 1)
         constant = f"{constptr:4d} '{self.constants.read(constptr)}'"
         return offset, opcode, constant, offset + 2
+
+    def longConstantInstruction(
+        self, opcode: str, offset: int
+    ) -> tuple[int, str, str, int]:
+        constptr = (
+            self.read(offset + 1)
+            | (self.read(offset + 2) << 8)
+            | (self.read(offset + 3) << 16)
+        )
+        constant = f"{constptr:8d} '{self.constants.read(constptr)}'"
+        return offset, opcode, constant, offset + 4
 
     def simpleInstruction(self, opcode: str, offset: int) -> tuple[int, str, str, int]:
         return offset, opcode, "", offset + 1

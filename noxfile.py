@@ -32,7 +32,9 @@ def isort(session: nox.session) -> None:
 def lint(session: nox.session) -> None:
     """Lint all python files."""
     session.install("flake8")
-    session.run("flake8", *lint_dirs, "--max-line-length", "88", "--ignore", "E203")
+    session.run(
+        "flake8", *lint_dirs, "--max-line-length", "88", "--extend-ignore", "E203"
+    )
 
 
 @nox.session(tags=["lint"])
@@ -58,8 +60,8 @@ def tests(session: nox.session) -> None:
         "pytest",
         "python-tests",
         "--import-mode=importlib",
-        "--durations=0",
-        "-vv",
+        "--durations=10",
+        "-v",
     )
     session.run("coverage", "report", "-m")
 
