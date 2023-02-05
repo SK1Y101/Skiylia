@@ -16,13 +16,18 @@ pull_request_rules:
       merge:
         method: merge
 
-  - name: Create and merge edge patches
+  - name: Create edge patches
+    conditions:
+      - base=main
+    actions:
+      backport:
+        regexes: [edge]
+
+  - name: Merge edge patches
     conditions:
       - base=main
       - head=edge
     actions:
-      backport:
-        regexes: [edge]
       merge:
         method: merge
 
