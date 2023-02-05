@@ -1,7 +1,10 @@
-import nox
 import os
+import re
 import sys
-sys.path.insert(0, os.path.abspath('src'))
+
+import nox
+
+sys.path.insert(0, os.path.abspath("src"))
 
 # run mypy on these
 directories = ["src"]
@@ -10,7 +13,14 @@ lint_dirs = ["noxfile.py"] + directories
 # and run black and isort on these
 format_dirs = ["python-tests"] + lint_dirs
 
-nox.options.sessions = ["black", "isort", "lint", "mypy", "tests"]
+nox.options.sessions = [
+    "black",
+    "isort",
+    "lint",
+    "mypy",
+    "tests",
+]
+nox.options.stop_on_first_error = True
 
 
 @nox.session(tags=["format", "lint"])
@@ -30,12 +40,29 @@ def isort(session: nox.session) -> None:
         *format_dirs,
     )
 
-@nox.session(tags=["format"])
-def version(session) -> None:
-    from skiylia import Skiylia
-    build = session.run("git", "rev-list", "--count", "main", silent=True, external=True)
+    skiyfile = "src/skiylia.py"
+    build = session.run(
+        "git", "rev-list", "--count", "HEAD", silent=True, external=True
+    )
     buildnum = int(build[:-1])
-    assert buildnum == Skiylia.build
+
+    with open(skiyfile, "r") as skiyliafile:
+        content = skiyliafile.read()
+
+    skiyliabuild = int(
+        re.search(
+            r"\d+",
+            re.search(
+                r"build = \d+", [x for x in content.split("\n") if "build = " in x][0]
+            ).group(),
+        ).group()
+    )
+
+    if skiyliabuild != buildnum:
+        content = content.replace(f"build = {skiyliabuild}", f"build = {buildnum}")
+        with open(skiyfile, "w") as skiyliafile:
+            skiyliafile.write(content)
+        session.log(f"Skiylia build updated to {buildnum}")
 
 
 @nox.session(tags=["lint"])
@@ -45,6 +72,20 @@ def lint(session: nox.session) -> None:
     session.run(
         "flake8", *lint_dirs, "--max-line-length", "88", "--extend-ignore", "E203"
     )
+    session.debug("Checking skiylia versioning information")
+
+    from skiylia import Skiylia
+
+    build = session.run(
+        "git", "rev-list", "--count", "HEAD", silent=True, external=True
+    )
+    buildnum = int(build[:-1])
+    if buildnum != Skiylia.Version.build:
+        session.error(f"{Skiylia.name} build incorrect (should be '{buildnum}')")
+    if Skiylia.Version.ident not in ["pre-alpha", "alpha", "beta", ""]:
+        session.error(
+            f"{Skiylia.name} stage incorrect, {Skiylia.Version.ident} invalid"
+        )
 
 
 @nox.session(tags=["lint"])

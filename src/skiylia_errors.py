@@ -3,10 +3,6 @@
 from typing import Type
 
 
-class UnsuppliedFileError(FileNotFoundError):
-    """Used if a file is not supplied to the Skiylia Interpreter."""
-
-
 class InvalidFileError(FileNotFoundError):
     """Used if a file is not a valid interpretation target."""
 

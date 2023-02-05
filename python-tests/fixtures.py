@@ -65,11 +65,14 @@ def skiylia_args():
 
 @pytest.fixture
 def skiylia(capsys):
-    def execute_code(program_name: str, debug: bool = False):
+    def execute_code(program_name: str, debug: int = 0):
         skiylia = Skiylia()
         args = [program_name]
-        if debug:
-            args.append("-dd")
+        match debug:
+            case 1:
+                args.append("-d")
+            case 2:
+                args.append("-dd")
         skiylia.entry_point(skiylia.parse_args(args))
         return capsys.readouterr()
 
