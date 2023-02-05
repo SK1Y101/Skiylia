@@ -23,7 +23,7 @@ pull_request_rules:
     actions:
       backport:
         regexes: [edge]
-        
+
   - name: Merge edge patches
 >>>>>>> 80c9712 (ci(Mergify): configuration update)
     conditions:
