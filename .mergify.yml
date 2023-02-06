@@ -1,7 +1,9 @@
 pull_request_rules:
   - name: Merge to main when checks succeed
     conditions:
-      - base=main
+      - or:
+        - base=main
+        - base=edge
       - approved-reviews-by=SK1Y101
       - label!=work-in-progress
       - -closed
@@ -28,6 +30,8 @@ pull_request_rules:
       - base=main
       - head=edge
     actions:
+      review:
+        type: APPROVE
       merge:
         method: merge
 
