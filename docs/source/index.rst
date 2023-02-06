@@ -1,20 +1,22 @@
-Welcome to Skiylia's documentation!
-===================================
+Skiylia
+=======
 
-**Skiylia** (/ˈskaɪˈliːə/) is a dynamically typed object oriented programming language,
-whose base compiler/interpreter is written in Python 3.10.
+**Skiylia** (/ˈskaɪˈliːə/) is a dynamically typed object oriented programming language; Skiylia is built from the group up to mirror the best features of python with sprinklings of C derivatives on top.
+
+Skiylia was designed with some measure of portability in mind, as the skiylia bytecode compiler/interpreter is built from plain python3.10, any system that runs python can run Skiylia too! (which, in <current year> is basically every machine)
+
+.. code-block:: skiylia
+   print("Hello, world!")
+
 
 Check out the :doc:`usage` section for further information, including
-how to :ref:`installation` the project.
+how to :ref:`installation<install>` the project.
 
-Additionally, view the :doc:`design` section for an insight into the overarching goals.
 
 .. note::
 
    This project is under active development.
 
-
-<script type='text/javascript' src='https://openhub.net/p/Skiylia/widgets/project_factoids_stats?format=js'></script>
 
 Contents
 --------

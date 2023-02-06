@@ -6,29 +6,23 @@ Usage
 Installation
 ------------
 
-Nothing here yet.
+clone the github repository
 
 .. code-block:: console
+   $ git clone https://github.com/SK1Y101/Skiylia.git
 
-   (.venv) $ pip install lumache
+navigate to the source folder and run
 
-Creating recipes
-----------------
+.. code-block:: console
+   $ cd skiylia/src
+   $ python3 skiylia.py ...
 
-To retrieve a list of random ingredients,
-you can use the ``lumache.get_random_ingredients()`` function:
+to execute a skiylia file is easy, simply pass the filepath at the interpreter level!
 
-.. autofunction:: lumache.get_random_ingredients
+.. code-block:: console
+   $ python3 skiylia.py <file_path>.skiy
 
-The ``kind`` parameter should be either ``"meat"``, ``"fish"``,
-or ``"veggies"``. Otherwise, :py:func:`lumache.get_random_ingredients`
-will raise an exception.
+the language additionally supplies a small help command
 
-.. autoexception:: lumache.InvalidKindError
-
-For example:
-
->>> import lumache
->>> lumache.get_random_ingredients()
-['shells', 'gorgonzola', 'parsley']
-
+.. code-block:: console
+   $ python3 skiylia.py -h
