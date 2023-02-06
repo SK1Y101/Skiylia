@@ -5,8 +5,9 @@ Skiylia
 
 Skiylia was designed with some measure of portability in mind, as the skiylia bytecode compiler/interpreter is built from plain python3.10, any system that runs python can run Skiylia too! (which, in <current year> is basically every machine)
 
-.. code-block:: skiylia
-   print("Hello, world!")
+.. literalinclude:: examples/neat_example.skiy
+    :language: skiylia
+    :caption: An example of a single-line comment
 
 
 Check out the :doc:`usage` section for further information, including
