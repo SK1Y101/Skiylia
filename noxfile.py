@@ -113,7 +113,11 @@ def lint(session: nox.session) -> None:
     if Skiylia.Version.build != buildnum:
         session.error(f"{Skiylia.name} build incorrect (should be '{buildnum}')")
     # incorrect identifier label
-    if Skiylia.Version.ident not in ["pre-alpha", "alpha", "beta", ""]:
+    if Skiylia.Version.ident and Skiylia.Version.ident not in [
+        "pre-alpha",
+        "alpha",
+        "beta",
+    ]:
         session.error(
             f"{Skiylia.name} stage incorrect, {Skiylia.Version.ident} invalid"
         )

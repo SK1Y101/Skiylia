@@ -5,10 +5,11 @@ import sys
 
 
 sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../../src'))
 # -- Project information
 
 from skiylia import Skiylia  # isort: skip
-from SkiyliaLexer import SkiyliaLexer
+from SkiyliaLexer import SkiyliaLexer  # isort: skip
 
 project = 'Skiylia Lang'
 copyright = '2022, Jack Lloyd-Walters'
