@@ -28,7 +28,7 @@ jobs:
         fallback: 0.0.0
     - name: Lint
       run: |
-        nox -e lint -- --last_ver ${{ steps.previoustag.outputs.tag }}
+        nox -e lint -- --last-ver ${{ steps.previoustag.outputs.tag }}
     - name: Type Checking
       run: |
         nox -e mypy
