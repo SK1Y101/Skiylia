@@ -18,6 +18,20 @@ nox.options.sessions = ["black", "isort", "lint", "mypy", "tests"]
 nox.options.stop_on_first_error = True
 
 
+def parse_args(session):
+    parser = argparse.ArgumentParser(description="Skiylia nox arguments")
+    parser.add_argument(
+        "--newcommit",
+        help="bump the build number, used if about to push a new commit.",
+        action="store_true",
+        default=False,
+    )
+    parser.add_argument(
+        "--last_ver", type=str, help="manually supply previous version", nargs="?"
+    )
+    return parser.parse_args(args=session.posargs)
+
+
 def fetch_last_release(session) -> str:
     last_release_ver = session.run(
         "git", "describe", "--abbrev=0", silent=True, external=True
@@ -61,6 +75,9 @@ def isort(session: nox.session) -> None:
         ).group()
     )
 
+    args = parse_args(session)
+    buildnum += int(args.newcommit)
+
     if skiyliabuild != buildnum:
         content = content.replace(f"build = {skiyliabuild}", f"build = {buildnum}")
         with open(skiyfile, "w") as skiyliafile:
@@ -79,25 +96,21 @@ def lint(session: nox.session) -> None:
     # Skiylia versioning
     from skiylia import Skiylia
 
+    # fetch the build arguments
+    args = parse_args(session)
+
     session.debug("Checking skiylia versioning information")
     buildnum = int(
         session.run("git", "rev-list", "--count", "HEAD", silent=True, external=True)[
             :-1
         ]
-    )
-
-    # fetch the build arguments
-    parser = argparse.ArgumentParser(description="lint Skiylia")
-    parser.add_argument(
-        "--last_ver", type=str, help="manually supply previous version", nargs="?"
-    )
-    args = parser.parse_args(args=session.posargs)
+    ) + int(args.newcommit)
 
     last_ver = args.last_ver if args.last_ver else fetch_last_release(session)
     session.debug(f"Last version {last_ver} {'given' if args.last_ver else 'found'}")
 
     # incorrect build number
-    if buildnum != Skiylia.Version.build:
+    if Skiylia.Version.build != buildnum:
         session.error(f"{Skiylia.name} build incorrect (should be '{buildnum}')")
     # incorrect identifier label
     if Skiylia.Version.ident not in ["pre-alpha", "alpha", "beta", ""]:
