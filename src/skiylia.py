@@ -6,6 +6,9 @@ import os
 import sys
 import traceback
 
+from skiylia_errors import InvalidFileError
+from VirtualMachine import Vm, vmresult
+
 
 class Skiylia:
     class Version:
@@ -16,7 +19,7 @@ class Skiylia:
         # Fix bugs or issues (backwards compatible by definition)
         patch = 0
         # Build number (commits since initial tracks approximate age)
-        build = 118
+        build = 119
         # Additional identifiers (ie: alpha)
         ident = "pre-alpha"
 
@@ -62,8 +65,6 @@ class Skiylia:
             return f.read()
 
     def run(self, program: str, env_name: str) -> None:
-        from VirtualMachine import Vm, vmresult
-
         vm = Vm(self.DEBUG)
         result = vm.interpret(program, env_name)
 
@@ -73,8 +74,6 @@ class Skiylia:
         vm.free()
 
     def entry_point(self, args) -> int:
-        from skiylia_errors import InvalidFileError
-
         self.DEBUG = args.debug
 
         try:

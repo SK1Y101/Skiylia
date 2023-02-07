@@ -2,21 +2,32 @@
 
 import os
 import sys
+import re
 
 
 sys.path.insert(0, os.path.abspath('..'))
-sys.path.insert(0, os.path.abspath('../../src'))
 # -- Project information
 
-from skiylia import Skiylia  # isort: skip
 from SkiyliaLexer import SkiyliaLexer  # isort: skip
 
 project = 'Skiylia Lang'
 copyright = '2022, Jack Lloyd-Walters'
 author = 'Jack Lloyd-Walters'
 
+with open("../../src/skiylia.py", "r") as f:
+    skiylia_source = f.readlines()
+
+rnum = {"major":None, "minor":None, "patch":None, "ident":None}
+for line in skiylia_source:
+    if None not in set(rnum.values()):
+        break
+    for k in rnum.keys():
+        search = re.search(rf"{k} = .+", line)
+        if search:
+            rnum[k] = search.group().replace(f"{k} = ", "").strip().strip('"')
+
 # Full version, including tags
-release = Skiylia.Version.version
+release = f"{rnum['major']}.{rnum['minor']}.{rnum['patch']}"+(f"-{rnum['ident']}" if rnum['ident'] else "")
 # shortened version name
 version = ".".join(release.split(".")[:2])
 
