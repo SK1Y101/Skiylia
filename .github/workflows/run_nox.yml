@@ -35,7 +35,7 @@ jobs:
     - name: Get build number
       id: buildnum
       run: |
-        $build=git rev-list --count HEAD
+        $build = git rev-list --count HEAD
     - name: Lint
       run: |
         nox -e lint -- --last_ver ${{ steps.previoustag.outputs.tag }}
