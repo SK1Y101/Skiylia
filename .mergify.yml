@@ -1,13 +1,10 @@
 pull_request_rules:
   - name: automatic merge when GitHub branch protection passes
     conditions:
-<<<<<<< HEAD
-=======
       - or:
         - base=main
         - base=edge
       - approved-reviews-by=SK1Y101
->>>>>>> b43ca3e (ci(Mergify): configuration update)
       - label!=work-in-progress
       - -closed
       - -merged
