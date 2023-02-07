@@ -25,14 +25,19 @@ pull_request_rules:
       backport:
         regexes: [edge]
 
-  - name: Merge edge patches
+  - name: Approve edge patches
     conditions:
+<<<<<<< HEAD
       - base=main
+=======
+      - base=edge
+      - head=main
+      - -closed
+      - -merged
+>>>>>>> b4cf457 (ci(Mergify): configuration update)
     actions:
       review:
         type: APPROVE
-      merge:
-        method: merge
 
   - name: automatic merge for Allcontributors bot pull requests
     conditions:
@@ -41,8 +46,6 @@ pull_request_rules:
     actions:
       review:
         type: APPROVE
-      merge:
-        method: merge
 
   - name: automatic merge for Dependabot pull requests
     conditions:
@@ -50,17 +53,17 @@ pull_request_rules:
     actions:
       review:
         type: APPROVE
-      merge:
-        method: merge
 
+<<<<<<< HEAD
   - name: automatic merge for My pull requests
+=======
+  - name: automatic approve for My pull requests
+>>>>>>> b4cf457 (ci(Mergify): configuration update)
     conditions:
       - author=SK1Y101
     actions:
       review:
         type: APPROVE
-      merge:
-        method: merge
 
   - name: remove outdated reviews
     conditions:
