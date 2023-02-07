@@ -29,14 +29,23 @@ def parse_args(session):
     parser.add_argument(
         "--last_ver", type=str, help="manually supply previous version", nargs="?"
     )
+    parser.add_argument(
+        "--debug",
+        help="increase output debug level",
+        action="store_true",
+        default=False,
+    )
     return parser.parse_args(args=session.posargs)
 
 
 def fetch_last_release(session) -> str:
-    last_release_ver = session.run(
-        "git", "describe", "--abbrev=0", silent=True, external=True
-    )
-    return re.search(r"\d+\.\d+\.\d+", last_release_ver[:-1]).group()
+    try:
+        last_release_ver = session.run(
+            "git", "describe", "--abbrev=0", silent=True, external=True
+        )
+        return re.search(r"\d+\.\d+\.\d+", last_release_ver[:-1]).group()
+    except Exception:
+        return "0.0.0"
 
 
 @nox.session(tags=["format", "lint"])
@@ -148,6 +157,10 @@ def mypy(session: nox.session) -> None:
 @nox.session(tags=["test"])
 def tests(session: nox.session) -> None:
     """Run the python test suite."""
+
+    # fetch the build arguments
+    args = parse_args(session)
+
     session.install("pytest")
     session.install("coverage")
     session.run(
@@ -158,7 +171,7 @@ def tests(session: nox.session) -> None:
         "python-tests",
         "--import-mode=importlib",
         "--durations=10",
-        "-v",
+        "-vv" if args.debug else "-v",
     )
     session.run("coverage", "report", "-m")
 
