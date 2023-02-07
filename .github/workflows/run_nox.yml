@@ -38,7 +38,7 @@ jobs:
         $build=git rev-list --count HEAD
     - name: Lint
       run: |
-        nox -e lint -- last_ver=${{ steps.previoustag.outputs.tag }}
+        nox -e lint -- ${{ steps.previoustag.outputs.tag }}
     - name: Type Checking
       run: |
         nox -e mypy
