@@ -27,11 +27,23 @@ def parse_args(session):
         default=False,
     )
     parser.add_argument(
-        "--last_ver", type=str, help="manually supply previous version", nargs="?"
+        "--last-ver", type=str, help="manually supply previous version", nargs="?"
     )
     parser.add_argument(
         "--debug",
         help="increase output debug level",
+        action="store_true",
+        default=False,
+    )
+    parser.add_argument(
+        "--delete-changelog",
+        help="remove the changelog",
+        action="store_true",
+        default=False,
+    )
+    parser.add_argument(
+        "--regen-changelog",
+        help="remove the changelog",
         action="store_true",
         default=False,
     )
@@ -51,7 +63,7 @@ def fetch_last_release(session) -> str:
 def fetch_build_number(session) -> str:
     return int(
         session.run(
-            "git", "rev-list", "v0.0.0..HEAD", "--count", silent=True, external=True
+            "git", "rev-list", "v0.0.0..", "--count", silent=True, external=True
         )[:-1]
     )
 
@@ -193,7 +205,7 @@ def changelog(session: nox.session) -> None:
         commits = session.run(
             "git",
             "log",
-            f"v{last}..HEAD",
+            f"v{last}..",
             "--no-merges",
             f"--pretty='%h{sep}%cn{sep}%s'",
             "--abbrev-commit",
@@ -270,8 +282,9 @@ def changelog(session: nox.session) -> None:
     change_log_rst = "docs/source/changelog.rst"
 
     # arguments passed to the function
-    force = session.posargs and session.posargs == ["force-regen"]
-    if session.posargs and session.posargs == ["delete"]:
+    args = parse_args(session)
+    force = args.regen_changelog
+    if args.delete_changelog:
         if os.path.exists(change_log_file):
             os.remove(change_log_file)
         if os.path.exists(change_log_rst):
