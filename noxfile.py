@@ -79,11 +79,19 @@ def lint(session: nox.session) -> None:
     from skiylia import Skiylia
 
     session.debug("Checking skiylia versioning information")
-    build = session.run(
-        "git", "rev-list", "--count", "HEAD", silent=True, external=True
+    buildnum = int(
+        session.run("git", "rev-list", "--count", "HEAD", silent=True, external=True)[
+            :-1
+        ]
     )
-    buildnum = int(build[:-1])
-    last_ver = fetch_last_release(session)
+
+    last_ver = None
+    if session.posargs:
+        last_ver = [
+            arg.replace("last_ver=", "") for arg in session.posargs if "last_ver" in arg
+        ][0]
+    last_ver = fetch_last_release(session) if not last_ver else last_ver
+    session.debug(f"Last version {last_ver} found")
 
     # incorrect build number
     if buildnum != Skiylia.Version.build:
