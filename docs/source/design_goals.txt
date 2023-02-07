@@ -1,3 +1,5 @@
+Add skiylia as an executable: `sudo ln -s src/skiylia.py /usr/bin/skiylia`
+
 Following on from all of the rules listed below, what do we need:
 
 Chars:

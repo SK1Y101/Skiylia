@@ -36,7 +36,32 @@ To create an issue, be it a bug, question, feature request, or other, use this l
 
 ## Running Skiylia
 
-In Progress.
+### Obtaining Skiylia source
+
+Clone the github repository
+
+```bash
+$ git clone https://github.com/SK1Y101/Skiylia.git
+```
+
+Navigate to the source folder and run
+
+```bash
+$ cd skiylia/src
+$ python3 skiylia.py ...
+```
+
+Executing a skiylia file is easy, simply pass the filepath at the interpreter level!
+
+```bash
+$ python3 skiylia.py <file_path>.skiy
+```
+
+For extended information, the language additionally supplies a small help command
+
+```bash
+$ python3 skiylia.py -h
+```
 
 ## Contributing
 

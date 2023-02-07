@@ -1,5 +1,7 @@
 # Tests to verify the correct functioning of the Skiylia entrypoint
 
+import os
+
 import pytest
 
 from skiylia import Skiylia
@@ -14,16 +16,18 @@ class TestSkiyliaArgs:
         out, _ = capsys.readouterr()
         assert out == "\n".join(
             [
-                f"usage: {Skiylia.name} [-h] [-d] file",
+                f"usage: {Skiylia.name} [-h] [-d] [-v] file",
                 "",
-                Skiylia.description,
+                f"{Skiylia.name} Interprter version {Skiylia.Version.version}, Read more at",
+                f"{Skiylia.url}.",
                 "",
                 "positional arguments:",
-                "  file         Skiylia file to execute.",
+                f"  file           {Skiylia.name} file to execute",
                 "",
                 "options:",
-                "  -h, --help   show this help message and exit",
-                "  -d, --debug  increase output debug level.",
+                "  -h, --help     show this help message and exit",
+                "  -d, --debug    increase output debug level",
+                f"  -v, --version  return the currently installed {Skiylia.name} version",
                 "",
             ]
         )
@@ -38,6 +42,40 @@ class TestSkiyliaArgs:
 
 
 class TestSkiyliaExecution:
+    def test_skiylia_file_not_found(self, skiylia: skiylia) -> None:
+        invalid_file = "test.py"
+        assert (
+            skiylia(invalid_file, 1).out
+            == "Skiylia encountered InvalidFileError:\n"
+            + f"'{invalid_file}' is not a valid Skiylia file.\n"
+        )
+        file_not_found = "non_existent_file.skiy"
+        assert (
+            skiylia(file_not_found, 1).out
+            == "Skiylia encountered FileNotFoundError:\n"
+            + f"'{file_not_found}' does not exist.\n"
+        )
+
+    def test_skiylia_debug_levels(self, skiylia: skiylia) -> None:
+        file_not_found = "non_existent_file.skiy"
+
+        debug = [skiylia(file_not_found, x).out for x in range(0, 3)]
+
+        assert debug == [
+            # level 0
+            "Skiylia encountered FileNotFoundError:\n"
+            + "Re-execute with debug enabled.\n",
+            # level 1
+            "Skiylia encountered FileNotFoundError:\n"
+            + f"'{file_not_found}' does not exist.\n",
+            # level 2
+            "Skiylia encountered FileNotFoundError:\n"
+            + "Traceback (most recent call last):\n"
+            + f'  File "{os.getcwd()}/src/skiylia.py", line 87, in entry_point\n'
+            + "    raise FileNotFoundError(f\"'{program_name}' does not exist.\")\n"
+            + f"FileNotFoundError: '{file_not_found}' does not exist.\n",
+        ]
+
     def test_skiylia_arithmetic(self, skiylia: skiylia, tmp_path) -> None:
         content = "1+2"
 

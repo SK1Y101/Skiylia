@@ -1,18 +1,18 @@
 # This workflow will install dependencies (including nox), using those to lint and run tests
 
-name: Nox
+name: Generate changelog
 
 on:
   push:
-    branches: [ "main", "edge" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main", "edge" ]
+    branches: [ "main" ]
 
 permissions:
   contents: read
 
 jobs:
-  run_nox:
+  write_changelog:
 
     runs-on: ubuntu-latest
 
@@ -26,12 +26,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint
+    - name: Write changelog
       run: |
-        nox -e lint
-    - name: Type Checking
-      run: |
-        nox -e mypy
-    - name: Test Suite
-      run: |
-        nox -e tests
+        nox -e changelog
