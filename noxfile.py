@@ -30,9 +30,6 @@ def parse_args(session):
         "--last_ver", type=str, help="manually supply previous version", nargs="?"
     )
     parser.add_argument(
-        "--build_num", type=str, help="manually supply build number", nargs="?"
-    )
-    parser.add_argument(
         "--debug",
         help="increase output debug level",
         action="store_true",
@@ -49,6 +46,14 @@ def fetch_last_release(session) -> str:
         return re.search(r"\d+\.\d+\.\d+", last_release_ver[:-1]).group()
     except Exception:
         return "0.0.0"
+
+
+def fetch_build_number(session) -> str:
+    return int(
+        session.run(
+            "git", "rev-list", "v0.0.0..HEAD", "--count", silent=True, external=True
+        )[:-1]
+    )
 
 
 @nox.session(tags=["format", "lint"])
@@ -70,10 +75,6 @@ def isort(session: nox.session) -> None:
     )
 
     skiyfile = "src/skiylia.py"
-    build = session.run(
-        "git", "rev-list", "--count", "HEAD", silent=True, external=True
-    )
-    buildnum = int(build[:-1])
 
     with open(skiyfile, "r") as skiyliafile:
         content = skiyliafile.read()
@@ -88,7 +89,7 @@ def isort(session: nox.session) -> None:
     )
 
     args = parse_args(session)
-    buildnum += int(args.newcommit)
+    buildnum = fetch_build_number(session) + int(args.newcommit)
 
     if skiyliabuild != buildnum:
         content = content.replace(f"build = {skiyliabuild}", f"build = {buildnum}")
@@ -112,16 +113,7 @@ def lint(session: nox.session) -> None:
     args = parse_args(session)
 
     session.debug("Checking skiylia versioning information")
-    buildnum = (
-        args.build_num
-        if args.build_num
-        else int(
-            session.run(
-                "git", "rev-list", "--count", "HEAD", silent=True, external=True
-            )[:-1]
-        )
-        + int(args.newcommit)
-    )
+    buildnum = fetch_build_number(session) + int(args.newcommit)
 
     last_ver = args.last_ver if args.last_ver else fetch_last_release(session)
     session.debug(f"Last version {last_ver} {'given' if args.last_ver else 'found'}")
@@ -195,16 +187,13 @@ def changelog(session: nox.session) -> None:
     """Generate (or update) the changelog from commit history.
     use -- force-regen to force the changelog to update."""
 
-    def commits_since_last(session: nox.session) -> list[str]:
+    def commits_since_last(session: nox.session, last: str) -> list[str]:
         bots = ["Mergify"]
         sep = "\2"
-        last = session.run("git", "describe", "--abbrev=0", silent=True, external=True)[
-            :-1
-        ]
         commits = session.run(
             "git",
             "log",
-            f"{last}..HEAD",
+            f"v{last}..HEAD",
             "--no-merges",
             f"--pretty='%h{sep}%cn{sep}%s'",
             "--abbrev-commit",
@@ -301,7 +290,7 @@ def changelog(session: nox.session) -> None:
     version_title = f"{this_ver} ({time.strftime('%Y-%m-%d', time.gmtime())})"
 
     # fetch the commits as a changelog entry
-    commits = commits_since_last(session)
+    commits = commits_since_last(session, last_ver)
     log_entry = commits_to_log_entry(commits)
     if not log_entry and not force:
         session.skip("No commits to add this version!")
