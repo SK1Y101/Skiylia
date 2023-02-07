@@ -7,12 +7,21 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))
 # -- Project information
 
+from skiylia import Skiylia  # isort: skip
+from SkiyliaLexer import SkiyliaLexer
+
 project = 'Skiylia Lang'
 copyright = '2022, Jack Lloyd-Walters'
 author = 'Jack Lloyd-Walters'
 
-release = '0.0'
-version = '0.0.0'
+# Full version, including tags
+release = Skiylia.Version.version
+# shortened version name
+version = ".".join(release.split(".")[:2])
+
+# code-highlighting
+from sphinx.highlighting import lexers
+lexers["skiylia"] = SkiyliaLexer()
 
 
 # -- General configuration
@@ -24,6 +33,7 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
     'sphinx_tabs.tabs',
+    "sphinx_rtd_dark_mode",
 ]
 
 pygments_style = 'sphinx'
@@ -32,6 +42,7 @@ highlight_language = 'none'
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
     'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
+    'skiylia': ('https://skiylia.readthedocs.io', None),
 }
 intersphinx_disabled_domains = ['std']
 
@@ -88,3 +99,6 @@ html_css_files = [
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
+
+# -- Options for dark theming
+default_dark_mode = True
