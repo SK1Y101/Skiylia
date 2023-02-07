@@ -71,7 +71,7 @@ class TestSkiyliaExecution:
             # level 2
             "Skiylia encountered FileNotFoundError:\n"
             + "Traceback (most recent call last):\n"
-            + f'  File "{os.getcwd()}/src/skiylia.py", line 87, in entry_point\n'
+            + f'  File "{os.getcwd()}/src/skiylia.py", line 88, in entry_point\n'
             + "    raise FileNotFoundError(f\"'{program_name}' does not exist.\")\n"
             + f"FileNotFoundError: '{file_not_found}' does not exist.\n",
         ]
