@@ -40,7 +40,7 @@ class SkiyliaLexer(RegexLexer):
             (r"`[^`]*`", String),
 
             (r'[+\-*/]', Operator),
-            # (r'[(),]', Punctuation),
+            (r'[(),]', Punctuation),
 
             # (words(("print"), suffix=r'\b'), Keyword),
 
