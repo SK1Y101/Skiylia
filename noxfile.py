@@ -105,13 +105,15 @@ def lint(session: nox.session) -> None:
             f"{Skiylia.name} stage incorrect, {Skiylia.Version.ident} invalid"
         )
     # version number not larger than latest release
-    if tuple(int(x) for x in last_ver.split(".")) > (
+    last_ver_tuple = tuple(int(x) for x in last_ver.split("."))
+    this_ver_tuple = (
         Skiylia.Version.major,
         Skiylia.Version.minor,
         Skiylia.Version.patch,
-    ):
+    )
+    if last_ver_tuple > this_ver_tuple:
         session.error(
-            f"{Skiylia.name} version incorrect, (should be larger than {last_ver})"
+            f"{Skiylia.name} version incorrect: should be larger than {last_ver}"
         )
 
 
