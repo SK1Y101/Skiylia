@@ -30,6 +30,9 @@ def parse_args(session):
         "--last_ver", type=str, help="manually supply previous version", nargs="?"
     )
     parser.add_argument(
+        "--build_num", type=str, help="manually supply build number", nargs="?"
+    )
+    parser.add_argument(
         "--debug",
         help="increase output debug level",
         action="store_true",
@@ -109,11 +112,16 @@ def lint(session: nox.session) -> None:
     args = parse_args(session)
 
     session.debug("Checking skiylia versioning information")
-    buildnum = int(
-        session.run("git", "rev-list", "--count", "HEAD", silent=True, external=True)[
-            :-1
-        ]
-    ) + int(args.newcommit)
+    buildnum = (
+        args.build_num
+        if args.build_num
+        else int(
+            session.run(
+                "git", "rev-list", "--count", "HEAD", silent=True, external=True
+            )[:-1]
+        )
+        + int(args.newcommit)
+    )
 
     last_ver = args.last_ver if args.last_ver else fetch_last_release(session)
     session.debug(f"Last version {last_ver} {'given' if args.last_ver else 'found'}")
