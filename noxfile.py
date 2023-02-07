@@ -89,7 +89,7 @@ def lint(session: nox.session) -> None:
     # fetch the build arguments
     parser = argparse.ArgumentParser(description="lint Skiylia")
     parser.add_argument(
-        "last_ver", type=str, help="manually supply previous version", nargs="?"
+        "--last_ver", type=str, help="manually supply previous version", nargs="?"
     )
     args = parser.parse_args(args=session.posargs)
 
