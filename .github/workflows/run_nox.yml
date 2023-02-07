@@ -26,12 +26,9 @@ jobs:
       uses: "WyriHaximus/github-action-get-previous-tag@v1"
       with:
         fallback: 0.0.0
-    - name: Get build number
-      id: build
-      run: echo "build_num=$(git rev-list --count HEAD)" >> $GITHUB_OUTPUT
     - name: Lint
       run: |
-        nox -e lint -- --last_ver ${{ steps.previoustag.outputs.tag }} --build_num ${{ steps.build.outputs.build_num }}
+        nox -e lint -- --last_ver ${{ steps.previoustag.outputs.tag }}
     - name: Type Checking
       run: |
         nox -e mypy
