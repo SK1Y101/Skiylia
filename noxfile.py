@@ -1,3 +1,4 @@
+import argparse
 import os
 import re
 import sys
@@ -85,13 +86,15 @@ def lint(session: nox.session) -> None:
         ]
     )
 
-    last_ver = None
-    if session.posargs:
-        last_ver = [
-            arg.replace("last_ver=", "") for arg in session.posargs if "last_ver" in arg
-        ][0]
-    last_ver = fetch_last_release(session) if not last_ver else last_ver
-    session.debug(f"Last version {last_ver} found")
+    # fetch the build arguments
+    parser = argparse.ArgumentParser(description="lint Skiylia")
+    parser.add_argument(
+        "last_ver", type=str, help="manually supply previous version", nargs="?"
+    )
+    args = parser.parse_args(args=session.posargs)
+
+    last_ver = args.last_ver if args.last_ver else fetch_last_release(session)
+    session.debug(f"Last version {last_ver} {'given' if args.last_ver else 'found'}")
 
     # incorrect build number
     if buildnum != Skiylia.Version.build:
