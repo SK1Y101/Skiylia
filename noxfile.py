@@ -184,7 +184,12 @@ def changelog(session: nox.session) -> None:
         return "\n\n".join(
             [
                 f"### {header}\n"
-                + "\n".join([f" - {text}.".replace("..", ".").strip() for text in entries])
+                + "\n".join(
+                    [
+                        f" - {text.strip().capitalize()}.".replace("..", ".")
+                        for text in entries
+                    ]
+                )
                 for header, entries in sorted(log.items())
             ]
         )
@@ -221,8 +226,17 @@ def changelog(session: nox.session) -> None:
 
     from skiylia import Skiylia
 
+    change_log_file = "CHANGELOG.md"
+    change_log_rst = "docs/source/changelog.rst"
+
     # arguments passed to the function
-    force =  session.posargs and session.posargs == ["force-regen"]
+    force = session.posargs and session.posargs == ["force-regen"]
+    if session.posargs and session.posargs == ["delete"]:
+        if os.path.exists(change_log_file):
+            os.remove(change_log_file)
+        if os.path.exists(change_log_rst):
+            os.remove(change_log_rst)
+        session.skip("Deleted changelog")
 
     # fetch the old skiylia version
     last_ver = fetch_last_release(session)
@@ -249,8 +263,6 @@ def changelog(session: nox.session) -> None:
     session.log(f"{len(commits)} commits for {this_ver}")
 
     # fetch the current changelog
-    change_log_file = "CHANGELOG.md"
-    change_log_rst = "docs/source/changelog.rst"
     title = "# Changes"
     clog = title
     if os.path.exists(change_log_file):
@@ -290,9 +302,9 @@ def changelog(session: nox.session) -> None:
 
     # Update the changelog if it has been changed
     if changed or force:
-        rst_log = to_rst(clog)
         session.log("Writing to changelog")
         clog = "\n\n".join([title] + list(version_logs.values()) + [""])
+        rst_log = to_rst(clog)
         with open(change_log_file, "w") as f:
             f.write(clog)
         with open(change_log_rst, "w") as f:

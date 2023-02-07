@@ -1,0 +1,27 @@
+
+What's new in 0.1.0 pre-alpha
+-----------------------------
+
+.. table::
+    :widths: auto
+    =============== ========== ========================================
+    Release         Date       Editor
+    =============== ========== ========================================
+    0.1.0 pre-alpha XXXX-XX-XX <Editor name>
+    =============== ========== ========================================
+
+Highlights
+~~~~~~~~~~
+- Documentation!
+
+New features
+~~~~~~~~~~~~
+- A more in depth view (include code where possible) of cool new features
+
+Language Changes
+~~~~~~~~~~~~~~~~
+- Has something changed in the Skiylia backend? place it here!
+
+Bugs fixed
+~~~~~~~~~~
+- Any really annoying bugs fixed? stick it here!

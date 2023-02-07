@@ -9,8 +9,7 @@ Skiylia was designed with some measure of portability in mind, as the skiylia by
     :language: skiylia
     :caption: An example of a single-line comment
 
-
-Check out the :doc:`usage` section for further information, including
+See :ref:`whats-new-latest<whats new>` in Skiylia, or check out the :doc:`usage` section for further information, including
 how to :ref:`installation<install>` the project.
 
 
@@ -24,4 +23,5 @@ Contents
 
 .. toctree::
 
+   whats-new
    usage

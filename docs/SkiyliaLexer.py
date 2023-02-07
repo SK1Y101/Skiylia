@@ -37,16 +37,17 @@ class SkiyliaLexer(RegexLexer):
 
             (r'"[^"]*"', String),
             (r"'[^']*'", String),
+            (r"`[^`]*`", String),
 
-            (r'[+\-*/><=~]', Operator),
-            (r'[(),]', Punctuation),
+            (r'[+\-*/]', Operator),
+            # (r'[(),]', Punctuation),
 
-            (words(("print"), suffix=r'\b'), Keyword),
+            # (words(("print"), suffix=r'\b'), Keyword),
 
             (r'\b[a-z_][a-z_\d]*\b', Name.Variable),
 
             (r'[\t\s\r\n]+', Text),
-            (r'\b(\d+)+\b', Number),
+            (r'\b(\d+(?:\.\d+)?)\b', Number),
         ]
     }
 
