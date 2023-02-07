@@ -1,5 +1,5 @@
 pull_request_rules:
-  - name: Merge to main when checks succeed
+  - name: automatic merge when GitHub branch protection passes
     conditions:
       - or:
         - base=main
@@ -25,45 +25,39 @@ pull_request_rules:
       backport:
         regexes: [edge]
 
-  - name: Merge edge patches
+  - name: Approve edge patches
     conditions:
-      - base=main
-      - head=edge
+      - base=edge
+      - head=main
+      - -closed
+      - -merged
     actions:
       review:
         type: APPROVE
-      merge:
-        method: merge
 
-  - name: Add Contributors automatically
+  - name: automatic merge for Allcontributors bot pull requests
     conditions:
       - base=main
       - author~=^allcontributors\[bot\]$
     actions:
       review:
         type: APPROVE
-      merge:
-        method: merge
 
-  - name: Add dependencies automatically
+  - name: automatic merge for Dependabot pull requests
     conditions:
       - author=dependabot[bot]
     actions:
       review:
         type: APPROVE
-      merge:
-        method: merge
 
-  - name: Approve my pull requests automatically
+  - name: automatic approve for My pull requests
     conditions:
       - author=SK1Y101
     actions:
       review:
         type: APPROVE
-      merge:
-        method: merge
 
-  - name: Remove outdated reviews
+  - name: remove outdated reviews
     conditions:
       - base=master
     actions:
