@@ -1,3 +1,4 @@
+import argparse
 import os
 import re
 import sys
@@ -15,6 +16,20 @@ format_dirs = ["python-tests"] + lint_dirs
 
 nox.options.sessions = ["black", "isort", "lint", "mypy", "tests"]
 nox.options.stop_on_first_error = True
+
+
+def parse_args(session):
+    parser = argparse.ArgumentParser(description="Skiylia nox arguments")
+    parser.add_argument(
+        "--newcommit",
+        help="bump the build number, used if about to push a new commit.",
+        action="store_true",
+        default=False,
+    )
+    parser.add_argument(
+        "--last_ver", type=str, help="manually supply previous version", nargs="?"
+    )
+    return parser.parse_args(args=session.posargs)
 
 
 def fetch_last_release(session) -> str:
@@ -60,6 +75,9 @@ def isort(session: nox.session) -> None:
         ).group()
     )
 
+    args = parse_args(session)
+    buildnum += int(args.newcommit)
+
     if skiyliabuild != buildnum:
         content = content.replace(f"build = {skiyliabuild}", f"build = {buildnum}")
         with open(skiyfile, "w") as skiyliafile:
@@ -78,29 +96,41 @@ def lint(session: nox.session) -> None:
     # Skiylia versioning
     from skiylia import Skiylia
 
+    # fetch the build arguments
+    args = parse_args(session)
+
     session.debug("Checking skiylia versioning information")
-    build = session.run(
-        "git", "rev-list", "--count", "HEAD", silent=True, external=True
-    )
-    buildnum = int(build[:-1])
-    last_ver = fetch_last_release(session)
+    buildnum = int(
+        session.run("git", "rev-list", "--count", "HEAD", silent=True, external=True)[
+            :-1
+        ]
+    ) + int(args.newcommit)
+
+    last_ver = args.last_ver if args.last_ver else fetch_last_release(session)
+    session.debug(f"Last version {last_ver} {'given' if args.last_ver else 'found'}")
 
     # incorrect build number
-    if buildnum != Skiylia.Version.build:
+    if Skiylia.Version.build != buildnum:
         session.error(f"{Skiylia.name} build incorrect (should be '{buildnum}')")
     # incorrect identifier label
-    if Skiylia.Version.ident not in ["pre-alpha", "alpha", "beta", ""]:
+    if Skiylia.Version.ident and Skiylia.Version.ident not in [
+        "pre-alpha",
+        "alpha",
+        "beta",
+    ]:
         session.error(
             f"{Skiylia.name} stage incorrect, {Skiylia.Version.ident} invalid"
         )
     # version number not larger than latest release
-    if tuple(int(x) for x in last_ver.split(".")) > (
+    last_ver_tuple = tuple(int(x) for x in last_ver.split("."))
+    this_ver_tuple = (
         Skiylia.Version.major,
         Skiylia.Version.minor,
         Skiylia.Version.patch,
-    ):
+    )
+    if last_ver_tuple > this_ver_tuple:
         session.error(
-            f"{Skiylia.name} version incorrect, (should be larger than {last_ver})"
+            f"{Skiylia.name} version incorrect: should be larger than {last_ver}"
         )
 
 
