@@ -24,6 +24,9 @@ jobs:
     - name: Update tags in repo
       run: |
         git fetch --tags origin
+    - name: Fetch build count
+      run: |
+        echo $(git rev-list v0.0.0.. --count)
     - name: Get previous version
       id: previoustag
       uses: "WyriHaximus/github-action-get-previous-tag@v1"
