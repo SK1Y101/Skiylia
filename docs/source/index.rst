@@ -7,10 +7,10 @@ Skiylia was designed with some measure of portability in mind, as the skiylia by
 
 .. literalinclude:: examples/neat_example.skiy
     :language: skiylia
-    :caption: An example of a single-line comment
+    :caption: An example of Skiylia code
 
-See :ref:`whats-new-latest<whats new>` in Skiylia, or check out the :doc:`usage` section for further information, including
-how to :ref:`installation<install>` the project.
+See :ref:`whats new <whats-new-latest>` in Skiylia, or check out the :doc:`usage` section for further information, including
+how to :ref:`install <installation>` the project.
 
 
 .. note::

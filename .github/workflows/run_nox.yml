@@ -1,21 +1,15 @@
 # This workflow will install dependencies (including nox), using those to lint and run tests
-
 name: Nox
-
 on:
   push:
     branches: [ "main", "edge" ]
   pull_request:
     branches: [ "main", "edge" ]
-
 permissions:
   contents: read
-
 jobs:
   run_nox:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
@@ -27,18 +21,25 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Update tags in repo
+      run: |
+        git fetch --tags origin
+    - name: Fetch build count
+      id: buildnum
+      run: |
+        if [ ${{ github.event_name }} == 'pull_request' ]; then
+          echo "build=$(git rev-list v0.0.0..${{ github.event.pull_request.head.sha }} --count)" >> $GITHUB_OUTPUT;
+        else
+          echo "build=$(git rev-list v0.0.0..${GITHUB_SHA} --count)" >> $GITHUB_OUTPUT;
+        fi
     - name: Get previous version
-      id: previousver
+      id: previoustag
       uses: "WyriHaximus/github-action-get-previous-tag@v1"
       with:
         fallback: 0.0.0
-    - name: Get build number
-      id: buildnum
-      run: |
-        $build=git rev-list --count HEAD
     - name: Lint
       run: |
-        nox -e lint -- --last_ver ${{ steps.previoustag.outputs.tag }}
+        nox -e lint -- --last-ver ${{ steps.previoustag.outputs.tag }} --build-num ${{ steps.buildnum.outputs.build }}
     - name: Type Checking
       run: |
         nox -e mypy

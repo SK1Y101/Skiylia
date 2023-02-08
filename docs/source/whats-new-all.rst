@@ -6,4 +6,5 @@ What's New in Skiylia
 For further details, see the ::doc::`changelog`
 
 .. _whats-new-0.1.0-pre-alpha:
+
 .. include:: whats-new/0.1.0-pre-alpha.rst

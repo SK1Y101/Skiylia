@@ -151,8 +151,10 @@ Lists
     list()[0]                                       Return the zeroth index of the list
 
 Iterator
-    a = [1..10]                                     Construct the range from 1 to 10 inclusively
-    a = [2..4..10]                                  Construct the range from 2 to 10 inclusively in steps of two
+    a = [1..10]                                     Construct the range from 1 to 10, including 10
+    a = [1...10]                                    Construct the range from 1 to 10, not including 10
+    a = [2..4..10]                                  Construct the range from 2 to 10 non-inclusively in steps of two
+    a = [2..4...10]                                 Construct the range from 2 to 10 inclusively in steps of two
     a = iter()                                      Convert a compatable data structure to an iterator
 
 Dictionaries
