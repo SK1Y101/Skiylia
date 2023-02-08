@@ -19,7 +19,7 @@ class Skiylia:
         # Fix bugs or issues (backwards compatible by definition)
         patch = 0
         # Build number (commits since initial tracks approximate age)
-        build = 150
+        build = 151
         # Additional identifiers (ie: alpha)
         ident = "pre-alpha"
 
