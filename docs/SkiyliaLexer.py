@@ -27,24 +27,30 @@ class SkiyliaLexer(RegexLexer):
     tokens = {
         "root": [
             (r"\n", Whitespace),
-
-            (r"//  [^\n]*[\n]", Comment.Single),
+            # comments
+            (r"// [^\n]*[\n]", Comment.Single),
             (r"/// [^///]* ///", Comment.Multiline),
-
+            # strings
             (r'"[^"]*"', String),
             (r"'[^']*'", String),
             (r"`[^`]*`", String),
-
+            # operators
             (r'!=|==|<<|>>|:=|[-~+/*%=<>&^|.]', Operator),
             (r'[]{}:(),;[]', Punctuation),
             (r'(in|is|and|or|not)\b', Operator.Word),
-
+            # text
             (r'[^\S\n]+', Text),
-
+            (r'\\\n', Text),
+            (r'\\', Text),
+            # include other rules
             include("keywords"),
             include("numbers"),
-
+            # names
+            (uni_name, Name),
+            # functions
             (r'(def)((?:\s|\\\s)+)', bygroups(Keyword, Text), 'funcname'),
+            # classes
+            (uni_name, Name.Class, '#pop'),
         ],
         "keywords": [
             (words(("break", "continue", "elif", "else", "for", "if", "return"), suffix=r'\b'), Keyword),

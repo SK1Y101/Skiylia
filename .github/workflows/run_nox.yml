@@ -23,7 +23,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Update tags in repo
       run: |
-        git pull --tags
+        git fetch --tags origin
     - name: Get previous version
       id: previoustag
       uses: "WyriHaximus/github-action-get-previous-tag@v1"
