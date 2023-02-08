@@ -4,17 +4,9 @@
 
 import re
 
-from pygments.lexer import RegexLexer, words
-from pygments.token import (
-    Comment,
-    Keyword,
-    Name,
-    Number,
-    Operator,
-    Punctuation,
-    String,
-    Text)
-
+from pygments.lexer import RegexLexer, include, bygroups, default, words
+from pygments.token import Text, Comment, Operator, Keyword, Name, String, Number, Punctuation, Whitespace
+from pygments import unistring as uni
 
 class SkiyliaLexer(RegexLexer):
 
@@ -30,25 +22,45 @@ class SkiyliaLexer(RegexLexer):
 
     __all__ = ['SkiyliaLexer']
 
+    uni_name = "[%s][%s]*" % (uni.xid_start, uni.xid_continue)
+
     tokens = {
-        'root': [
-            (r"//  [^\r\n]*[\r\n]", Comment.Single),
-            (r"/// [^\r\n]*(\n\t.+)+ ///", Comment.Multiline),
+        "root": [
+            (r"\n", Whitespace),
+
+            (r"//  [^\n]*[\n]", Comment.Single),
+            (r"/// [^///]* ///", Comment.Multiline),
 
             (r'"[^"]*"', String),
             (r"'[^']*'", String),
             (r"`[^`]*`", String),
 
-            (r'[+\-*/]', Operator),
-            (r'[(),]', Punctuation),
+            (r'!=|==|<<|>>|:=|[-~+/*%=<>&^|.]', Operator),
+            (r'[]{}:(),;[]', Punctuation),
+            (r'(in|is|and|or|not)\b', Operator.Word),
 
-            # (words(("print"), suffix=r'\b'), Keyword),
+            (r'[^\S\n]+', Text),
 
-            (r'\b[a-z_][a-z_\d]*\b', Name.Variable),
+            include("keywords"),
+            include("numbers"),
 
-            (r'[\t\s\r\n]+', Text),
-            (r'\b(\d+(?:\.\d+)?)\b', Number),
-        ]
+            (r'(def)((?:\s|\\\s)+)', bygroups(Keyword, Text), 'funcname'),
+        ],
+        "keywords": [
+            (words(("break", "continue", "elif", "else", "for", "if", "return"), suffix=r'\b'), Keyword),
+            (words(('true', 'false', 'null'), suffix=r'\b'), Keyword.Constant),
+        ],
+        "numbers": [
+            (r'\d+\.\d+', Number.Float),
+            (r'0[oO](?:[0-7])+', Number.Oct),
+            (r'0[bB](?:[01])+', Number.Bin),
+            (r'0[xX](?:[a-fA-F0-9])+', Number.Hex),
+            (r'\d+', Number.Integer),
+        ],
+        "funcname": [
+            (uni_name, Name.Function, '#pop'),
+            default('#pop'),
+        ],
     }
 
 
