@@ -55,10 +55,7 @@ def parse_args(session):
 
 def fetch_last_release(session) -> str:
     try:
-        last_release_ver = session.run(
-            "git", "describe", "--abbrev=0", silent=True, external=True
-        )
-        return re.search(r"\d+\.\d+\.\d+", last_release_ver[:-1]).group()
+        return session.run("git", "describe", "--abbrev=0", silent=True, external=True)
     except Exception:
         return "0.0.0"
 
@@ -134,7 +131,10 @@ def lint(session: nox.session) -> None:
         else fetch_build_number(session) + int(args.newcommit)
     )
 
-    last_ver = args.last_ver if args.last_ver else fetch_last_release(session)
+    last_ver = re.search(
+        r"\d+\.\d+\.\d+",
+        args.last_ver if args.last_ver else fetch_last_release(session),
+    ).group()
     session.debug(f"Last version {last_ver} {'given' if args.last_ver else 'found'}")
 
     # incorrect build number
@@ -302,7 +302,7 @@ def changelog(session: nox.session) -> None:
         session.skip("Deleted changelog")
 
     # fetch the old skiylia version
-    last_ver = fetch_last_release(session)
+    last_ver = re.search(r"\d+\.\d+\.\d+", fetch_last_release(session)).group()
     session.log(f"Fetching changes since {last_ver}")
 
     # fetch the current skiylia version
