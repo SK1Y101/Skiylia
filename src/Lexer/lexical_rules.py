@@ -13,6 +13,8 @@ symbols = {
     "-": "MINUS",
     "*": "STAR",
     "/": "SLASH",
+    "{": "LEFT_CURLY_BRACE",
+    "}": "RIGHT_CURLY_BRACE",
     # two char
 }
 

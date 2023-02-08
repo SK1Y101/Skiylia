@@ -69,19 +69,26 @@ class UnterminatedComment(UnterminatedClosure):
     """Raised when a comment is not terminated correctly."""
 
 
+class UnterminatedInterpolation(UnterminatedClosure):
+    """Raised when an interpolated string is not terminated correctly."""
+
+
 class IncompleteExpression(SkiyliaError):
     """Raised when a source file hits EOF before an expression is completed."""
 
 
 class error:
+    # Lexer errors
     UNIDENTIFIEDCHARACTER = 1
     UNEXPECTEDCHARACTER = 2
 
-    UNTERMINATEDCLOSURE = 3
-    UNTERMINATEDSTRING = 4
-    UNTERMINATEDCOMMENT = 5
+    UNTERMINATEDCLOSURE = 10
+    UNTERMINATEDSTRING = 11
+    UNTERMINATEDCOMMENT = 12
+    UNTERMINATEDINTERPOLATION = 13
 
-    INCOMPLETEEXPRESSION = 6
+    # VM errors
+    INCOMPLETEEXPRESSION = 20
 
     def reverse(self, code: int = 0) -> Type[SkiyliaError]:
         match code:
@@ -95,6 +102,8 @@ class error:
                 return UnterminatedString
             case self.UNTERMINATEDCOMMENT:
                 return UnterminatedComment
+            case self.UNTERMINATEDINTERPOLATION:
+                return UnterminatedInterpolation
             case self.INCOMPLETEEXPRESSION:
                 return IncompleteExpression
             case _:
