@@ -4,17 +4,16 @@ pull_request_rules:
       - or:
         - base=main
         - base=edge
-      - approved-reviews-by=SK1Y101
+      - or:
+        - approved-reviews-by=SK1Y101
+        - author=SK1Y101
       - label!=work-in-progress
       - -closed
       - -merged
       - check-success=run_nox
       - check-success=update_release_draft
-      - check-success=CodeFactor
       - check-success~=^security/snyk
     actions:
-      assign:
-        users: [SK1Y101]
       merge:
         method: merge
 
@@ -53,6 +52,7 @@ pull_request_rules:
   - name: automatic approve for My pull requests
     conditions:
       - author=SK1Y101
+      - label!=work-in-progress
     actions:
       review:
         type: APPROVE
