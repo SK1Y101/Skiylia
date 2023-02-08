@@ -2,7 +2,7 @@
 What's new in <Version>
 -----------------------------
 
-< Add a new section to `whats-new-all.rst` and Delete this section of text!>
+< Add a new section to `whats-new-all`_ and Delete this section of text!>
 
 .. table::
     :widths: auto

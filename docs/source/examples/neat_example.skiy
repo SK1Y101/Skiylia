@@ -1,1 +1,16 @@
+// A classic starting point
 print("Hello world!")
+
+def factorial(int N):
+    /// Compute the factorial of a number, N, by way of
+        recursively calling the function. ///
+    
+    return n <= 1 ? 1 : n * factorial(--n)
+
+
+/// Compute the factorial of the first ten integers
+    and show their values with a pretty print statement. ///
+
+num = 1
+for fact in factorial([1..10]):
+    print("The factorial of {num++} is {fact}")

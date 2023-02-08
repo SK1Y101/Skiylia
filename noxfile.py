@@ -27,16 +27,45 @@ def parse_args(session):
         default=False,
     )
     parser.add_argument(
-        "--last_ver", type=str, help="manually supply previous version", nargs="?"
+        "--last-ver", type=str, help="manually supply previous version", nargs="?"
+    )
+    parser.add_argument(
+        "--build-num", type=str, help="manually supply build number", nargs="?"
+    )
+    parser.add_argument(
+        "--debug",
+        help="increase output debug level",
+        action="store_true",
+        default=False,
+    )
+    parser.add_argument(
+        "--delete-changelog",
+        help="remove the changelog",
+        action="store_true",
+        default=False,
+    )
+    parser.add_argument(
+        "--regen-changelog",
+        help="remove the changelog",
+        action="store_true",
+        default=False,
     )
     return parser.parse_args(args=session.posargs)
 
 
 def fetch_last_release(session) -> str:
-    last_release_ver = session.run(
-        "git", "describe", "--abbrev=0", silent=True, external=True
+    try:
+        return session.run("git", "describe", "--abbrev=0", silent=True, external=True)
+    except Exception:
+        return "0.0.0"
+
+
+def fetch_build_number(session) -> str:
+    return int(
+        session.run(
+            "git", "rev-list", "v0.0.0..", "--count", silent=True, external=True
+        )[:-1]
     )
-    return re.search(r"\d+\.\d+\.\d+", last_release_ver[:-1]).group()
 
 
 @nox.session(tags=["format", "lint"])
@@ -58,10 +87,6 @@ def isort(session: nox.session) -> None:
     )
 
     skiyfile = "src/skiylia.py"
-    build = session.run(
-        "git", "rev-list", "--count", "HEAD", silent=True, external=True
-    )
-    buildnum = int(build[:-1])
 
     with open(skiyfile, "r") as skiyliafile:
         content = skiyliafile.read()
@@ -76,7 +101,7 @@ def isort(session: nox.session) -> None:
     )
 
     args = parse_args(session)
-    buildnum += int(args.newcommit)
+    buildnum = fetch_build_number(session) + int(args.newcommit)
 
     if skiyliabuild != buildnum:
         content = content.replace(f"build = {skiyliabuild}", f"build = {buildnum}")
@@ -100,18 +125,24 @@ def lint(session: nox.session) -> None:
     args = parse_args(session)
 
     session.debug("Checking skiylia versioning information")
-    buildnum = int(
-        session.run("git", "rev-list", "--count", "HEAD", silent=True, external=True)[
-            :-1
-        ]
-    ) + int(args.newcommit)
+    buildnum = (
+        int(args.build_num)
+        if args.build_num
+        else fetch_build_number(session) + int(args.newcommit)
+    )
 
-    last_ver = args.last_ver if args.last_ver else fetch_last_release(session)
+    last_ver = re.search(
+        r"\d+\.\d+\.\d+",
+        args.last_ver if args.last_ver else fetch_last_release(session),
+    ).group()
     session.debug(f"Last version {last_ver} {'given' if args.last_ver else 'found'}")
 
     # incorrect build number
     if Skiylia.Version.build != buildnum:
-        session.error(f"{Skiylia.name} build incorrect (should be '{buildnum}')")
+        session.error(
+            f"{Skiylia.name} build incorrect",
+            f"'{Skiylia.Version.build}' != '{buildnum}'",
+        )
     # incorrect identifier label
     if Skiylia.Version.ident and Skiylia.Version.ident not in [
         "pre-alpha",
@@ -148,6 +179,10 @@ def mypy(session: nox.session) -> None:
 @nox.session(tags=["test"])
 def tests(session: nox.session) -> None:
     """Run the python test suite."""
+
+    # fetch the build arguments
+    args = parse_args(session)
+
     session.install("pytest")
     session.install("coverage")
     session.run(
@@ -158,7 +193,7 @@ def tests(session: nox.session) -> None:
         "python-tests",
         "--import-mode=importlib",
         "--durations=10",
-        "-v",
+        "-vv" if args.debug else "-v",
     )
     session.run("coverage", "report", "-m")
 
@@ -174,16 +209,13 @@ def changelog(session: nox.session) -> None:
     """Generate (or update) the changelog from commit history.
     use -- force-regen to force the changelog to update."""
 
-    def commits_since_last(session: nox.session) -> list[str]:
+    def commits_since_last(session: nox.session, last: str) -> list[str]:
         bots = ["Mergify"]
         sep = "\2"
-        last = session.run("git", "describe", "--abbrev=0", silent=True, external=True)[
-            :-1
-        ]
         commits = session.run(
             "git",
             "log",
-            f"{last}..HEAD",
+            f"v{last}..",
             "--no-merges",
             f"--pretty='%h{sep}%cn{sep}%s'",
             "--abbrev-commit",
@@ -260,8 +292,9 @@ def changelog(session: nox.session) -> None:
     change_log_rst = "docs/source/changelog.rst"
 
     # arguments passed to the function
-    force = session.posargs and session.posargs == ["force-regen"]
-    if session.posargs and session.posargs == ["delete"]:
+    args = parse_args(session)
+    force = args.regen_changelog
+    if args.delete_changelog:
         if os.path.exists(change_log_file):
             os.remove(change_log_file)
         if os.path.exists(change_log_rst):
@@ -269,7 +302,7 @@ def changelog(session: nox.session) -> None:
         session.skip("Deleted changelog")
 
     # fetch the old skiylia version
-    last_ver = fetch_last_release(session)
+    last_ver = re.search(r"\d+\.\d+\.\d+", fetch_last_release(session)).group()
     session.log(f"Fetching changes since {last_ver}")
 
     # fetch the current skiylia version
@@ -280,7 +313,7 @@ def changelog(session: nox.session) -> None:
     version_title = f"{this_ver} ({time.strftime('%Y-%m-%d', time.gmtime())})"
 
     # fetch the commits as a changelog entry
-    commits = commits_since_last(session)
+    commits = commits_since_last(session, last_ver)
     log_entry = commits_to_log_entry(commits)
     if not log_entry and not force:
         session.skip("No commits to add this version!")
