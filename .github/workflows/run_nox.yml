@@ -25,15 +25,8 @@ jobs:
       run: |
         git fetch --tags origin
     - name: Fetch build count (PR)
-      if: ${{ github.event_name == 'pull_request' }} 
       run: |
-        echo $(git rev-list 5352b44..${{ github.event.pull_request.head.sha }} --count);
-        echo $(git rev-list v0.0.0..${{ github.event.pull_request.head.sha }} --count)
-    - name: Fetch build count (Push)
-      if: ${{ github.event_name == 'pull_request' }} 
-      run: |
-        echo $(git rev-list 5352b44..${GITHUB_SHA} --count);
-        echo $(git rev-list v0.0.0..${GITHUB_SHA} --count)
+        if [ ${{ github.event_name }} == 'pull_request' ]; echo $(git rev-list v0.0.0..${{ github.event.pull_request.head.sha }} --count); else echo $(git rev-list v0.0.0..${GITHUB_SHA} --count); fi
     - name: Get previous version
       id: previoustag
       uses: "WyriHaximus/github-action-get-previous-tag@v1"
