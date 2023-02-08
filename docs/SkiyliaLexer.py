@@ -35,9 +35,9 @@ class SkiyliaLexer(RegexLexer):
             (r"'[^']*'", String),
             (r"`[^`]*`", String),
             # operators
-            (r'!=|==|<<|>>|:=|[-~+/*%=<>&^|.]', Operator),
+            (r'\.\.|~~|!~|!==|===|!=|==|<<|>>|\?\?|\?\:|[-~+/*%=<>&^|?.:]', Operator),
+            (r'(in|is|and|or|xor|not)\b', Operator.Word),
             (r'[]{}:(),;[]', Punctuation),
-            (r'(in|is|and|or|not)\b', Operator.Word),
             # text
             (r'[^\S\n]+', Text),
             (r'\\\n', Text),
