@@ -12,7 +12,7 @@ directories = ["src"]
 # additionally run flake8 on these
 lint_dirs = ["noxfile.py"] + directories
 # and run black and isort on these
-format_dirs = ["python-tests"] + lint_dirs
+format_dirs = ["python-tests", "docs"] + lint_dirs
 
 nox.options.sessions = ["black", "isort", "lint", "mypy", "tests"]
 nox.options.stop_on_first_error = True

@@ -1,23 +1,22 @@
 # Configuration file for the Sphinx documentation builder.
 
 import os
-import sys
 import re
+import sys
 
-
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath(".."))
 # -- Project information
 
 from SkiyliaLexer import SkiyliaLexer  # isort: skip
 
-project = 'Skiylia Lang'
-copyright = '2022, Jack Lloyd-Walters'
-author = 'Jack Lloyd-Walters'
+project = "Skiylia Lang"
+copyright = "2022, Jack Lloyd-Walters"
+author = "Jack Lloyd-Walters"
 
 with open("../../src/skiylia.py", "r") as f:
     skiylia_source = f.readlines()
 
-rnum = {"major":None, "minor":None, "patch":None, "ident":None}
+rnum = {"major": None, "minor": None, "patch": None, "ident": None}
 for line in skiylia_source:
     if None not in set(rnum.values()):
         break
@@ -27,38 +26,41 @@ for line in skiylia_source:
             rnum[k] = search.group().replace(f"{k} = ", "").strip().strip('"')
 
 # Full version, including tags
-release = f"{rnum['major']}.{rnum['minor']}.{rnum['patch']}"+(f"-{rnum['ident']}" if rnum['ident'] else "")
+release = f"{rnum['major']}.{rnum['minor']}.{rnum['patch']}" + (
+    f"-{rnum['ident']}" if rnum["ident"] else ""
+)
 # shortened version name
 version = ".".join(release.split(".")[:2])
 
 # code-highlighting
 from sphinx.highlighting import lexers
+
 lexers["skiylia"] = SkiyliaLexer()
 
 
 # -- General configuration
 
 extensions = [
-    'sphinx.ext.duration',
-    'sphinx.ext.doctest',
-    'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
-    'sphinx.ext.intersphinx',
-    'sphinx_tabs.tabs',
+    "sphinx.ext.duration",
+    "sphinx.ext.doctest",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.intersphinx",
+    "sphinx_tabs.tabs",
     "sphinx_rtd_dark_mode",
 ]
 
-pygments_style = 'sphinx'
-highlight_language = 'none'
+pygments_style = "sphinx"
+highlight_language = "none"
 
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3/', None),
-    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
-    'skiylia': ('https://skiylia.readthedocs.io', None),
+    "python": ("https://docs.python.org/3/", None),
+    "sphinx": ("https://www.sphinx-doc.org/en/master/", None),
+    "skiylia": ("https://skiylia.readthedocs.io", None),
 }
-intersphinx_disabled_domains = ['std']
+intersphinx_disabled_domains = ["std"]
 
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # -- Options for HTML output
 
@@ -79,38 +81,33 @@ html_theme_options = {
     "textcolor": skiylia_text,
     "linkcolor": skiylia_light_blue,
     "visitedlinkcolor": skiylia_dark_blue,
-
     "headtextcolor": skiylia_text,
     "headlinkcolor": skiylia_light_blue,
-
     "footerbgcolor": skiylia_dark_blue,
     "footertextcolor": skiylia_text,
-
     "sidebarbgcolor": "#f2f2f2",
     "sidebarbtncolor": skiylia_dark_blue,
     "sidebartextcolor": skiylia_text,
     "sidebarlinkcolor": skiylia_light_blue,
-
     "relbarbgcolor": skiylia_light_blue,
     "relbartextcolor": skiylia_text,
     "relbarlinkcolor": skiylia_text,
-
     "codebgcolor": skiylia_light_grey,
     # "codetextcolor": skiylia_text,
 }
 
-html_logo = '_images/Skiylia_Logo_text.svg'
+html_logo = "_images/Skiylia_Logo_text.svg"
 
-html_favicon = '_images/Skiylia_Logo.ico'
+html_favicon = "_images/Skiylia_Logo.ico"
 
-html_static_path = ['_images', '_static']
+html_static_path = ["_images", "_static"]
 
 html_css_files = [
-    'css/custom.css',
+    "css/custom.css",
 ]
 
 # -- Options for EPUB output
-epub_show_urls = 'footnote'
+epub_show_urls = "footnote"
 
 # -- Options for dark theming
 default_dark_mode = True

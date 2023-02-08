@@ -15,3 +15,5 @@ symbols = {
     "/": "SLASH",
     # two char
 }
+
+keywords = {""}
