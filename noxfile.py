@@ -129,7 +129,7 @@ def lint(session: nox.session) -> None:
 
     session.debug("Checking skiylia versioning information")
     buildnum = (
-        args.build_num
+        int(args.build_num)
         if args.build_num
         else fetch_build_number(session) + int(args.newcommit)
     )
@@ -139,7 +139,10 @@ def lint(session: nox.session) -> None:
 
     # incorrect build number
     if Skiylia.Version.build != buildnum:
-        session.error(f"{Skiylia.name} build incorrect (should be '{buildnum}')")
+        session.error(
+            f"{Skiylia.name} build incorrect",
+            f"'{Skiylia.Version.build}' != '{buildnum}'",
+        )
     # incorrect identifier label
     if Skiylia.Version.ident and Skiylia.Version.ident not in [
         "pre-alpha",
