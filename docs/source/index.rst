@@ -9,8 +9,8 @@ Skiylia was designed with some measure of portability in mind, as the skiylia by
     :language: skiylia
     :caption: An example of a single-line comment
 
-See :ref:`whats-new-latest <whats new>` in Skiylia, or check out the :doc:`usage` section for further information, including
-how to :ref:`installation <install>` the project.
+See :ref:`whats new <whats-new-latest>` in Skiylia, or check out the :doc:`usage` section for further information, including
+how to :ref:`install <installation>` the project.
 
 
 .. note::
