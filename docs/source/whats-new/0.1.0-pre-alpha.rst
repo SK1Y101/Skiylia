@@ -7,21 +7,26 @@ What's new in 0.1.0 pre-alpha
     =============== ========== ========================================
     Release         Date       Editor
     =============== ========== ========================================
-    0.1.0 pre-alpha XXXX-XX-XX <Editor name>
+    0.1.0 pre-alpha XXXX-XX-XX Jack Lloyd-Walters
     =============== ========== ========================================
 
 Highlights
 ~~~~~~~~~~
+- Skiylia becomes a thing
 - Documentation!
+- Automated linting and workflow
 
 New features
 ~~~~~~~~~~~~
-- A more in depth view (include code where possible) of cool new features
+- Skiylia highlighting Work in Progress for documentation
+- This changelog
+- More in depth documentation
 
 Language Changes
 ~~~~~~~~~~~~~~~~
-- Has something changed in the Skiylia backend? place it here!
+- Skiylia can parse and compute simple arithmetic
 
 Bugs fixed
 ~~~~~~~~~~
-- Any really annoying bugs fixed? stick it here!
+- Broken documentation links have been fixed
+- Nox should now just work
