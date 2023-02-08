@@ -25,8 +25,13 @@ jobs:
       run: |
         git fetch --tags origin
     - name: Fetch build count
+      id: buildnum
       run: |
-        if [ ${{ github.event_name }} == 'pull_request' ]; then echo $(git rev-list v0.0.0..${{ github.event.pull_request.head.sha }} --count); else echo $(git rev-list v0.0.0..${GITHUB_SHA} --count); fi
+        if [ ${{ github.event_name }} == 'pull_request' ]; then
+          echo "build=$(git rev-list v0.0.0..${{ github.event.pull_request.head.sha }} --count)" >> $GITHUB_OUTPUT;
+        else
+          echo "build=$(git rev-list v0.0.0..${GITHUB_SHA} --count)" >> $GITHUB_OUTPUT;
+        fi
     - name: Get previous version
       id: previoustag
       uses: "WyriHaximus/github-action-get-previous-tag@v1"
@@ -34,7 +39,7 @@ jobs:
         fallback: 0.0.0
     - name: Lint
       run: |
-        nox -e lint -- --last-ver ${{ steps.previoustag.outputs.tag }}
+        nox -e lint -- --last-ver ${{ steps.previoustag.outputs.tag }} --build-num ${{ steps.buildnum.outputs.build }}
     - name: Type Checking
       run: |
         nox -e mypy
