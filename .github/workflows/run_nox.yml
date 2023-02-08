@@ -26,7 +26,7 @@ jobs:
         git fetch --tags origin
     - name: Fetch build count
       run: |
-        echo $(git rev-list v0.0.0..$(git rev-parse --short HEAD) --count)
+        echo $(git rev-list 5352b44..HEAD --count)
     - name: Get previous version
       id: previoustag
       uses: "WyriHaximus/github-action-get-previous-tag@v1"
