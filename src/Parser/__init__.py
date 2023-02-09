@@ -85,11 +85,15 @@ class Parser(grammar):
                 break
             self.errorAtCurrent()
 
-    def consume(self, type: str, message: str, errcode: int = 0) -> None:
+    def match(self, type: str) -> bool:
         if self.current.type == type:
             self.advance()
-            return
-        self.errorAtCurrent(message, errcode)
+            return True
+        return False
+
+    def consume(self, type: str, message: str, errcode: int = 0) -> None:
+        if not self.match(type):
+            self.errorAtCurrent(message, errcode)
 
     def errorAtCurrent(self, message: str = "", errcode: int = 0) -> None:
         self.errorAt(self.current, message, errcode)

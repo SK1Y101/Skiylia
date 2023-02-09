@@ -17,7 +17,7 @@ class Lexer:
         self.debug = debug
         self.lastline: int = -1
         self.skipWhitespace = False
-        self.interpolating: list[Token] = []
+        self.interpolating: list[dict[str, Token]] = []
 
         self.source: str = program + "\0"
 
@@ -60,7 +60,7 @@ class Lexer:
 
         match c:
             case c if c == "}" and self.interpolating:
-                return self.createStringToken("}")
+                return self.createStringToken(list(self.interpolating[-1].keys())[0])
             case c if c in symbols:
                 return self.createToken(symbols[c])
             case c if c in string_chars:
@@ -77,13 +77,14 @@ class Lexer:
         self.skipWhitespace = tpe not in ["NEWLINE", "SPACE", "TAB"]
         return Token(tpe, self.lexeme, literal, self.startcol, self.startrow)
 
-    def createInterpolationErrorToken(self, errcode: int, message: str = "") -> Token:
-        token = self.interpolating[-1]
-        return Token("ERROR", "{", error.UNTERMINATEDINTERPOLATION, token.col, token.row)
+    def createInterpolationErrorToken(self) -> Token:
+        token = self.interpolating[-1]["token"]
+        return Token(
+            "ERROR", "{", error.UNTERMINATEDINTERPOLATION, token.col, token.row
+        )
 
     def createErrorToken(self, errcode: int, message: str = "") -> Token:
         return Token("ERROR", message, errcode, self.startcol, self.startrow)
-    
 
     def createClosureToken(self, tokenType: str, closure: str) -> Token:
         # Manipulate the start/end points to remove the closures
@@ -109,7 +110,9 @@ class Lexer:
                 return self.createErrorToken(error.UNTERMINATEDSTRING, closure)
             if self.match("{"):
                 interp = self.createClosureToken("INTERPOLATION", "}")
-                self.interpolating.append(interp)
+                if interp.type == "ERROR":
+                    return interp
+                self.interpolating.append({closure: interp})
                 return interp
             self.advance()
         return self.createClosureToken("STRING", closure)
