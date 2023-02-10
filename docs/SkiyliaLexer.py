@@ -64,16 +64,16 @@ class SkiyliaLexer(RegexLexer):
                 bygroups(String.Affix, String),
                 combined("interpstrinescape", "d_interp"),
             ),
-            (
-                r"'",
-                bygroups(String.Affix, String),
-                combined("interpstrinescape", "s_interp"),
-            ),
-            (
-                r"`",
-                bygroups(String.Affix, String),
-                combined("interpstrinescape", "b_interp"),
-            ),
+            # (
+            #     r"'",
+            #     bygroups(String.Affix, String),
+            #     combined("interpstrinescape", "s_interp"),
+            # ),
+            # (
+            #     r"`",
+            #     bygroups(String.Affix, String),
+            #     combined("interpstrinescape", "b_interp"),
+            # ),
             # strings
             (r'"[^"]*"', String),
             (r"'[^']*'", String),
@@ -186,29 +186,29 @@ class SkiyliaLexer(RegexLexer):
             default("#pop"),
         ],
         "interpstrinescape": [
-            (r"\{\{", String.Escape),
-            (r"\}\}", String.Escape),
+            (r"\{", String.Escape),
+            (r"\}", String.Escape),
         ],
         "d_interp": [
             (r'"', String, "#pop"),
             include("interp_string_rules"),
         ],
-        "s_interp": [
-            (r"'", String, "#pop"),
-            include("interp_string_rules"),
-        ],
-        "b_interp": [
-            (r"`", String, "#pop"),
-            include("interp_string_rules"),
-        ],
+        # "s_interp": [
+        #     (r"'", String, "#pop"),
+        #     include("interp_string_rules"),
+        # ],
+        # "b_interp": [
+        #     (r"`", String, "#pop"),
+        #     include("interp_string_rules"),
+        # ],
         "interp_string_rules": [
             (r"\}", String.Interpol),
-            (r"\{", String.Interpol, "expression-inside-interpstring"),
+            # (r"\{", String.Interpol, "expression-inside-interpstring"),
             # backslashes, quotes and formatting signs must be parsed one at a time
             # (r'[^\\\'"{}\n]+', String),
             # (r'[\'"\\]', String),
         ],
-        "expression-inside-interpstring": [include("expression")],
+        # "expression-inside-interpstring": [include("expression")],
     }
 
 
