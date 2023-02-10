@@ -35,15 +35,6 @@ class SkiyliaLexer(RegexLexer):
 
     uni_name = "[%s][%s]*" % (uni.xid_start, uni.xid_continue)
 
-    def interp_string_rules(ttype):
-        return [
-            (r"\}", String.Interpol),
-            (r"\{", String.Interpol, "expr-inside-interpstring"),
-            # backslashes, quotes and formatting signs must be parsed one at a time
-            (r'[^\\\'"{}\n]+', ttype),
-            (r'[\'"\\]', ttype),
-        ]
-
     tokens = {
         "root": [
             (r"\n", Whitespace),
@@ -55,25 +46,25 @@ class SkiyliaLexer(RegexLexer):
             # classes
             (uni_name, Name.Class, "#pop"),
             # expressions
-            include("expression")
+            include("expression"),
         ],
         "expression": [
             # String interpolation
-            (
-                r'"',
-                bygroups(String.Affix, String),
-                combined("interpstrinescape", "d_interp"),
-            ),
-            (
-                r"'",
-                bygroups(String.Affix, String),
-                combined("interpstrinescape", "s_interp"),
-            ),
-            (
-                r"`",
-                bygroups(String.Affix, String),
-                combined("interpstrinescape", "b_interp"),
-            ),
+            # (
+            #     r'"',
+            #     bygroups(String.Affix, String),
+            #     combined("interpstrinescape", "d_interp"),
+            # ),
+            # (
+            #     r"'",
+            #     bygroups(String.Affix, String),
+            #     combined("interpstrinescape", "s_interp"),
+            # ),
+            # (
+            #     r"`",
+            #     bygroups(String.Affix, String),
+            #     combined("interpstrinescape", "b_interp"),
+            # ),
             # strings
             (r'"[^"]*"', String),
             (r"'[^']*'", String),
@@ -185,30 +176,30 @@ class SkiyliaLexer(RegexLexer):
             (uni_name, Name.Function, "#pop"),
             default("#pop"),
         ],
-        "interpstrinescape": [
-            (r"\{\{", String.Escape),
-            (r"\}\}", String.Escape),
-        ],
-        "d_interp": [
-            (r'"', String, "#pop"),
-            include("interp_string_rules"),
-        ],
-        "s_interp": [
-            (r"'", String, "#pop"),
-            include("interp_string_rules"),
-        ],
-        "b_interp": [
-            (r"`", String, "#pop"),
-            include("interp_string_rules"),
-        ],
-        "interp_string_rules": [
-            (r"\}", String.Interpol),
-            (r"\{", String.Interpol, "expression-inside-interpstring"),
+        # "interpstrinescape": [
+        #     (r"\{\{", String.Escape),
+        #     (r"\}\}", String.Escape),
+        # ],
+        # "d_interp": [
+        #     (r'"', String, "#pop"),
+        #     include("interp_string_rules"),
+        # ],
+        # "s_interp": [
+        #     (r"'", String, "#pop"),
+        #     include("interp_string_rules"),
+        # ],
+        # "b_interp": [
+        #     (r"`", String, "#pop"),
+        #     include("interp_string_rules"),
+        # ],
+        # "interp_string_rules": [
+        #     (r"\}", String.Interpol),
+        #     (r"\{", String.Interpol, "expression-inside-interpstring"),
             # backslashes, quotes and formatting signs must be parsed one at a time
             # (r'[^\\\'"{}\n]+', String),
             # (r'[\'"\\]', String),
-        ],
-        "expression-inside-interpstring": [include("expression")],
+        # ],
+        # "expression-inside-interpstring": [include("expression")],
     }
 
 
