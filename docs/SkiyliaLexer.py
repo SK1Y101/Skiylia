@@ -212,17 +212,20 @@ class SkiyliaLexer(RegexLexer):
         'stringescape': [
             (r'\\(N\{.*?\}|u[a-fA-F0-9]{4}|U[a-fA-F0-9]{8})', String.Escape),
         ],
+        'fstrings-single': fstring_rules(String),
+        'fstrings-double': fstring_rules(String),
+        'fstrings-back': fstring_rules(String),
         'dqf': [
             (r'"', String, '#pop'),
-            include(fstring_rules(String))
+            include('fstrings-double')
         ],
         'sqf': [
             (r"'", String, '#pop'),
-            include(fstring_rules(String))
+            include('fstrings-single')
         ],
         'bqf': [
             (r"`", String, '#pop'),
-            include(fstring_rules(String))
+            include('fstrings-back')
         ],
     }
 
