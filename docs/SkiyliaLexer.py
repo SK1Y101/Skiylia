@@ -64,9 +64,9 @@ class SkiyliaLexer(RegexLexer):
         ],
         "expression": [
             # strings
-            (r'"[^"]*"', String),
-            (r"'[^']*'", String),
-            (r"`[^`]*`", String),
+            # (r'"[^"]*"', String),
+            # (r"'[^']*'", String),
+            # (r"`[^`]*`", String),
             # operators
             (r"\.\.|~~|!~|!==|===|!=|==|<<|>>|\?\?|\?\:|[-~+/*%=<>&^|?.:]", Operator),
             (r"(in|is|do|and|or|xor|not)\b", Operator.Word),
