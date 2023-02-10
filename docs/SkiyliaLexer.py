@@ -81,11 +81,11 @@ class SkiyliaLexer(RegexLexer):
             # names and stuff
             (uni_name, Name),
             # interpolated strings
-            ('(f)(")', bygroups(String.Affix, String.Double),
+            ('"', String.Double,
              combined('fstringescape', 'dqf')),
-            ("(f)(')", bygroups(String.Affix, String.Single),
+            ("'", String.Single,
              combined('fstringescape', 'sqf')),
-            ("(f)(`)", bygroups(String.Affix, String.Single),
+            ("`", String.Single,
              combined('fstringescape', 'bqf')),
         ],
         "keywords": [
