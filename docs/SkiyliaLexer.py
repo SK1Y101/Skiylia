@@ -50,6 +50,14 @@ class SkiyliaLexer(RegexLexer):
             # comments
             (r"// [^\n]*[\n]", Comment.Single),
             (r"/// [^///]* ///", Comment.Multiline),
+            # functions
+            (r"(def)((?:\s|\\\s)+)", bygroups(Keyword, Text), "funcname"),
+            # classes
+            (uni_name, Name.Class, "#pop"),
+            # expressions
+            include("expression")
+        ],
+        "expression": [
             # String interpolation
             (
                 r'"',
@@ -81,10 +89,6 @@ class SkiyliaLexer(RegexLexer):
             # include other rules
             include("keywords"),
             include("numbers"),
-            # functions
-            (r"(def)((?:\s|\\\s)+)", bygroups(Keyword, Text), "funcname"),
-            # classes
-            (uni_name, Name.Class, "#pop"),
             # names and stuff
             (uni_name, Name),
         ],
@@ -199,12 +203,12 @@ class SkiyliaLexer(RegexLexer):
         ],
         "interp_string_rules": [
             (r"\}", String.Interpol),
-            (r"\{", String.Interpol, "expr-inside-interpstring"),
+            (r"\{", String.Interpol, "expression-inside-interpstring"),
             # backslashes, quotes and formatting signs must be parsed one at a time
             # (r'[^\\\'"{}\n]+', String),
             # (r'[\'"\\]', String),
         ],
-        "expr-inside-interpstring": [include("expr")],
+        "expression-inside-interpstring": [include("expression")],
     }
 
 
