@@ -164,7 +164,7 @@ class SkiyliaLexer(RegexLexer):
                         "var",
                         "xor",
                     ),
-                    prefix=r"(?<!\.)",
+                    # prefix=r"(?<!\.)",
                     suffix=r"\b",
                 ),
                 Name.Builtin,
