@@ -6,7 +6,7 @@ import os
 import re
 
 from pygments import unistring as uni
-from pygments.lexer import RegexLexer, bygroups, default, include, words
+from pygments.lexer import RegexLexer, bygroups, combined, default, include, words
 from pygments.token import (
     Comment,
     Keyword,
@@ -35,12 +35,37 @@ class SkiyliaLexer(RegexLexer):
 
     uni_name = "[%s][%s]*" % (uni.xid_start, uni.xid_continue)
 
+    def interp_string_rules(ttype):
+        return [
+            (r"\}", String.Interpol),
+            (r"\{", String.Interpol, "expr-inside-interpstring"),
+            # backslashes, quotes and formatting signs must be parsed one at a time
+            (r'[^\\\'"{}\n]+', ttype),
+            (r'[\'"\\]', ttype),
+        ]
+
     tokens = {
         "root": [
             (r"\n", Whitespace),
             # comments
             (r"// [^\n]*[\n]", Comment.Single),
             (r"/// [^///]* ///", Comment.Multiline),
+            # String interpolation
+            (
+                r'"',
+                bygroups(String.Affix, String),
+                combined("interpstrinescape", "d_interp"),
+            ),
+            (
+                r"'",
+                bygroups(String.Affix, String),
+                combined("interpstrinescape", "s_interp"),
+            ),
+            (
+                r"`",
+                bygroups(String.Affix, String),
+                combined("interpstrinescape", "b_interp"),
+            ),
             # strings
             (r'"[^"]*"', String),
             (r"'[^']*'", String),
@@ -156,6 +181,23 @@ class SkiyliaLexer(RegexLexer):
             (uni_name, Name.Function, "#pop"),
             default("#pop"),
         ],
+        "interpstrinescape": [
+            (r"\{\{", String.Escape),
+            (r"\}\}", String.Escape),
+        ],
+        "d_interp": [
+            (r'"', String, "#pop"),
+            interp_string_rules(String),
+        ],
+        "s_interp": [
+            (r"'", String, "#pop"),
+            interp_string_rules(String),
+        ],
+        "b_interp": [
+            (r"`", String, "#pop"),
+            interp_string_rules(String),
+        ],
+        "expr-inside-interpstring": [include("expr")],
     }
 
 

@@ -1,6 +1,6 @@
 # Changes
 
-## 0.1.0 [pre-alpha] (2023-02-08)
+## 0.1.0 [pre-alpha] (2023-02-10)
 
 ### Contributors
  - Jack lloyd-walters.
@@ -17,6 +17,8 @@
  - Better nox tests for skiylia build number.
 
 ### New features
+ - String interpolation token + example.
+ - Lint the docs.
  - Add skiylia highlighter to documentation.
  - Introduce changelog and changelog workflow.
 
