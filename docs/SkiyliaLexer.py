@@ -199,9 +199,16 @@ class SkiyliaLexer(RegexLexer):
             (r'\s+', Whitespace),  # allow new lines
             include('expr'),
         ],
+        'rfstringescape': [
+            (r'\{\{', String.Escape),
+            (r'\}\}', String.Escape),
+        ],
         'fstringescape': [
             include('rfstringescape'),
             include('stringescape'),
+        ],
+        'stringescape': [
+            (r'\\(N\{.*?\}|u[a-fA-F0-9]{4}|U[a-fA-F0-9]{8})', String.Escape),
         ],
         'fstrings-single': fstring_rules(String.Single),
         'fstrings-double': fstring_rules(String.Double),
