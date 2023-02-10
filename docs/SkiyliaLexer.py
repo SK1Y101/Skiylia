@@ -201,20 +201,14 @@ class SkiyliaLexer(RegexLexer):
             (r'\s+', Whitespace),  # allow new lines
             include("expression"),
         ],
-        'rfstringescape': [
+        'fstringescape': [
             (r'\{\{', String.Escape),
             (r'\}\}', String.Escape),
-        ],
-        'fstringescape': [
-            include('rfstringescape'),
             include('stringescape'),
         ],
         'stringescape': [
             (r'\\(N\{.*?\}|u[a-fA-F0-9]{4}|U[a-fA-F0-9]{8})', String.Escape),
         ],
-        'fstrings-single': fstring_rules(),
-        'fstrings-double': fstring_rules(),
-        'fstrings-back': fstring_rules(),
         'dqf': [
             (r'"', String, '#pop'),
             include('fstring_rules')
@@ -228,16 +222,10 @@ class SkiyliaLexer(RegexLexer):
             include('fstring_rules')
         ],
         'fstring_rules': [
-            # Assuming that a '}' is the closing brace after format specifier.
-            # Sadly, this means that we won't detect syntax error. But it's
-            # more important to parse correct syntax correctly, than to
-            # highlight invalid syntax.
             (r'\}', String.Interpol),
             (r'\{', String.Interpol, 'expr-inside-fstring'),
-            # backslashes, quotes and formatting signs must be parsed one at a time
             (r'[^\\\'"`{}\n]+', String),
             (r'[\'"`\\]', String),
-            # newlines are an error (use "nl" state)
         ]
     }
 
