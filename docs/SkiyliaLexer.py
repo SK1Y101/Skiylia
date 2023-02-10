@@ -59,11 +59,11 @@ class SkiyliaLexer(RegexLexer):
         ],
         "expression": [
             # String interpolation
-            (
-                r'"',
-                bygroups(String.Affix, String),
-                combined("interpstrinescape", "d_interp"),
-            ),
+            # (
+            #     r'"',
+            #     bygroups(String.Affix, String),
+            #     combined("interpstrinescape", "d_interp"),
+            # ),
             # (
             #     r"'",
             #     bygroups(String.Affix, String),
@@ -189,10 +189,10 @@ class SkiyliaLexer(RegexLexer):
             # (r"\{", String.Escape),
             (r"\}", String.Escape),
         ],
-        "d_interp": [
-            (r'"', String, "#pop"),
+        # "d_interp": [
+        #     (r'"', String, "#pop"),
             # include("interp_string_rules"),
-        ],
+        # ],
         # "s_interp": [
         #     (r"'", String, "#pop"),
         #     include("interp_string_rules"),
