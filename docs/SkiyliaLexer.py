@@ -186,12 +186,12 @@ class SkiyliaLexer(RegexLexer):
             default("#pop"),
         ],
         "interpstrinescape": [
-            (r"\{", String.Escape),
+            # (r"\{", String.Escape),
             (r"\}", String.Escape),
         ],
         "d_interp": [
             (r'"', String, "#pop"),
-            include("interp_string_rules"),
+            # include("interp_string_rules"),
         ],
         # "s_interp": [
         #     (r"'", String, "#pop"),
@@ -201,13 +201,13 @@ class SkiyliaLexer(RegexLexer):
         #     (r"`", String, "#pop"),
         #     include("interp_string_rules"),
         # ],
-        "interp_string_rules": [
-            (r"\}", String.Interpol),
+        # "interp_string_rules": [
+        #     (r"\}", String.Interpol),
             # (r"\{", String.Interpol, "expression-inside-interpstring"),
             # backslashes, quotes and formatting signs must be parsed one at a time
             # (r'[^\\\'"{}\n]+', String),
             # (r'[\'"\\]', String),
-        ],
+        # ],
         # "expression-inside-interpstring": [include("expression")],
     }
 
