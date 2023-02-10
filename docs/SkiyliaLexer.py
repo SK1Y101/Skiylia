@@ -191,13 +191,13 @@ class SkiyliaLexer(RegexLexer):
              r'(\![sraf])?'     # conversion
              r':', String.Interpol, '#pop'),
             (r'\s+', Whitespace),  # allow new lines
-            include('expr'),
+            include("expression"),
         ],
         'expr-inside-fstring-inner': [
             (r'[{([]', Punctuation, 'expr-inside-fstring-inner'),
             (r'[])}]', Punctuation, '#pop'),
             (r'\s+', Whitespace),  # allow new lines
-            include('expr'),
+            include("expression"),
         ],
         'rfstringescape': [
             (r'\{\{', String.Escape),
