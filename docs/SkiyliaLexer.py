@@ -58,7 +58,7 @@ class SkiyliaLexer(RegexLexer):
             # functions
             (r"(def)((?:\s|\\\s)+)", bygroups(Keyword, Text), "funcname"),
             # classes
-            (uni_name, Name.Class, "#pop"),
+            # (uni_name, Name.Class, "#pop"),
             # expressions
             include("expression"),
         ],
