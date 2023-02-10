@@ -35,7 +35,7 @@ class SkiyliaLexer(RegexLexer):
 
     uni_name = "[%s][%s]*" % (uni.xid_start, uni.xid_continue)
 
-    def fstring_rules():
+    def fstring_rules(ttype):
         return [
             # Assuming that a '}' is the closing brace after format specifier.
             # Sadly, this means that we won't detect syntax error. But it's
@@ -44,8 +44,8 @@ class SkiyliaLexer(RegexLexer):
             (r'\}', String.Interpol),
             (r'\{', String.Interpol, 'expr-inside-fstring'),
             # backslashes, quotes and formatting signs must be parsed one at a time
-            (r'[^\\\'"`{}\n]+', String),
-            (r'[\'"`\\]', String),
+            (r'[^\\\'"{}\n]+', ttype),
+            (r'[\'"\\]', ttype),
             # newlines are an error (use "nl" state)
         ]
 
@@ -214,15 +214,15 @@ class SkiyliaLexer(RegexLexer):
         ],
         'dqf': [
             (r'"', String, '#pop'),
-            include(fstring_rules())
+            include(fstring_rules(String))
         ],
         'sqf': [
             (r"'", String, '#pop'),
-            include(fstring_rules())
+            include(fstring_rules(String))
         ],
         'bqf': [
             (r"`", String, '#pop'),
-            include(fstring_rules())
+            include(fstring_rules(String))
         ],
     }
 
