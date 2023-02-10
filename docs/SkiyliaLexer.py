@@ -71,15 +71,13 @@ class SkiyliaLexer(RegexLexer):
             (r"\.\.|~~|!~|!==|===|!=|==|<<|>>|\?\?|\?\:|[-~+/*%=<>&^|?.:]", Operator),
             (r"(in|is|do|and|or|xor|not)\b", Operator.Word),
             (r"[]{}:(),;[]", Punctuation),
+            # include other rules
+            include("keywords"),
+            include("numbers"),
             # text
             (r"[^\S\n]+", Text),
             (r"\\\n", Text),
             (r"\\", Text),
-            # include other rules
-            include("keywords"),
-            include("numbers"),
-            # names and stuff
-            (uni_name, Name),
             # interpolated strings
             ('"', String,
              combined('fstringescape', 'dqf')),
@@ -87,6 +85,8 @@ class SkiyliaLexer(RegexLexer):
              combined('fstringescape', 'sqf')),
             ("`", String,
              combined('fstringescape', 'bqf')),
+            # names and stuff
+            (uni_name, Name),
         ],
         "keywords": [
             (
