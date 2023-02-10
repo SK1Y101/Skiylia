@@ -81,9 +81,9 @@ class SkiyliaLexer(RegexLexer):
             # names and stuff
             (uni_name, Name),
             # interpolated strings
-            ('([fF])(")', bygroups(String.Affix, String.Double),
+            ('"', bygroups(String.Affix, String.Double),
              combined('fstringescape', 'dqf')),
-            ("([fF])(')", bygroups(String.Affix, String.Single),
+            ("'", bygroups(String.Affix, String.Single),
              combined('fstringescape', 'sqf')),
         ],
         "keywords": [
