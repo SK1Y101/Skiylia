@@ -49,7 +49,7 @@ class SkiyliaLexer(RegexLexer):
             include("expression"),
         ],
         "expression": [
-            String interpolation
+            # String interpolation
             (
                 r'"',
                 bygroups(String.Affix, String),
