@@ -217,16 +217,28 @@ class SkiyliaLexer(RegexLexer):
         'fstrings-back': fstring_rules(),
         'dqf': [
             (r'"', String, '#pop'),
-            include('fstrings-double')
+            include('fstring_rules')
         ],
         'sqf': [
             (r"'", String, '#pop'),
-            include('fstrings-single')
+            include('fstring_rules')
         ],
         'bqf': [
             (r"`", String, '#pop'),
-            include('fstrings-back')
+            include('fstring_rules')
         ],
+        'fstring_rules': [
+            # Assuming that a '}' is the closing brace after format specifier.
+            # Sadly, this means that we won't detect syntax error. But it's
+            # more important to parse correct syntax correctly, than to
+            # highlight invalid syntax.
+            (r'\}', String.Interpol),
+            (r'\{', String.Interpol, 'expr-inside-fstring'),
+            # backslashes, quotes and formatting signs must be parsed one at a time
+            (r'[^\\\'"`{}\n]+', String),
+            (r'[\'"`\\]', String),
+            # newlines are an error (use "nl" state)
+        ]
     }
 
 
