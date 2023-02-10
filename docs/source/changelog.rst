@@ -3,7 +3,7 @@ Changes
 
 0.1.0 [pre-alpha] 
 ------------------
-:Date: 2023-02-08
+:Date: 2023-02-10
 
 Contributors
 ~~~~~~~~~~~~
@@ -24,6 +24,8 @@ Improvements
 
 New features
 ~~~~~~~~~~~~
+ - String interpolation token + example.
+ - Lint the docs.
  - Add skiylia highlighter to documentation.
  - Introduce changelog and changelog workflow.
 
