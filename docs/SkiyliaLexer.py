@@ -85,6 +85,8 @@ class SkiyliaLexer(RegexLexer):
              combined('fstringescape', 'dqf')),
             ("'", bygroups(String.Affix, String.Single),
              combined('fstringescape', 'sqf')),
+            ("`", bygroups(String.Affix, String.Single),
+             combined('fstringescape', 'bqf')),
         ],
         "keywords": [
             (
@@ -210,15 +212,20 @@ class SkiyliaLexer(RegexLexer):
         'stringescape': [
             (r'\\(N\{.*?\}|u[a-fA-F0-9]{4}|U[a-fA-F0-9]{8})', String.Escape),
         ],
-        'fstrings-single': fstring_rules(String.Single),
-        'fstrings-double': fstring_rules(String.Double),
+        'fstrings-single': fstring_rules(String),
+        'fstrings-double': fstring_rules(String),
+        'fstrings-back': fstring_rules(String),
         'dqf': [
-            (r'"', String.Double, '#pop'),
+            (r'"', String, '#pop'),
             include('fstrings-double')
         ],
         'sqf': [
-            (r"'", String.Single, '#pop'),
+            (r"'", String, '#pop'),
             include('fstrings-single')
+        ],
+        'bqf': [
+            (r"`", String, '#pop'),
+            include('fstrings-back')
         ],
     }
 
