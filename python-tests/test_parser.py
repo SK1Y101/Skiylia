@@ -4,6 +4,7 @@ import pytest
 
 from Parser import opcodes
 from skiylia_errors import (
+    SkiyliaError,
     UnidentifiedCharacter,
     UnterminatedComment,
     UnterminatedString,
@@ -77,6 +78,21 @@ class TestParserParses:
 
     def test_parse_string_fails(self, parser: parser) -> None:
         assert isinstance(parser("'hello")[0], UnterminatedString)
+
+    def test_parse_string_interpolation(self, parser: parser) -> None:
+        bytecode = parser("'this is string {'interpolation'}'")
+        assert bytecode == bytearray(
+            [opcodes.CONSTANT, 0, opcodes.CONSTANT, 1, opcodes.ADD, opcodes.RETURN]
+        )
+
+    def test_parse_string_interpolation_fails(self, parser: parser) -> None:
+        assert isinstance(
+            parser("'this is failed string {'interpolation'}")[0], UnterminatedString
+        )
+        assert isinstance(
+            parser("'this is failed string {'interpolation'")[0], SkiyliaError
+        )
+        assert isinstance(parser("'this is failed string {")[0], SkiyliaError)
 
     def test_parse_arithmetic(self, parser: parser) -> None:
         bytecode = parser("1+2")

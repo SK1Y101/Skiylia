@@ -59,8 +59,15 @@ class Lexer:
         c = self.advance()
 
         match c:
-            case c if c == "}" and self.interpolating:
-                return self.createStringToken(list(self.interpolating[-1].keys())[0])
+            case "}":
+                if self.interpolating:
+                    return self.createStringToken(
+                        list(self.interpolating.pop().keys())[0]
+                    )
+                return self.createErrorToken(
+                    error.UNEXPECTEDINTERPOLATION,
+                    f"'{c}' does not close any open interpolations",
+                )
             case c if c in symbols:
                 return self.createToken(symbols[c])
             case c if c in string_chars:
@@ -78,13 +85,25 @@ class Lexer:
         return Token(tpe, self.lexeme, literal, self.startcol, self.startrow)
 
     def createInterpolationErrorToken(self) -> Token:
-        token = self.interpolating[-1]["token"]
-        return Token(
-            "ERROR", "{", error.UNTERMINATEDINTERPOLATION, token.col, token.row
+        token = list(self.interpolating[-1].values())[0]
+        return self.createErrorToken(
+            error.UNTERMINATEDINTERPOLATION, "{", token.col, token.row
         )
 
-    def createErrorToken(self, errcode: int, message: str = "") -> Token:
-        return Token("ERROR", message, errcode, self.startcol, self.startrow)
+    def createErrorToken(
+        self,
+        errcode: int,
+        message: str = "",
+        startcol: int | None = None,
+        startrow: int | None = None,
+    ) -> Token:
+        return Token(
+            "ERROR",
+            message,
+            errcode,
+            self.startcol if startcol is None else startcol,
+            self.startrow if startrow is None else startrow,
+        )
 
     def createClosureToken(self, tokenType: str, closure: str) -> Token:
         # Manipulate the start/end points to remove the closures
