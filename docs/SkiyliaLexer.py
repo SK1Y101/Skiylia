@@ -41,8 +41,8 @@ class SkiyliaLexer(RegexLexer):
             # Sadly, this means that we won't detect syntax error. But it's
             # more important to parse correct syntax correctly, than to
             # highlight invalid syntax.
-            (r'\}', String.Interpol),
-            (r'\{', String.Interpol, 'expr-inside-fstring'),
+            (r"\}", String.Interpol),
+            (r"\{", String.Interpol, "expr-inside-fstring"),
             # backslashes, quotes and formatting signs must be parsed one at a time
             (r'[^\\\'"`{}\n]+', String),
             (r'[\'"`\\]', String),
@@ -58,7 +58,7 @@ class SkiyliaLexer(RegexLexer):
             # functions
             (r"(def)((?:\s|\\\s)+)", bygroups(Keyword, Text), "funcname"),
             # classes
-            # (uni_name, Name.Class, "#pop"),
+            (r"(class)((?:\s|\\\s)+)", bygroups(Keyword, Text), "classname"),
             # expressions
             include("expression"),
         ],
@@ -79,12 +79,9 @@ class SkiyliaLexer(RegexLexer):
             (r"\\\n", Text),
             (r"\\", Text),
             # interpolated strings
-            ('"', String,
-             combined('fstringescape', 'dqf')),
-            ("'", String,
-             combined('fstringescape', 'sqf')),
-            ("`", String,
-             combined('fstringescape', 'bqf')),
+            ('"', String, combined("fstringescape", "dqf")),
+            ("'", String, combined("fstringescape", "sqf")),
+            ("`", String, combined("fstringescape", "bqf")),
             # names and stuff
             (uni_name, Name),
         ],
@@ -181,52 +178,54 @@ class SkiyliaLexer(RegexLexer):
             (uni_name, Name.Function, "#pop"),
             default("#pop"),
         ],
-        'expr-inside-fstring': [
-            (r'[{([]', Punctuation, 'expr-inside-fstring-inner'),
+        "classname": [
+            (uni_name, Name.Class, "#pop"),
+        ],
+        "expr-inside-fstring": [
+            (r"[{([]", Punctuation, "expr-inside-fstring-inner"),
             # without format specifier
-            (r'(=\s*)?'         # debug (https://bugs.python.org/issue36817)
-             r'(\![sraf])?'     # conversion
-             r'\}', String.Interpol, '#pop'),
+            (
+                r"(=\s*)?"  # debug (https://bugs.python.org/issue36817)
+                r"(\![sraf])?"  # conversion
+                r"\}",
+                String.Interpol,
+                "#pop",
+            ),
             # with format specifier
             # we'll catch the remaining '}' in the outer scope
-            (r'(=\s*)?'         # debug (https://bugs.python.org/issue36817)
-             r'(\![sraf])?'     # conversion
-             r':', String.Interpol, '#pop'),
-            (r'\s+', Whitespace),  # allow new lines
+            (
+                r"(=\s*)?"  # debug (https://bugs.python.org/issue36817)
+                r"(\![sraf])?"  # conversion
+                r":",
+                String.Interpol,
+                "#pop",
+            ),
+            (r"\s+", Whitespace),  # allow new lines
             include("expression"),
         ],
-        'expr-inside-fstring-inner': [
-            (r'[{([]', Punctuation, 'expr-inside-fstring-inner'),
-            (r'[])}]', Punctuation, '#pop'),
-            (r'\s+', Whitespace),  # allow new lines
+        "expr-inside-fstring-inner": [
+            (r"[{([]", Punctuation, "expr-inside-fstring-inner"),
+            (r"[])}]", Punctuation, "#pop"),
+            (r"\s+", Whitespace),  # allow new lines
             include("expression"),
         ],
-        'fstringescape': [
-            (r'\{\{', String.Escape),
-            (r'\}\}', String.Escape),
-            include('stringescape'),
+        "fstringescape": [
+            (r"\{\{", String.Escape),
+            (r"\}\}", String.Escape),
+            include("stringescape"),
         ],
-        'stringescape': [
-            (r'\\(N\{.*?\}|u[a-fA-F0-9]{4}|U[a-fA-F0-9]{8})', String.Escape),
+        "stringescape": [
+            (r"\\(N\{.*?\}|u[a-fA-F0-9]{4}|U[a-fA-F0-9]{8})", String.Escape),
         ],
-        'dqf': [
-            (r'"', String, '#pop'),
-            include('fstring_rules')
-        ],
-        'sqf': [
-            (r"'", String, '#pop'),
-            include('fstring_rules')
-        ],
-        'bqf': [
-            (r"`", String, '#pop'),
-            include('fstring_rules')
-        ],
-        'fstring_rules': [
-            (r'\}', String.Interpol),
-            (r'\{', String.Interpol, 'expr-inside-fstring'),
+        "dqf": [(r'"', String, "#pop"), include("fstring_rules")],
+        "sqf": [(r"'", String, "#pop"), include("fstring_rules")],
+        "bqf": [(r"`", String, "#pop"), include("fstring_rules")],
+        "fstring_rules": [
+            (r"\}", String.Interpol),
+            (r"\{", String.Interpol, "expr-inside-fstring"),
             (r'[^\\\'"`{}\n]+', String),
             (r'[\'"`\\]', String),
-        ]
+        ],
     }
 
 

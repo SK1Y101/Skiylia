@@ -47,6 +47,10 @@ class UnexpectedCharacter(SkiyliaError):
     """Raised when an unexpected character occurs in the filestream."""
 
 
+class UnexpectedInterpolation(UnexpectedCharacter):
+    """Raised when an interpolation closure is found after all have been"""
+
+
 class UnterminatedClosure(SkiyliaError):
     """Used when an opening literal is not closed."""
 
@@ -86,6 +90,7 @@ class error:
     UNTERMINATEDSTRING = 11
     UNTERMINATEDCOMMENT = 12
     UNTERMINATEDINTERPOLATION = 13
+    UNEXPECTEDINTERPOLATION = 14
 
     # VM errors
     INCOMPLETEEXPRESSION = 20
@@ -104,6 +109,8 @@ class error:
                 return UnterminatedComment
             case self.UNTERMINATEDINTERPOLATION:
                 return UnterminatedInterpolation
+            case self.UNEXPECTEDINTERPOLATION:
+                return UnexpectedInterpolation
             case self.INCOMPLETEEXPRESSION:
                 return IncompleteExpression
             case _:
