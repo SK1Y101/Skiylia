@@ -20,7 +20,7 @@ class grammar:
     PREC_NONE = 0
     PREC_TERM = 1  # + -
     PREC_FACTOR = 2  # * /
-    PREC_UNARY = 3  # - +
+    PREC_UNARY = 3  # -a +a
     PREC_PRIMARY = 4
 
     def __init__(self):
