@@ -11,6 +11,7 @@ Contributors
 
 Fixes
 ~~~~~
+ - Add what's new to toctree.
  - Doc links broken.
  - Docs fetch the release numbers without import.
  - Docs don't attempt to load errors.
