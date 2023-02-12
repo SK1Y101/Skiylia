@@ -25,4 +25,5 @@ Contents
 
    whats-new-all
    usage
-   Implementations
+   documentation
+   implementations
