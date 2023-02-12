@@ -20,8 +20,9 @@ class Vm:
         self.final_state: Any = None
 
     def free(self) -> None:
-        self.group.free()
-        self.group = None
+        if self.group:
+            self.group.free()
+            self.group = None
         self.ip = 0
         self.stack = []
         self.final_state = None

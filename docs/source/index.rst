@@ -22,6 +22,9 @@ Contents
 --------
 
 .. toctree::
+   :maxdepth: 2
 
-   whats-new
+   whats-new-all
    usage
+   documentation
+   implementations

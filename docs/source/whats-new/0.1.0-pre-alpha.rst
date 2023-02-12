@@ -1,14 +1,15 @@
 
-What's new in 0.1.0 pre-alpha
------------------------------
+What's new in 0.1.0 [pre-alpha]
+-------------------------------
 
 .. table::
     :widths: auto
-    =============== ========== ========================================
-    Release         Date       Editor
-    =============== ========== ========================================
-    0.1.0 pre-alpha XXXX-XX-XX Jack Lloyd-Walters
-    =============== ========== ========================================
+
+    ================= ========== ========================================
+    Release           Date       Editor
+    ================= ========== ========================================
+    0.1.0 [pre-alpha] XXXX-XX-XX Jack Lloyd-Walters
+    ================= ========== ========================================
 
 Highlights
 ~~~~~~~~~~
@@ -25,6 +26,7 @@ New features
 Language Changes
 ~~~~~~~~~~~~~~~~
 - Skiylia can parse and compute simple arithmetic
+- Skiylia supports string interpolation
 
 Bugs fixed
 ~~~~~~~~~~
