@@ -41,3 +41,22 @@ Reserved words
 
 Skiylia (as of `0.1.0 pre-alpha <0.1.0-pre-alpha>`_) does not reserve any words. This is `very likely`_ to change in future releases.
 
+Precedence
+----------
+
+.. table:: Comparison syntax
+   :widths: auto
+
+   ===============  ================  =============================================================================================    ============
+   Precedence Operator    Example   Association
+   ===============  ================  =============================================================================================    ============
+   0    Term
+   2    Unary
+   3    Factor
+   4    Primary
+   5
+   6
+   7
+   8
+   9
+   10
