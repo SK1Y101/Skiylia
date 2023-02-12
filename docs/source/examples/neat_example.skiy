@@ -13,4 +13,4 @@ def factorial(int N):
 
 num = 1
 for fact in factorial([1..10]):
-    print("The factorial of {num++} is {fact}")
+    print("The factorial of {num++} is: {fact}")

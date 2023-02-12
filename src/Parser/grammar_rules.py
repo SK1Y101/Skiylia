@@ -20,7 +20,7 @@ class grammar:
     PREC_NONE = 0
     PREC_TERM = 1  # + -
     PREC_FACTOR = 2  # * /
-    PREC_UNARY = 3  # - +
+    PREC_UNARY = 3  # -a +a
     PREC_PRIMARY = 4
 
     def __init__(self):
@@ -39,6 +39,7 @@ class grammar:
             # literals
             "NUMBER": parseRule(self.number, None, self.PREC_NONE),
             "STRING": parseRule(self.string, None, self.PREC_NONE),
+            "INTERPOLATION": parseRule(self.interpolation, None, self.PREC_NONE),
             "IDENTIFIER": parseRule(None, None, self.PREC_NONE),
             # keywords
         }
@@ -50,6 +51,12 @@ class grammar:
 
     def expression(self) -> None:
         self.parsePrecedence(1)  # type: ignore
+
+    def interpolation(self) -> None:
+        self.string()
+        self.expression()
+        self.consume("STRING", "Expected end of string interpolation.")  # type: ignore
+        self.emitByte(opcodes.ADD)  # type: ignore
 
     def unary(self) -> None:
         op = self.previous.type  # type: ignore

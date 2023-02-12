@@ -1,0 +1,1 @@
+print("You can interpolate {'strings'} and also equations like 56 * 4 / 7 = {56*4/7}")

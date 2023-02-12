@@ -17,6 +17,7 @@ class Lexer:
         self.debug = debug
         self.lastline: int = -1
         self.skipWhitespace = False
+        self.interpolating: list[dict[str, Token]] = []
 
         self.source: str = program + "\0"
 
@@ -44,6 +45,8 @@ class Lexer:
         self.start = self.current
         self.startrow = self.currentrow
         self.startcol = self.currentcol
+        if self.atEnd() and self.interpolating:
+            return self.createInterpolationErrorToken()
 
         if self.matchGroup("//"):
             return self.createCommentToken()
@@ -56,6 +59,15 @@ class Lexer:
         c = self.advance()
 
         match c:
+            case "}":
+                if self.interpolating:
+                    return self.createStringToken(
+                        list(self.interpolating.pop().keys())[0]
+                    )
+                return self.createErrorToken(
+                    error.UNEXPECTEDINTERPOLATION,
+                    f"'{c}' does not close any open interpolations",
+                )
             case c if c in symbols:
                 return self.createToken(symbols[c])
             case c if c in string_chars:
@@ -72,16 +84,28 @@ class Lexer:
         self.skipWhitespace = tpe not in ["NEWLINE", "SPACE", "TAB"]
         return Token(tpe, self.lexeme, literal, self.startcol, self.startrow)
 
-    def createErrorToken(self, errcode: int, message: str = "") -> Token:
-        return Token("ERROR", message, errcode, self.startcol, self.startrow)
+    def createInterpolationErrorToken(self) -> Token:
+        token = list(self.interpolating[-1].values())[0]
+        return self.createErrorToken(
+            error.UNTERMINATEDINTERPOLATION, "{", token.col, token.row
+        )
 
-    def createClosureToken(
-        self, tokenType: str, closure: str, error: int = error.UNTERMINATEDCLOSURE
+    def createErrorToken(
+        self,
+        errcode: int,
+        message: str = "",
+        startcol: int | None = None,
+        startrow: int | None = None,
     ) -> Token:
-        while not self.matchGroup(closure):
-            if self.atEnd():
-                return self.createErrorToken(error, closure)
-            self.advance()
+        return Token(
+            "ERROR",
+            message,
+            errcode,
+            self.startcol if startcol is None else startcol,
+            self.startrow if startrow is None else startrow,
+        )
+
+    def createClosureToken(self, tokenType: str, closure: str) -> Token:
         # Manipulate the start/end points to remove the closures
         self.start += len(closure)
         self.current -= len(closure)
@@ -93,10 +117,24 @@ class Lexer:
         closure = "///" if self.match("/") else "\n"
         # the starture length is one more than the closure length
         self.start += int(closure == "\n")
-        return self.createClosureToken("COMMENT", closure, error.UNTERMINATEDCOMMENT)
+        while not self.matchGroup(closure):
+            if self.atEnd():
+                return self.createErrorToken(error.UNTERMINATEDCOMMENT, closure)
+            self.advance()
+        return self.createClosureToken("COMMENT", closure)
 
     def createStringToken(self, closure: str) -> Token:
-        return self.createClosureToken("STRING", closure, error.UNTERMINATEDSTRING)
+        while not self.matchGroup(closure):
+            if self.atEnd():
+                return self.createErrorToken(error.UNTERMINATEDSTRING, closure)
+            if self.match("{"):
+                interp = self.createClosureToken("INTERPOLATION", "}")
+                if interp.type == "ERROR":
+                    return interp
+                self.interpolating.append({closure: interp})
+                return interp
+            self.advance()
+        return self.createClosureToken("STRING", closure)
 
     def createNumberToken(self) -> Token:
         while self.peek().isdigit():

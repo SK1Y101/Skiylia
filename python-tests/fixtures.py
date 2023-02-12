@@ -52,8 +52,10 @@ def Parse(program: str, debug: bool = False) -> bytearray:
 def Lex(program: str, debug: bool = False) -> list[Token]:
     lexer = Lexer(program, debug)
     tokens: list[Token] = []
-    while not lexer.atEnd():
+    while True:
         tokens.append(lexer.lex())
+        if tokens[-1].type == "EOF":
+            break
     return tokens
 
 

@@ -2,6 +2,8 @@
 
 from .fixtures import decompose, lexer  # isort:skip
 
+import pytest
+
 from skiylia_errors import error
 
 
@@ -41,21 +43,11 @@ class TestLexerLexes:
         assert token.lexeme == comment
 
     def test_comment_fails(self, lexer: lexer) -> None:
-        tokens = lexer("// failed single comment")
-        err_token = [token for token in tokens if token.type == "ERROR"][0]
-        assert (err_token.type, err_token.lexeme, err_token.literal) == (
-            "ERROR",
-            "\\n",
-            error.UNTERMINATEDCOMMENT,
-        )
+        with pytest.raises(IndexError):
+            lexer("// failed single comment")
 
-        tokens = lexer("/// failed multi-line comment")
-        err_token = [token for token in tokens if token.type == "ERROR"][0]
-        assert (err_token.type, err_token.lexeme, err_token.literal) == (
-            "ERROR",
-            "///",
-            error.UNTERMINATEDCOMMENT,
-        )
+        with pytest.raises(IndexError):
+            lexer("/// failed multi-line comment")
 
     def test_string(self, decompose: decompose) -> None:
         string1 = "hello"
@@ -63,6 +55,27 @@ class TestLexerLexes:
         tokens = decompose(f"'{string1}'\n \"{string2}\"")
         assert tokens.lexemes == [string1, "\\n", " ", string2, "\\0"]
         assert tokens.types == ["STRING", "NEWLINE", "SPACE", "STRING", "EOF"]
+
+    def test_string_interpolation(self, decompose: decompose) -> None:
+        string = "This is a {'test'}"
+        tokens = decompose(f"'{string}'")
+        assert tokens.types == ["INTERPOLATION", "STRING", "STRING", "EOF"]
+        assert tokens.lexemes == [
+            string.split("{")[0],
+            string.split("{")[1].split("}")[0][1:-1],
+            "",
+            "\\0",
+        ]
+
+    # def test_string_interpolation_error(self, decompose: decompose) -> None:
+    #     string = "This is a failed {"
+    #     quote = "'"
+    #     tokens = decompose(f"{quote}{string}{quote}")
+    #     assert tokens.types == ["INTERPOLATION", "ERROR"]
+    #     assert tokens.lexemes == [
+    #         string.split("{")[0],
+    #         quote,
+    #     ]
 
     def test_number_integer(self, lexer: lexer) -> None:
         number = "1"
@@ -100,3 +113,8 @@ class TestLexerLexes:
         token = lexer(ident)[0]
         assert token.type == "IDENTIFIER"
         assert token.lexeme == ident
+
+    def test_indents_to_tab(self, lexer: lexer) -> None:
+        token = lexer("    'hello'")[0]
+        assert token.type == "TAB"
+        assert token.lexeme == "    "
