@@ -25,5 +25,5 @@ Contents
 
    whats-new-all
    usage
-   documentation
+   documentation/*
    implementations
