@@ -1,6 +1,6 @@
 # Changes
 
-## 0.1.0 [pre-alpha] (2023-02-10)
+## 0.1.0 [pre-alpha] (2023-02-12)
 
 ### Contributors
  - Jack lloyd-walters.
@@ -13,6 +13,7 @@
  - Run_nox workflow correctly find version info.
 
 ### Improvements
+ - Add interpolation tests.
  - Introduce `--build-num` so tests work again.
  - Better nox tests for skiylia build number.
 

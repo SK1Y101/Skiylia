@@ -3,7 +3,7 @@ Changes
 
 0.1.0 [pre-alpha] 
 ------------------
-:Date: 2023-02-10
+:Date: 2023-02-12
 
 Contributors
 ~~~~~~~~~~~~
@@ -19,6 +19,7 @@ Fixes
 
 Improvements
 ~~~~~~~~~~~~
+ - Add interpolation tests.
  - Introduce `--build-num` so tests work again.
  - Better nox tests for skiylia build number.
 

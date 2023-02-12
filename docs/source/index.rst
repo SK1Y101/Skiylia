@@ -23,5 +23,5 @@ Contents
 
 .. toctree::
 
-   whats-new
+   whats-new-all
    usage
