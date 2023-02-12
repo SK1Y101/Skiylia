@@ -24,7 +24,7 @@ Comments
 Inline comments are preceded by a ``//`` double slash, and terminate at the end of the line.
 
 
-.. literalinclude:: examples/comments/single_comment.skiy
+.. literalinclude:: ../examples/comments/single_comment.skiy
     :caption: An example of a single-line comment
 
 
@@ -34,7 +34,7 @@ They can also contain single line comments, and is not reccomended for standard 
 allow you to comment out blocks of code.
 
 
-.. literalinclude:: examples/comments/multiline_comment.skiy
+.. literalinclude:: ../examples/comments/multiline_comment.skiy
     :caption: An example of a multi-line comment
 
 Reserved words
@@ -50,7 +50,6 @@ A table of precedence for Skiylia expressions is given below. Operations lower d
 and are evaluated later. (think order of operations in mathematics)
 
 .. table:: Comparison syntax
-   :widths: auto
 
    =========== ========================== ===========
    Operator    Description                Association
