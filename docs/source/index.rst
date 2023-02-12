@@ -22,8 +22,9 @@ Contents
 --------
 
 .. toctree::
+   :maxdepth: 2
 
    whats-new-all
    usage
-   documentation/*
+   documentation
    implementations
