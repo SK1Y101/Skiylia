@@ -49,7 +49,8 @@ Precedence
 A table of precedence for Skiylia expressions is given below. Operations lower down the table bind less tightly than those above
 and are evaluated later. (think order of operations in mathematics)
 
-.. table:: Comparison syntax
+.. table:: Precedence table
+   :widths: auto
 
    =========== ========================== ===========
    Operator    Description                Association
