@@ -10,7 +10,7 @@ Strings in Skiylia are an array of any bytes enclosed by string deliminators. Th
 but there are few restrictions on what can be stored.
 
 .. literalinclude:: examples/strings/string_quotes.skiy
-    :caption: String literals are surrounded by `"`, `'` or `\``
+    :caption: String literals are surrounded by ``"``, ``'`` or ``\``
 
 Strings can span multiple lines, so long as they are enclosed correctly!
 
@@ -20,7 +20,7 @@ Strings can span multiple lines, so long as they are enclosed correctly!
 Interpolation
 ~~~~~~~~~~~~~
 
-Strings allow interpolation; If an expression within the string is enclosed by `{}`, the expression is evaluated.
+Strings allow interpolation; If an expression within the string is enclosed by ``{}``, the expression is evaluated.
 
 .. literalinclude:: examples/strings/string_interp.skiy
     :caption: Multiple interpolations are possible in a single string
