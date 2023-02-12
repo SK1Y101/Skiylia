@@ -26,6 +26,7 @@ New features
 Language Changes
 ~~~~~~~~~~~~~~~~
 - Skiylia can parse and compute simple arithmetic
+- Skiylia supports string interpolation
 
 Bugs fixed
 ~~~~~~~~~~
