@@ -3,7 +3,7 @@ Syntax
 
 Skiylia is designed as a python-esque language, while drawing some minor concepts from c-like languages.
 
-Scripts are stored in `.skiy` plain text files. As Skiylia is based on an execution-time interpreter,
+Scripts are stored in ``.skiy`` plain text files. As Skiylia is based on an execution-time interpreter,
 programs are run directly from source without being compiled beforehand.
 
 .. Indentation
@@ -52,9 +52,10 @@ and are evaluated later. (think order of operations in mathematics)
 .. table:: Comparison syntax
    :widths: auto
 
-   ========== ========================== ===========
-   Operator   Description                Association
-   ========== ========================== ===========
-   `-` `+`    Negation, Absolute         Right
-   `*` `/`    Multiplication, Division   Left
-   `+` `-`    Addition, Subtraction      Left
+   =========== ========================== ===========
+   Operator    Description                Association
+   =========== ========================== ===========
+   ``-`` ``+`` Negation, Absolute         Right
+   ``*`` ``/`` Multiplication, Division   Left
+   ``+`` ``-`` Addition, Subtraction      Left
+   =========== =========================== ===========
