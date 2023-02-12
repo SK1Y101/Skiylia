@@ -29,8 +29,9 @@ Inline comments are preceded by a ``//`` double slash, and terminate at the end 
 
 
 Multiline comments are preceded- and followed- by a ``///`` tripple slash.
-Each newline should begin with an indent, such that all multiline comments begin in the same column. They can also contain single
-line comments, and is not reccomended for standard practice, but does allow you to comment out blocks of code.
+Each newline should begin with an indent, such that all multiline comments begin in the same column.
+They can also contain single line comments, and is not reccomended for standard practice, but does
+allow you to comment out blocks of code.
 
 
 .. literalinclude:: examples/comments/multiline_comment.skiy
@@ -39,24 +40,21 @@ line comments, and is not reccomended for standard practice, but does allow you 
 Reserved words
 --------------
 
-Skiylia (as of `0.1.0 pre-alpha <0.1.0-pre-alpha>`_) does not reserve any words. This is `very likely`_ to change in future releases.
+Skiylia (as of :ref:`0.1.0 pre-alpha <0.1.0-pre-alpha>`) does not reserve any words.
+This is `very likely`_ to change in future releases.
 
 Precedence
 ----------
 
+A table of precedence for Skiylia expressions is given below. Operations lower down the table bind less tightly than those above
+and are evaluated later. (think order of operations in mathematics)
+
 .. table:: Comparison syntax
    :widths: auto
 
-   ===============  ================  =============================================================================================    ============
-   Precedence Operator    Example   Association
-   ===============  ================  =============================================================================================    ============
-   0    Term
-   2    Unary
-   3    Factor
-   4    Primary
-   5
-   6
-   7
-   8
-   9
-   10
+   ========== ========================== ===========
+   Operator   Description                Association
+   ========== ========================== ===========
+   `-` `+`    Negation, Absolute         Right
+   `*` `/`    Multiplication, Division   Left
+   `+` `-`    Addition, Subtraction      Left
