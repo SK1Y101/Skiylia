@@ -8,3 +8,4 @@ This set of pages describes the core syntax and semantics of Skiylia language.
 
    documentation/syntax
    data types <documentation/values>
+   documentation/error_handling
