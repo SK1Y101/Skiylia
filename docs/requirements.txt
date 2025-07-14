@@ -1,2 +1,8 @@
 sphinx-tabs
+<<<<<<< HEAD
 sphinx-rtd-dark-mode
+=======
+requests>=2.32.4 # not directly required, pinned by Snyk to avoid a vulnerability
+zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
+urllib3>=2.5.0 # not directly required, pinned by Snyk to avoid a vulnerability
+>>>>>>> 5c4a380 (fix: docs/requirements.txt to reduce vulnerabilities)
