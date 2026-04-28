@@ -46,7 +46,7 @@ Forking this repository is an excellent way to contribute to the code that makes
 
 # Acknowledgements
 
-I, [Jack](lloydwaltersj.com), definitely couldn't have created Skiylia without any outside sources.
+I, [Skye](sk1y101.github.io), definitely couldn't have created Skiylia without any outside sources.
 
 I owe a huge debt to Bob Nystrom and hers excellent book, [Crafting Interpreters](https://craftinginterpreters.com/). Not only did she give me true inspiration to develop the first itteration of [Skiylia](https://github.com/Skiylia-Lang/PySkiylia), but also provided cleanly documented concepts and a delightful read. If there is *anyone* that hasn't yet read hers implementation of Lox from cover to cover, I would thoroughly recommend doing so.
 
